@@ -1,0 +1,1 @@
+KBSV thong bao dang ky thanh cong so DT: [tokenid] nhan SMS OTP cho Username [username]

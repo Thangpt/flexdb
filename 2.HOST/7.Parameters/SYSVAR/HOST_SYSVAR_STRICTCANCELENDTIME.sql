@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'STRICTCANCELENDTIME';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('OL','STRICTCANCELENDTIME','1105','Thoi gian ket thuc kiem soat huy lenh','Thoi gian ket thuc kiem soat huy lenh','N');
+COMMIT;
+/

@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'MAXT0OVRQ';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('MARGIN','MAXT0OVRQ','0','Số tiền bảo lãnh cấp quá cần duyệt ','Số tiền bảo lãnh cấp quá cần duyệt','Y');
+COMMIT;
+/

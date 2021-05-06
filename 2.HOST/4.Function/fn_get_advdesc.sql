@@ -1,0 +1,15 @@
+CREATE OR REPLACE FUNCTION FN_GET_ADVDESC(pv_CAMASTID In VARCHAR2)
+    RETURN VARCHAR2 IS
+    v_Result  VARCHAR2(250);
+
+BEGIN
+   SELECT description INTO v_Result FROM camast WHERE camastid= pv_CAMASTID AND deltd='N';
+
+    RETURN v_Result;
+
+EXCEPTION
+   WHEN OTHERS THEN
+    RETURN '';
+END;
+/
+

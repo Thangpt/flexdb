@@ -1,0 +1,1 @@
+P/S giam TK [custodycode] ngay [txdate]: [txdesc] [amount] VND. So du [balance] VND

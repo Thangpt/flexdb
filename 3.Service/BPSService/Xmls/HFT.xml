@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <TableInfo>
+    <QueryKey>HFT_CACHE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+select a.bps_function, a.bps_key_field, e.bps_key_value, d.fo_key,
+       d.fo_field, d.fo_field_type, d.bps_field, d.fo_field_value, d.operator, d.valexp, a.fo_idx_table, a.bps_account_type, a.bps_account, d.alternative_value
+  from hft_mapper a, hft_mapper_ext e, hft_mapper_detail d
+ where a.bps_key_field is not null
+   and a.bps_key_field = e.bps_key_field(+)
+   and nvl(a.return_id, e.fo_key) = d.fo_key
+union all
+select a.bps_function, a.bps_key_field, '' bps_key_value, d.fo_key,
+       d.fo_field, d.fo_field_type, d.bps_field, d.fo_field_value, d.operator, d.valexp, a.fo_idx_table, a.bps_account_type, a.bps_account, d.alternative_value
+  from hft_mapper a, hft_mapper_detail d
+ where a.return_id = d.fo_key
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>HFT_REMAP_FIELD_CACHE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+select * from hft_remap_field
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>HFT_REMAP_VALUE_CACHE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+select * from hft_remap_value
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>HFT_ALLCODE_CACHE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+select cdtype || '.' || cdname as key, cdval, cdcontent, en_cdcontent from allcode
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>HFT_USERS_USED_FO_CACHE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+select c.custid, c.custodycd, a.acctno afacctno from afmast a, cfmast c where a.custid = c.custid and a.isfo = 'Y'
+union all
+select tlid custid, tlid custodycd, tlid acctno from tlprofiles  where tlid <>'0016'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_EXPRICE_CAMAST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+                select CA.AFACCTNO, CA.camastid,a.exprice,ca.pqtty,af.corebank
+                from camast a, caschd ca, afmast af
+                where ca.camastid=a.camastid
+                    AND af.acctno = ca.afacctno
+                    and ca.afacctno= :p_account
+                    AND ca.camastid||to_char(ca.autoid) = :p_camastid
+      ]]>
+    </QueryValue>
+  </TableInfo>
+</root>

@@ -1,0 +1,89 @@
+﻿--
+--
+/
+DELETE SEARCH WHERE SEARCHCODE = 'CFOL01';
+insert into search (SEARCHCODE, SEARCHTITLE, EN_SEARCHTITLE, SEARCHCMDSQL, OBJNAME, FRMNAME, ORDERBYCMDSQL, TLTXCD, CNTRECORD, ROWPERPAGE, AUTOSEARCH, INTERVAL, AUTHCODE, ROWLIMIT, CMDTYPE)
+values ('CFOL01', 'Xóa các tài khoản đăng ký từ online', 'Management online register', 'select REG.AUTOID,REG.CustomerType,A1.CDCONTENT CustomerTypeDesc,
+       REG.CustomerName,REG.CustomerBirth,REG.IDType,
+       REG.IDCode,REG.Iddate,REG.Idplace,REG.Expiredate,
+     case when reg.Customertype = ''I'' then REG.contactAddress else reg.address end Address,REG.Taxcode,REG.PrivatePhone,
+       REG.Mobile,REG.Fax,REG.Email,REG.Office,REG.Position,REG.Country,REG.CustomerCity,
+       REG.TKTGTT, REG.SEX, reg.custodycd, a2.cdcontent ten_thanh_pho, --brgrp.description brid,
+       reg.bankaccountnumber1  bankaccount, reg.bankname1 BANKNAME,  A3.CDCONTENT REREGISTER,
+       reg.refullname, reg.retlid, br1.brname
+from REGISTERONLINE REG,ALLCODE A1, allcode a2, allcode a3, brgrp br1 --,brgrp
+where REG.AUTOID not in (select OLAUTOID from CFMAST where OPENVIA=''O'')
+and A1.CDNAME = ''CUSTTYPE'' and a2.cdname = ''PROVINCE'' and reg.CustomerCity = a2.cdval
+and A1.CDTYPE=''CF'' and A2.CDTYPE=''CF'' 
+--and reg.brid = brgrp.brid (+)
+And a3.cdtype  = ''SY'' and A3.CDNAME = ''AD_HOC'' and nvl(reg.reregister, ''N'') = A3.Cdval
+and A1.CDVAL=REG.CustomerType
+AND reg.branchopenaccount=br1.brid(+)', 'ONLINERES', 'CFOL00', null, 'EXEC', null, 50, 'N', 30, 'NYNNYYYNNN', 'Y', 'T');
+COMMIT;
+/
+--
+--
+/
+DELETE SEARCHFLD WHERE SEARCHCODE = 'CFOL01';
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (1, 'AUTOID', 'AUTOID', 'C', 'CFOL01', 10, null, 'LIKE,=', null, 'N', 'N', 'N', 80, null, 'AUTOID', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (1, 'CUSTOMERTYPE', 'Loại khách hàng', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'N', 'N', 'N', 80, null, 'CustomerType', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (2, 'CUSTODYCD', 'Số lưu ký', 'C', 'CFOL01', 10, 'CCC.C.CCCCCC', 'LIKE,=', null, 'Y', 'Y', 'N', 80, null, 'CUSTODYCD', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (2, 'CUSTOMERTYPEDESC', 'Loại khách hàng', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'Y', 'N', 'N', 80, null, 'Customer Type', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (3, 'CUSTOMERNAME', 'Tên khách hàng', 'C', 'CFOL01', 200, null, 'LIKE,=', null, 'Y', 'Y', 'N', 200, null, 'CustomerName', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (4, 'CUSTOMERBIRTH', 'Ngày sinh', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'Y', 'N', 'N', 80, null, 'CustomerBirth', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (5, 'CUSTOMERCITY', 'Thành phố', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'N', 'N', 'N', 80, null, 'CUSTOMERCITY', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (5, 'IDTYPE', 'Loại giấy tờ', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'N', 'N', 'N', 80, null, 'IDType', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (5, 'SEX', 'Gioi tinh', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'N', 'N', 'N', 80, null, 'SEX', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (5, 'TEN_THANH_PHO', 'Thành phố', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'Y', 'Y', 'N', 80, null, 'City', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (6, 'IDCODE', 'Số giấy tờ', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'Y', 'Y', 'N', 80, null, 'IDCode', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (7, 'IDDATE', 'Ngày cấp', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'Y', 'N', 'N', 80, null, 'Iddate', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (8, 'IDPLACE', 'Nơi cấp', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'Y', 'N', 'N', 80, null, 'Idplace', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (9, 'EXPIREDATE', 'Ngày hếtt hạn', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'N', 'N', 'N', 80, null, 'Expiredate', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (10, 'ADDRESS', 'Địa chỉ', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'Y', 'N', 'N', 80, null, 'Address', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (11, 'TAXCODE', 'Mã số thuế', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'N', 'N', 'N', 80, null, 'Taxcode', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (12, 'PRIVATEPHONE', 'Số điện thoại nhà riêng', 'C', 'CFOL01', 200, null, 'LIKE,=', null, 'Y', 'N', 'N', 200, null, 'PrivatePhone', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (13, 'MOBILE', 'Số điện thoại di động', 'C', 'CFOL01', 200, null, 'LIKE,=', null, 'Y', 'N', 'N', 200, null, 'Mobile', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (14, 'FAX', 'Fax', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'N', 'N', 'N', 80, null, 'Fax', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (15, 'EMAIL', 'Email', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'Y', 'Y', 'N', 80, null, 'Email', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (16, 'OFFICE', 'Cơ quan', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'N', 'N', 'N', 80, null, 'Office', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (17, 'POSITION', 'Chức vụ', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'N', 'N', 'N', 80, null, 'Position', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (18, 'COUNTRY', 'Nước', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'N', 'N', 'N', 80, null, 'Country', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (20, 'TKTGTT', 'TKGTT', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'N', 'N', 'N', 80, null, 'TKTGTT', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (21, 'BANKACCOUNT', 'Số tài khoản NH', 'C', 'CFOL01', 20, null, 'LIKE, =', null, 'Y', 'N', 'N', 100, null, 'BANKACCOUNT', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (22, 'BANKNAME', 'Mở tại', 'C', 'CFOL01', 100, null, 'LIKE, =', null, 'Y', 'N', 'N', 150, null, 'BANKNAME', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (23, 'REREGISTER', 'Đăng ký MG tư vấn', 'C', 'CFOL01', 20, null, 'LIKE, =', null, 'Y', 'N', 'N', 80, null, 'REREGISTER', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (25, 'REFULLNAME', 'Họ và tên MG tư vấn', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'Y', 'N', 'N', 200, null, 'REFULLNAME', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (26, 'RETLID', 'Mã ID MG tư vấn', 'C', 'CFOL01', 20, null, 'LIKE,=', null, 'Y', 'N', 'N', 80, null, 'RETLID', 'N', null, null, 'N', null, null, null, 'N');
+insert into searchfld (POSITION, FIELDCODE, FIELDNAME, FIELDTYPE, SEARCHCODE, FIELDSIZE, MASK, OPERATOR, FORMAT, DISPLAY, SRCH, KEY, WIDTH, LOOKUPCMDSQL, EN_FIELDNAME, REFVALUE, FLDCD, DEFVALUE, MULTILANG, ACDTYPE, ACDNAME, FIELDCMP, FIELDCMPKEY)
+values (28, 'BRNAME', 'Chi nhánh', 'C', 'CFOL01', 100, null, 'LIKE,=', null, 'Y', 'N', 'N', 200, null, 'BRNAME', 'N', null, null, 'N', null, null, null, 'N');
+COMMIT;
+/

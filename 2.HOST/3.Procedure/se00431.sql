@@ -1,0 +1,90 @@
+CREATE OR REPLACE PROCEDURE se00431 (
+   PV_REFCURSOR   IN OUT   PKG_REPORT.REF_CURSOR,
+   OPT            IN       VARCHAR2,
+   BRID           IN       VARCHAR2,
+   F_DATE         IN       VARCHAR2,
+   T_DATE         IN       VARCHAR2,
+   PV_CUSTODYCD   IN       VARCHAR2,
+   PV_AFACCTNO    IN       VARCHAR2,
+   PLSENT         IN       VARCHAR2
+)
+IS
+
+-- RP NAME : YEU CAU CHUYEN KHOAN CHUNG KHOAN TAT TOAN TAI KHOAN
+-- PERSON --------------DATE---------------------COMMENTS
+-- THANHNM            17/07/2012                 CREATE
+-- SE00310: report main
+-- ---------   ------  -------------------------------------------
+   V_STRAFACCTNO  VARCHAR2 (15);
+   V_CUSTODYCD VARCHAR2 (15);
+   V_CURRDATE DATE;
+   V_STRFULLNAME  VARCHAR2(200);
+   V_STR_TVLK_CODE  VARCHAR2(10);
+   V_STR_TVLK_NAME  VARCHAR2(200);
+   V_STR_CUSTODYCD_NHAN  VARCHAR2(10);
+   V_STR_NAME_NHAN   varchar(100);
+   CUR            PKG_REPORT.REF_CURSOR;
+
+BEGIN
+-- GET REPORT'S PARAMETERS
+    V_CUSTODYCD := UPPER( PV_CUSTODYCD);
+    V_STR_TVLK_NAME :=' ';
+    V_STR_TVLK_CODE :=' ';
+    V_STRFULLNAME :=' ';
+
+
+    SELECT TO_DATE(VARVALUE,'DD/MM/RRRR') INTO V_CURRDATE
+     FROM SYSVAR WHERE VARNAME = 'CURRDATE' AND GRNAME = 'SYSTEM';
+
+   IF  (PV_AFACCTNO <> 'ALL')
+   THEN
+         V_STRAFACCTNO := PV_AFACCTNO;
+   ELSE
+         V_STRAFACCTNO := '%';
+   END IF;
+
+  SELECT FULLNAME INTO V_STRFULLNAME FROM CFMAST WHERE custodycd = V_CUSTODYCD;
+
+ --LAY THONG TIN CHINH
+ OPEN CUR
+ FOR
+       SELECT NVL(DP.FULLNAME,' '), NVL(DT.BANK,' ') ,NVL(DT.RECEIVCUSTODYCD,' '), NVL(DT.RECEIVNAME,' ')
+    FROM DEPOSIT_MEMBER DP, (
+    SELECT MAX(outward)   BANK,
+           MAX(recustodycd )  RECEIVCUSTODYCD,
+           max(recustname)  RECEIVNAME
+       FROM sesendout se, afmast af, cfmast cf
+    WHERE  DELTD='N' and af.custid = cf.custid and substr(se.acctno,1,10) = af.acctno
+       AND cf.custodycd = V_CUSTODYCD
+       and af.acctno like V_STRAFACCTNO
+       AND TXDATE >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+       AND TXDATE <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+        ) DT
+    WHERE   DP.DEPOSITID  = DT.BANK;
+
+LOOP
+  FETCH CUR
+       INTO V_STR_TVLK_NAME ,V_STR_TVLK_CODE,V_STR_CUSTODYCD_NHAN,V_STR_NAME_NHAN ;
+       EXIT WHEN CUR%NOTFOUND;
+  END LOOP;
+CLOSE CUR;
+
+
+-- GET REPORT'S DATA
+ OPEN PV_REFCURSOR
+ FOR
+
+        SELECT  max(V_STR_TVLK_NAME)   TVLK_NAME, max(V_STR_TVLK_CODE)  TVLK_CODE,
+        max(V_STR_CUSTODYCD_NHAN)  CUSTODYCD_NHAN, max(V_STRFULLNAME) FULLNAME ,PLSENT  PL_SENT
+        , max(V_STR_NAME_NHAN) NAME_NHAN
+        FROM
+        dual
+         ;
+
+EXCEPTION
+   WHEN OTHERS
+   THEN
+      RETURN;
+END;
+/
+

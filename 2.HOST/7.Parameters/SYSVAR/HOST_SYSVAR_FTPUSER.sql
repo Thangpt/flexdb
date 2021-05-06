@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'FTPUSER';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('SYSTEM','FTPUSER','ftpuser','User truy cập ftp server','User login ftp server','Y');
+COMMIT;
+/

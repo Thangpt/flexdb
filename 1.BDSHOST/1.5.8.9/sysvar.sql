@@ -1,0 +1,1 @@
+DELETE sysvar WHERE varname = 'LIQUIDITYRATIO';

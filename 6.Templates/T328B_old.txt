@@ -1,0 +1,1 @@
+MSBS thong bao thong tin dang nhap truc tuyen cua TK  [username] : Mat khau dang nhap [loginpwd] - Ma PIN  [tradingpwd]

@@ -1,0 +1,17 @@
+0. copy file fix-engine-1.0.0.jar vào thư mục cài <serviceMix>/lib/ext/
+copy file FIX42.xml vào thư mục cài đặt <serviceMix>
+
+1. Kết nối với ServiceMix HFT
+	ssh -p 8101 smx@localhost
+
+2. Lấy id của fix engine đang cài đặt: 
+	list | grep fix 
+	
+3. Gõ lệnh 
+	osgi:uninstall ID
+	với ID là kết quả của bước 2 để uninstall bản cũ
+	
+4. Gõ lệnh cài bản mới:
+	osgi:install -s wrap:file:./lib/ext/fix-engine-1.0.0.jar
+
+5. Reset lại service mix

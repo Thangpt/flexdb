@@ -1,0 +1,19 @@
+﻿--
+--
+/
+DELETE rptfields WHERE objname = 'CF0067';
+insert into rptfields (MODCODE, FLDNAME, OBJNAME, DEFNAME, CAPTION, EN_CAPTION, ODRNUM, FLDTYPE, FLDMASK, FLDFORMAT, FLDLEN, LLIST, LCHK, DEFVAL, VISIBLE, DISABLE, MANDATORY, AMTEXP, VALIDTAG, LOOKUP, DATATYPE, INVNAME, FLDSOURCE, FLDDESC, CHAINNAME, PRINTINFO, LOOKUPNAME, SEARCHCODE, SRMODCODE, INVFORMAT, TAGFIELD, TAGLIST, TAGVALUE, ISPARAM, CTLTYPE)
+values ('CF', 'F_DATE', 'CF0067', 'F_DATE', 'Từ Ngày', 'From date', 0, 'M', '99/99/9999', 'dd/MM/yyyy', 10, null, null, '<$BUSDATE>', 'Y', 'N', 'Y', null, null, 'N', 'D', null, null, null, null, null, null, null, null, null, null, null, null, 'Y', null);
+insert into rptfields (MODCODE, FLDNAME, OBJNAME, DEFNAME, CAPTION, EN_CAPTION, ODRNUM, FLDTYPE, FLDMASK, FLDFORMAT, FLDLEN, LLIST, LCHK, DEFVAL, VISIBLE, DISABLE, MANDATORY, AMTEXP, VALIDTAG, LOOKUP, DATATYPE, INVNAME, FLDSOURCE, FLDDESC, CHAINNAME, PRINTINFO, LOOKUPNAME, SEARCHCODE, SRMODCODE, INVFORMAT, TAGFIELD, TAGLIST, TAGVALUE, ISPARAM, CTLTYPE)
+values ('CF', 'T_DATE', 'CF0067', 'T_DATE', 'Ðến Ngày', 'To date', 1, 'M', '99/99/9999', 'dd/MM/yyyy', 10, null, null, '<$BUSDATE>', 'Y', 'N', 'Y', null, null, 'N', 'D', null, null, null, null, null, null, null, null, null, null, null, null, 'Y', null);
+insert into rptfields (MODCODE, FLDNAME, OBJNAME, DEFNAME, CAPTION, EN_CAPTION, ODRNUM, FLDTYPE, FLDMASK, FLDFORMAT, FLDLEN, LLIST, LCHK, DEFVAL, VISIBLE, DISABLE, MANDATORY, AMTEXP, VALIDTAG, LOOKUP, DATATYPE, INVNAME, FLDSOURCE, FLDDESC, CHAINNAME, PRINTINFO, LOOKUPNAME, SEARCHCODE, SRMODCODE, INVFORMAT, TAGFIELD, TAGLIST, TAGVALUE, ISPARAM, CTLTYPE)
+values ('CF', 'PV_CUSTODYCD', 'CF0067', 'PV_CUSTODYCD', 'Số TK Luu ký', 'Custody code', 2, 'M', 'cccc.cccccc', '_', 10, null, null, 'ALL', 'Y', 'N', 'Y', null, null, 'N', 'C', null, null, null, null, null, null, 'CUSTODYCD_CF', 'CF', null, null, null, null, 'Y', 'T');
+insert into rptfields (MODCODE, FLDNAME, OBJNAME, DEFNAME, CAPTION, EN_CAPTION, ODRNUM, FLDTYPE, FLDMASK, FLDFORMAT, FLDLEN, LLIST, LCHK, DEFVAL, VISIBLE, DISABLE, MANDATORY, AMTEXP, VALIDTAG, LOOKUP, DATATYPE, INVNAME, FLDSOURCE, FLDDESC, CHAINNAME, PRINTINFO, LOOKUPNAME, SEARCHCODE, SRMODCODE, INVFORMAT, TAGFIELD, TAGLIST, TAGVALUE, ISPARAM, CTLTYPE)
+values ('CF', 'STATUS', 'CF0067', 'PV_STATUS', 'Trạng thái', 'Status', 8, 'C', 'cccccccccc', '_', 10, 'SELECT ''ALL'' VALUE, ''ALL'' VALUECD, ''Tất cả'' DISPLAY, ''Tất cả'' EN_DISPLAY, ''Tất cả'' DESCRIPTION FROM DUAL
+UNION ALL
+SELECT ''A'' VALUE, ''A'' VALUECD, ''Còn hiệu lực'' DISPLAY, ''Còn hiệu lực'' EN_DISPLAY, ''Còn hiệu lực'' DESCRIPTION FROM DUAL
+UNION ALL
+SELECT ''E'' VALUE, ''E'' VALUECD, ''Hết hiệu lực'' DISPLAY, ''Hết hiệu lực'' EN_DISPLAY, ''Hết hiệu lực'' DESCRIPTION FROM DUAL', null, 'ALL', 'Y', 'N', 'Y', null, null, 'N', 'C', null, null, null, null, null, null, null, null, null, null, null, null, 'Y', 'C');
+COMMIT;
+/
+

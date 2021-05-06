@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <TableInfo>
+    <QueryKey>GETSEINFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT V.* FROM OL_ACCOUNT_SE V
+      WHERE V.AFACCTNO = 'SAFACCTNO' AND (
+          V.TRADE_QTTY>0 OR V.DEALFINANCING_QTTY>0 
+          OR V.BLOCKED>0 OR V.SECURITIES_RECEIVING_T0>0 
+          OR V.SECURITIES_RECEIVING_T1>0
+          OR V.SECURITIES_RECEIVING_T2>0
+          OR V.SECURITIES_RECEIVING_T3>0
+          OR V.SECURITIES_RECEIVING_TN>0
+          OR V.SECURITIES_SENDING_T0>0
+          OR V.SECURITIES_SENDING_T1>0
+          OR V.SECURITIES_SENDING_T2 > 0
+          OR V.SECURITIES_SENDING_T3 > 0
+          OR V.SECURITIES_SENDING_TN > 0
+      )
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETSESELLABLE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT TRADE_QTTY FROM OL_ACCOUNT_SE V
+      WHERE V.AFACCTNO = 'SAFACCTNO'
+          AND V.SYMBOL = 'SSYMBOL'
+          AND (
+          V.TRADE_QTTY>0 OR V.DEALFINANCING_QTTY>0 
+          OR V.BLOCKED>0 OR V.SECURITIES_RECEIVING_T0>0 
+          OR V.SECURITIES_RECEIVING_T1>0
+          OR V.SECURITIES_RECEIVING_T2>0
+          OR V.SECURITIES_RECEIVING_T3>0
+          OR V.SECURITIES_RECEIVING_TN>0
+          OR V.SECURITIES_SENDING_T0>0
+          OR V.SECURITIES_SENDING_T1>0
+          OR V.SECURITIES_SENDING_T2 > 0
+          OR V.SECURITIES_SENDING_T3 > 0
+          OR V.SECURITIES_SENDING_TN > 0
+      )
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETSEINFOBYCUSTODYCD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_get_seacount
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETSETRADEBYAFACCTNO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT TRADE FROM buf_se_account WHERE AFACCTNO='SAFACCTNO' AND SYMBOL LIKE 'SSYMBOL'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETSEDEALQTTYBYAFACCTNO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT DEAL_QTTY FROM buf_se_account WHERE AFACCTNO='SAFACCTNO' AND SYMBOL LIKE 'SSYMBOL'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETPORTFOLIO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_get_Portfolio
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETTRADEDIARY</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_GetTradeDiary
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETSECURITIESSTATEMENT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_GetSecuritiesStatement
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETFEEORDER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_GetSecureRatio
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>ADJUSTCOSTPRICE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_AdjustCostprice_Online
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>SELLODDORDER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_Tradelot_Retail
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CANCELODDORDER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_Cancel_Tradelot_Retail
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETODDORDERRECORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_get_TradelotRetail
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETTOTALASSET</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_GetNetAssetDetail
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETSELLODDORDERLIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT SYMBOL, QUANTITY, QUOTEPRICE, AMOUNT, FEEAMT, TAXAMT, AMOUNT - FEEAMT - TAXAMT RCVAMT FROM
+          (SELECT SYMBOL, QUANTITY, QUOTEPRICE, QUANTITY * QUOTEPRICE AMOUNT,
+                 FN_CAL_FEE_AMT(QUANTITY * QUOTEPRICE,FEETYPE) FEEAMT, QUANTITY * QUOTEPRICE * (TAXRATE/100) TAXAMT
+            FROM
+                (SELECT c.custodycd, s.codeid, inf.symbol, inf.floorprice quoteprice,
+                      least(nvl(s.trade,0) - nvl(vw.secureamt,0), fn_GetCKLL(c.custodycd, s.codeid)) quantity,'00009' feetype,
+                      CASE WHEN T.VAT ='Y' THEN (select VARVALUE from sysvar where varname = 'ADVSELLDUTY') ELSE '0' END taxrate
+                    FROM SEMAST S, AFMAST A, CFMAST C,AFTYPE T, SECURITIES_INFO INF, sbsecurities sec, v_getsellorderinfo vw
+                        WHERE S.AFACCTNO = A.ACCTNO AND A.CUSTID = C.CUSTID
+                              AND INF.CODEID = S.CODEID
+                              AND INF.CODEID = SEC.CODEID
+                              AND SEC.sectype <> '004'
+                              AND SEC.tradeplace in ('001','002','005')
+                              AND s.acctno = vw.seacctno(+)
+                              AND A.ACTYPE = T.ACTYPE AND A.ACCTNO = :ACCTNO)
+           ) WHERE QUANTITY > 0
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETSELLODDORDERINFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT FEEAMT, TAXAMT, AMOUNT - FEEAMT - TAXAMT RCVAMT FROM
+          (SELECT :QUANTITY * QUOTEPRICE AMOUNT, FN_CAL_FEE_AMT(:QUANTITY * QUOTEPRICE,FEETYPE) FEEAMT, :QUANTITY * QUOTEPRICE * (TAXRATE/100) TAXAMT
+            FROM
+                (SELECT c.custodycd, s.codeid, inf.symbol, inf.floorprice quoteprice,
+                      least(mod(s.trade,inf.tradelot), fn_GetCKLL(c.custodycd, s.codeid)) quantity,'00009' feetype,
+                      CASE WHEN T.VAT ='Y' THEN (select VARVALUE from sysvar where varname = 'ADVSELLDUTY_SET') ELSE '0' END taxrate
+                    FROM SEMAST S, AFMAST A, CFMAST C,AFTYPE T, SECURITIES_INFO INF
+                        WHERE S.AFACCTNO = A.ACCTNO AND A.CUSTID = C.CUSTID
+                              AND INF.CODEID = S.CODEID
+                              AND A.ACTYPE = T.ACTYPE AND A.ACCTNO = :ACCTNO
+                              AND INF.SYMBOL=:SYMBOL)
+           )
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETCANCELODDORDERLIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT TXNUM, TXDATE, SYMBOL, QTTY, PRICE, QTTY * PRICE AMT, FEEAMT, round(TAXAMT) TAXAMT, round((QTTY * PRICE) - FEEAMT - TAXAMT) REALAMT FROM 
+        (SELECT  FN_GET_LOCATION(AF.BRID) LOCATION, CF.CUSTODYCD, 
+                C.CODEID, C.SYMBOL, 
+                C.PARVALUE, A.AFACCTNO, B.* , 
+                CF.IDCODE ,A4.CDCONTENT TRADEPLACE,
+                A2.AFACCTNO AFACCTNO2
+        FROM SEMAST A, SERETAIL B, SBSECURITIES C ,AFMAST AF , CFMAST CF ,ALLCODE A4,SEMAST A2
+        WHERE A.ACCTNO = B.ACCTNO AND A.CODEID = C.CODEID 
+              AND B.QTTY > 0 AND B.status ='N' AND AF.ACCTNO =A.AFACCTNO 
+              AND AF.CUSTID =CF.CUSTID
+        AND A4.CDTYPE = 'SE' AND A4.CDNAME = 'TRADEPLACE'  AND A4.CDVAL = C.TRADEPLACE
+        and A2.ACCTNO=B.DESACCTNO AND AF.ACCTNO=:ACCTNO)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>STOCKTRANSFER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_Transfer_SE_account
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETSEINFO2</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_GetNetAssetDetail_byCus
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETSTOCKTRANSFERLIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      select * from 
+        (SELECT sym.symbol, semast.afacctno,
+             least(semast.trade,fn_get_semast_avl_withdraw(semast.afacctno, semast.codeid)) trade, nvl(setl.qtty,0) blocked
+          FROM sbsecurities sym, semast, 
+               (select acctno , sum(qtty) qtty from semastdtl where status='N' AND DELTD <>'Y' AND  qttytype ='002' group by acctno) setl
+          WHERE sym.codeid = semast.codeid 
+                AND semast.acctno = setl.acctno(+)
+                AND sym.sectype <> '004')
+      where trade + blocked > 0 and afacctno =:ACCTNO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETSTOCKTRANSFERACCTNOLIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT AF.ACCTNO, AFT.TYPENAME AFTYPE              
+      FROM AFMAST AF,CFMAST CF, AFTYPE AFT
+      WHERE AF.CUSTID=CF.CUSTID                
+      AND AF.ACTYPE=AFT.ACTYPE
+      AND AF.CUSTID=:CUSTID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+</root>
+

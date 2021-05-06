@@ -1,0 +1,5 @@
+CREATE TABLE otrightdtl_20180918 AS SELECT * FROM otrightdtl WHERE otmncode = 'BENEFICIARYREGISTER';
+UPDATE otrightdtl SET otright = 'YYYYNY' WHERE otmncode = 'BENEFICIARYREGISTER';
+COMMIT;
+
+

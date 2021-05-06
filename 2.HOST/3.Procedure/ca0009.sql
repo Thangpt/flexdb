@@ -1,0 +1,66 @@
+CREATE OR REPLACE PROCEDURE ca0009 (
+   PV_REFCURSOR   IN OUT   PKG_REPORT.REF_CURSOR,
+   OPT            IN       VARCHAR2,
+   BRID           IN       VARCHAR2,
+   F_DATE         IN       VARCHAR2,
+   T_DATE         IN       VARCHAR2,
+   SYMBOL         IN       VARCHAR2, -- MA CK
+   ACCTNO         IN       VARCHAR2 -- MA SU KIEM
+   )
+IS
+--
+-- PURPOSE: GIAY DANG KY MUA CK
+-- PERSON      DATE    COMMENTS
+-- TRUONGLD   17-04-10  CREATE
+-- ---------   ------  -------------------------------------------
+
+    CUR             PKG_REPORT.REF_CURSOR;
+    V_STROPTION    VARCHAR2 (5);            -- A: ALL; B: BRANCH; S: SUB-BRANCH
+    V_STRBRID      VARCHAR2 (4);
+    V_FRDATE       DATE;
+    V_TODATE       DATE;
+    V_STRACCTNO    VARCHAR2 (20);
+    V_STRSYMBOL    VARCHAR2 (20);
+BEGIN
+   V_STROPTION := OPT;
+
+   IF (V_STROPTION <> 'A') AND (BRID <> 'ALL')
+   THEN
+      V_STRBRID := BRID;
+   ELSE
+      V_STRBRID := '%%';
+   END IF;
+
+   V_FRDATE    := TO_DATE(F_DATE,'DD/MM/RRRR');
+   V_TODATE    := TO_DATE(T_DATE,'DD/MM/RRRR');
+   V_STRACCTNO := ACCTNO;
+   V_STRSYMBOL := SYMBOL || '%';
+
+   -- GET REPORT'S PARAMETERS
+
+OPEN PV_REFCURSOR
+   FOR
+      SELECT CF.CUSTID, CF.FULLNAME, AF.ACCTNO, CA.CAMASTID, SEC.*, CA.REPORTDATE, SUBSTR(CF.CUSTODYCD,4,1) CUSTODYCD,
+             CASCHD.PQTTY, CASCHD.QTTY, CASCHD.AAMT, CA.EXPRICE
+      FROM CFMAST CF, AFMAST AF, CASCHD, CAMAST CA,
+           ( SELECT SB.CODEID, ISS.ISSUERID, ISS.SHORTNAME SECCODE, ISS.FULLNAME SECNAME, SB.PARVALUE
+             FROM ISSUERS ISS, SBSECURITIES SB
+             WHERE ISS.ISSUERID = SB.ISSUERID AND SB.SYMBOL like V_STRSYMBOL
+             )SEC
+      WHERE CF.CUSTID = AF.CUSTID
+            AND AF.ACCTNO = CASCHD.AFACCTNO
+            AND CASCHD.CAMASTID = CA.CAMASTID
+            AND CASCHD.CODEID = SEC.CODEID
+            AND CASCHD.DELTD <> 'Y'
+            AND CASCHD.STATUS <> 'C'
+            AND CA.DELTD <> 'Y'
+            AND CA.STATUS <> 'C'
+            AND CA.CATYPE ='014'
+            AND CA.CAMASTID =V_STRACCTNO;
+EXCEPTION
+   WHEN OTHERS
+   THEN
+      RETURN;
+END;                                                              -- PROCEDURE
+/
+

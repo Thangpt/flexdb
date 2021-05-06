@@ -1,0 +1,1 @@
+﻿<%@ WebService Language="VB" CodeBehind="BankGWService.asmx.vb" Class="BankGWService.BankGWService" %>

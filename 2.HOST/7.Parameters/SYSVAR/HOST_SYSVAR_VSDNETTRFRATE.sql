@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'VSDNETTRFRATE';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('SYSTEM','VSDNETTRFRATE','0.5','Phí chuyển khoản chứng khoán bù trừ','Phi chuyen khoan chung khoan bu tru','Y');
+COMMIT;
+/

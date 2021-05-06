@@ -1,0 +1,21 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+SE
+</name>
+</assembly>
+<members>
+<member name="M:SE.Trans.DoPitLogTrans(System.Xml.XmlDocument)">
+	<summary>
+ Thuc hien ghi vao SEPITLOG giao dich THQ 3351 chia co tuc = co phieu
+ Chi log vao SEPITLOG khi THQ la co tuc = co phieu
+ Added by: KhanhND 05/04/2011
+ </summary>
+	<param name="pv_xmlDocument">noi dung giao dich 3351</param>
+	<returns>0: Successed
+ Other: Failed</returns>
+	<remarks></remarks>
+</member>
+</members>
+</doc>

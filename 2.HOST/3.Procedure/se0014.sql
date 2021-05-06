@@ -1,0 +1,130 @@
+CREATE OR REPLACE PROCEDURE se0014(
+   PV_REFCURSOR     IN OUT   PKG_REPORT.REF_CURSOR,
+   OPT              IN       VARCHAR2,
+   BRID             IN       VARCHAR2,
+   F_DATE           IN       VARCHAR2,
+   T_DATE           IN       VARCHAR2,
+   AFACCTNO         IN       VARCHAR2,
+   SYMBOL           IN       VARCHAR2,
+   TLTXCD           IN       VARCHAR2,
+   TRADEPLACE       IN       VARCHAR2
+
+        )
+   IS
+--
+-- TO MODIFY THIS TEMPLATE, EDIT FILE PROC.TXT IN TEMPLATE
+-- DIRECTORY OF SQL NAVIGATOR
+--
+-- PURPOSE: BRIEFLY EXPLAIN THE FUNCTIONALITY OF THE PROCEDURE
+-- DANH SACH KHACH HANG CO GIAO DICH CHUNG KHOAN
+-- MODIFICATION HISTORY
+-- PERSON: THANH.TRAN
+-- DATE  : 24/10/2007
+-- COMMENTS
+-- ---------   ------  -------------------------------------------
+
+    V_STROPTION         VARCHAR2 (5);            -- A: ALL; B: BRANCH; S: SUB-BRANCH
+    V_STRBRID           VARCHAR2 (4);            -- USED WHEN V_NUMOPTION > 0
+    V_STRTLTXCD         VARCHAR (100);
+    V_STRSYMBOL         VARCHAR (20);
+    V_STRTRADEPLACE     VARCHAR2 (3);
+    V_STRAFACCTNO       VARCHAR (20);
+
+   -- DECLARE PROGRAM VARIABLES AS SHOWN ABOVE
+BEGIN
+    -- GET REPORT'S PARAMETERS
+   V_STROPTION := OPT;
+
+   IF (V_STROPTION <> 'A') AND (BRID <> 'ALL')
+   THEN
+      V_STRBRID := BRID;
+   ELSE
+      V_STRBRID := '%%';
+   END IF;
+
+   IF (TRADEPLACE <> 'ALL')
+   THEN
+      V_STRTRADEPLACE := TRADEPLACE;
+   ELSE
+      V_STRTRADEPLACE := '%%';
+   END IF;
+
+   IF  (AFACCTNO  <> 'ALL')
+   THEN
+      V_STRAFACCTNO := AFACCTNO;
+   ELSE
+      V_STRAFACCTNO := '%%';
+   END IF;
+
+   IF  (SYMBOL <> 'ALL')
+   THEN
+      V_STRSYMBOL := replace(SYMBOL,' ','_');
+   ELSE
+      V_STRSYMBOL := '%%';
+   END IF;
+
+   --V_STRTLTXCD := TLTXCD;
+   IF (TLTXCD <> 'ALL')
+   THEN
+        V_STRTLTXCD := TLTXCD;
+   ELSE
+        V_STRTLTXCD := '2200 2201 2202 2203 2240 2241 2242 2243 2244 2245 2246 2250 2252 8878';
+   END IF;
+
+   --END OF GET REPORT'S PARAMETERS
+
+   --IF V_STRTLTXCD <> 'ALL' THEN
+
+ OPEN PV_REFCURSOR
+    FOR
+ SELECT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID, TLG.OFFID,
+        TLG.BUSDATE, TLG.TXDESC, SB.SYMBOL, TLG.TXDATE, TLG.MSGAMT MSGAMT,TLP.TLNAME MAKER ,
+        TLP1.TLNAME CHECKER
+ FROM  TLLOG TLG,AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1,SBSECURITIES SB
+                       WHERE SUBSTR(TLG.MSGACCT,1,10) =AF.ACCTNO
+                        AND AF.CUSTID = CF.CUSTID
+                        AND TLG.TLTXCD = TL.TLTXCD
+                        AND TLG.TLID = TLP.TLID(+)
+                        AND TLG.OFFID = TLP1.TLID (+)
+                        --AND SUBSTR(TL.TLTXCD,1,2) LIKE '22%'
+                        AND SUBSTR(TLG.MSGACCT,11,6)  = SB.CODEID
+                        AND INSTR(V_STRTLTXCD, TLG.TLTXCD)>0
+                        AND SB.TRADEPLACE LIKE V_STRTRADEPLACE
+                        AND AF.ACCTNO LIKE V_STRAFACCTNO
+                        AND SB.SYMBOL LIKE V_STRSYMBOL
+                        AND TLG.BUSDATE >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+                        AND TLG.BUSDATE <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+                        and tlg.brid  like V_STRBRID
+                        AND TLG.deltd <> 'Y'
+UNION ALL
+ SELECT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID, TLG.OFFID,
+        TLG.BUSDATE, TLG.TXDESC, SB.SYMBOL, TLG.TXDATE, TLG.MSGAMT MSGAMT,TLP.TLNAME MAKER ,
+        TLP1.TLNAME CHECKER
+ FROM  TLLOGALL TLG,AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1,SBSECURITIES SB
+                       WHERE SUBSTR(TLG.MSGACCT,1,10) =AF.ACCTNO
+                        AND AF.CUSTID = CF.CUSTID
+                        AND TLG.TLTXCD = TL.TLTXCD
+                        AND TLG.TLID = TLP.TLID(+)
+                        AND TLG.OFFID = TLP1.TLID (+)
+                        --AND SUBSTR(TL.TLTXCD,1,2) LIKE '22%'
+                        AND SUBSTR(TLG.MSGACCT,11,6)  = SB.CODEID
+                        AND INSTR(V_STRTLTXCD, TLG.TLTXCD)>0
+                        AND SB.TRADEPLACE LIKE V_STRTRADEPLACE
+                        AND AF.ACCTNO LIKE V_STRAFACCTNO
+                        AND SB.SYMBOL LIKE V_STRSYMBOL
+                        and tlg.brid  like V_STRBRID
+                        AND TLG.BUSDATE >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+                        AND TLG.BUSDATE <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+                        AND TLG.deltd <> 'Y'
+ORDER BY TLTXCD
+                        ;
+
+
+
+EXCEPTION
+    WHEN OTHERS
+   THEN
+      RETURN;
+END; -- PROCEDURE
+/
+

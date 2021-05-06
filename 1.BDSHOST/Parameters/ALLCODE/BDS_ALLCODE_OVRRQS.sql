@@ -1,0 +1,42 @@
+﻿--
+--
+/
+DELETE ALLCODE WHERE CDNAME = 'OVRRQS';
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@21','Khối lượng vượt quá mức cần kiểm soát',21,'Y','Khối lượng vượt quá mức cần kiểm soát');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@20','Kiểm soát của tổ chức phát hành',20,'Y','Kiểm soát của tổ chức phát hành');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@19','Tài khoản quá hạn',19,'Y','Tài khoản quá hạn');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@22','Giao dịch thực hiện backdate, cần duyệt rủi ro!',19,'Y','Giao dịch thực hiện backdate, cần duyệt rủi ro!');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@13','Vượt quá hạn mức TK',13,'Y','Vượt quá hạn mức TK');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@12','Vượt quá tỷ lệ ký quỹ của lệnh',12,'Y','Vượt quá tỷ lệ ký quỹ của lệnh');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@11','Vượt quá hạn mức lệnh giao dịch',11,'Y','Vượt quá hạn mức lệnh giao dịch');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@10','Vượt quá hạn mức ký quỹ',10,'Y','Vượt quá hạn mức ký quỹ');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@09','Trạng thái đặc biệt',9,'Y','Trạng thái đặc biệt');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@08','Vượt quá tỷ lệ ký quỹ của TK',8,'Y','Vượt quá tỷ lệ ký quỹ của TK');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@07','Vượt quá hạn mức tiểu khoản GD',7,'Y','Vượt quá hạn mức tiểu khoản GD');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@06','Giao dịch xóa',6,'Y','Giao dịch xóa');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@05','Giao dịch liên chi nhánh',5,'Y','Giao dịch liên chi nhánh');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@04','Vượt quá hạn mức khách hàng',4,'Y','Vượt quá hạn mức khách hàng');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@03','Vượt quá hạn mức duyệt',3,'Y','Vượt quá hạn mức duyệt');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@02','Vượt quá hạn mức tiền mặt',2,'Y','Vượt quá hạn mức tiền mặt');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@01','Vượt quá hạn mức giao dịch',1,'Y','Vượt quá hạn mức giao dịch');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('SY','OVRRQS','@00','Cần kiểm soát duyệt',0,'Y','Cần kiểm soát duyệt');
+COMMIT;
+/

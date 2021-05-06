@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'ROUND_VALUE';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('SYSTEM','ROUND_VALUE','10','Gia tri lam tron tien, check khi dong HD, chuyen Corebank',null,'N');
+COMMIT;
+/

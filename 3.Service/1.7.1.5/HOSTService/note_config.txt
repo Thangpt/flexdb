@@ -1,0 +1,6 @@
+1. Add all endpoint BPSService: 
+<endpoint address="http://192.168.1.205/BPSService/OnlineTradingWcf.svc" binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IOnlineTradingWcf" contract="IOnlineTradingWcf" name="BasicHttpBinding_IOnlineTradingWcf" />
+<endpoint address="http://192.168.1.205/BPSService/OnlineTradingWcf.svc" binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IOnlineTradingWcf" contract="IOnlineTradingWcf" name="BasicHttpBinding_IOnlineTradingWcf2" />
+	  
+2. Add key multiEndpointConfigurationName: 
+<add key="multiEndpointConfigurationName" value="BasicHttpBinding_IOnlineTradingWcf|BasicHttpBinding_IOnlineTradingWcf2" />

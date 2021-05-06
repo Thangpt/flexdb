@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <!--<TableInfo>
+    <QueryKey>GET_TEMPLATES_SCHEDULER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT CODE, NAME, SUBJECT, CYCLE, FORMAT, REQUIRE_REGISTER, EXPORT_PATH, ALLOW_ZIP,
+                 LISTAGG(A.REPORT_ID, ',') WITHIN GROUP(ORDER BY A.REPORT_ID) AS REPORTS
+            FROM TEMPLATES T, ATTACHMENTS A
+           WHERE T.CODE = A.ATTACHMENT_ID(+)
+             AND ((T.CODE NOT IN (SELECT CODE FROM TEMPLATES_STATUS) AND
+                 T.CYCLE IN ('D', 'M', 'Y')) OR
+                 (T.CYCLE = 'I' AND
+                 (SELECT NVL(SYSDATE - MAX(COMPLETED_TIME), 1) * 24 * 60 * 60
+                      FROM TEMPLATES_STATUS
+                     WHERE CODE = T.CODE) > T.INTERVAL))
+           GROUP BY CODE, NAME, SUBJECT, CYCLE, FORMAT, REQUIRE_REGISTER, EXPORT_PATH, ALLOW_ZIP
+      ]]>
+    </QueryValue>
+  </TableInfo>-->
+  <TableInfo>
+    <QueryKey>EMAIL_EXCEPTION</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          UPDATE EMAILLOG SET STATUS = 'E', NOTE = :NOTE WHERE AUTOID = :AUTOID
+      ]]>
+    </QueryValue>
+  </TableInfo> 
+  <TableInfo>
+    <QueryKey>GET_TEMPLATES_SCHEDULER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT A.TEMPLATE_ID, A.NEXT_RUN_DATE, B.LAST_START_DATE
+          FROM TEMPLATES_SCHEDULER A,
+               (SELECT TEMPLATE_ID, MAX(LOG_DATE) LAST_START_DATE
+                  FROM TEMPLATES_SCHEDULER_LOG
+                 GROUP BY TEMPLATE_ID) B
+         WHERE A.TEMPLATE_ID = B.TEMPLATE_ID(+)
+           AND NEXT_RUN_DATE <= GETCURRDATE
+           AND A.NEXT_RUN_DATE > NVL(B.LAST_START_DATE, TO_DATE('01/01/2012','DD/MM/RRRR'))
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_REPORTS_BY_ATTACHMENT_ID</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT REPORT_ID FROM ATTACHMENTS WHERE ATTACHMENT_ID = :ATTACHMENT_ID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>INSERT_TEMPLATE_LOG</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          INSERT INTO TEMPLATES_STATUS(CODE, BCHDATE, START_TIME) VALUES(:CODE, CSPKS_SYSTEM.FN_GET_SYSVAR('SYSTEM','CURRDATE'), SYSDATE)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>UPDATE_TEMPLATE_LOG</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          INSERT INTO TEMPLATES_STATUS(CODE, BCHDATE, START_TIME) VALUES(:CODE, CSPKS_SYSTEM.FN_GET_SYSVAR('SYSTEM','CURRDATE'), SYSDATE)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_CUSTOMERS_BY_TEMPLATE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT C.CUSTODYCD, A.AFACCTNO, C.FULLNAME, NVL(AF.EMAIL, C.EMAIL) EMAIL 
+          FROM AFTEMPLATES A, CFMAST C, AFMAST AF 
+          WHERE AF.CUSTID = C.CUSTID AND A.AFACCTNO = AF.ACCTNO AND A.TEMPLATE_CODE = :CODE
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHECK_TEMPLATE_REGISTERED_BY_CUSTOMER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT * FROM AFTEMPLATES WHERE AFACCTNO = :ACCTNO AND TEMPLATE_CODE = :CODE
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>COLLECT_EMAIL_FROM_FLEX</QueryKey>
+    <QueryValue>
+      <![CDATA[
+       SELECT * FROM 
+        (SELECT T.PRIORITY, EMAIL, EMAILCC, T.CODE, T.NAME, T.SUBJECT,
+               T.FORMAT, E.DATASOURCE, E.AUTOID, T.TYPE,
+               T.REQUIRE_REGISTER, T.EXPORT_PATH, T.ALLOW_ZIP, E.AFACCTNO,
+               LISTAGG(A.REPORT_ID, ',') WITHIN GROUP(ORDER BY A.REPORT_ID) AS REPORTS, T.CYCLE
+        FROM emaillog E, TEMPLATES T, ATTACHMENTS A
+        WHERE E.TEMPLATEID = T.CODE  AND T.CODE = A.ATTACHMENT_ID(+)
+          AND STATUS = 'A' 
+        GROUP BY EMAIL, EMAILCC, CODE, NAME, SUBJECT, FORMAT, E.DATASOURCE, REQUIRE_REGISTER, EXPORT_PATH, E.AUTOID,
+          ALLOW_ZIP, T.TYPE, E.AFACCTNO, T.CYCLE, T.PRIORITY
+         ) WHERE ROWNUM <=20
+		  ORDER BY PRIORITY, AUTOID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>EMAIL_SENT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          UPDATE EMAILLOG SET STATUS = 'S', SENTTIME = SYSDATE WHERE AUTOID = :AUTOID AND STATUS = 'A'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>EMAIL_REJECT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          UPDATE EMAILLOG SET STATUS = 'R' WHERE AUTOID = :AUTOID AND STATUS = 'A'          
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>SMS_SENT_TO_LOG</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          UPDATE SMSMATCHED SET STATUS = 'S', SENTDATE=SYSDATE WHERE AUTOID <= :AUTOID AND CUSTODYCD = :CUSTODYCD AND STATUS = 'N'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_REPORT_PARAMETERS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT FLDNAME, DATATYPE, DEFVAL FROM RPTFIELDS WHERE OBJNAME = :RPTID AND ISPARAM = 'Y'  ORDER BY ODRNUM
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_SYSTEM_VALUE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT VARVALUE FROM SYSVAR WHERE GRNAME = :GRNAME AND VARNAME = :VARNAME
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_REPORT_FORMULA</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT VARVALUE FROM SYSVAR WHERE GRNAME = 'SYSTEM' AND VARNAME IN ('HEADOFFICE','BRNAME','BRADDRESS',')
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>EVENT_PROCESSED</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          UPDATE LOG_NOTIFY_EVENT SET STATUS = 'E', APPLYTIME = SYSDATE WHERE AUTOID = :AUTOID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_WAITING_EVENT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT * FROM LOG_NOTIFY_EVENT WHERE STATUS = 'A' ORDER BY AUTOID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GENERATE_TEMPLATES</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          NMPKS_EMS.GenTemplates
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GENERATE_NOTIFICATION</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          NMPKS_EMS.GenNotifyEvent
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_REPORT_FORMULAR_VALUE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT VARNAME KEY, VARVALUE VALUE FROM SYSVAR WHERE GRNAME = 'SYSTEM' AND VARNAME IN ('HEADOFFICE','BRNAME','BRADDRESS','BRPHONEFAX','RPTTITLE','COMPANYNAME','CURRDATE')
+          UNION
+          SELECT 'CREATED_BY' KEY, T.TLNAME VALUE FROM TLPROFILES T WHERE TLID=:TLID
+          UNION
+          SELECT 'REPORT_TITLE' KEY, T.DESCRIPTION VALUE FROM RPTMASTER T WHERE RPTID=:RPTID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+<TableInfo>
+    <QueryKey>COLLECT_EMAILPOPLOG_FROM_FLEX</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT L.AUTOID, L.EMAILCUSTOMER, E.EMAILID, E.SUBJECT, E.ATTACHMENT, E.BODYHTML  FROM EMAILPOPLOG L, EMAILPOPULAR E WHERE L.PROCESS ='N' AND L.EMAILID = E.EMAILID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>UPDATE_EMAILPOPLOG_STATUS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          UPDATE EMAILPOPLOG SET PROCESS = 'Y', STATUS = :STATUS, SENTTIME = SYSDATE WHERE AUTOID = :AUTOID
+      ]]>
+    </QueryValue>
+  </TableInfo>  
+</root>

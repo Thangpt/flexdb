@@ -1,0 +1,6 @@
+﻿--
+/
+DELETE rptfields WHERE objname='HDTKDV';
+insert into rptfields (MODCODE, FLDNAME, OBJNAME, DEFNAME, CAPTION, EN_CAPTION, ODRNUM, FLDTYPE, FLDMASK, FLDFORMAT, FLDLEN, LLIST, LCHK, DEFVAL, VISIBLE, DISABLE, MANDATORY, AMTEXP, VALIDTAG, LOOKUP, DATATYPE, INVNAME, FLDSOURCE, FLDDESC, CHAINNAME, PRINTINFO, LOOKUPNAME, SEARCHCODE, SRMODCODE, INVFORMAT, TAGFIELD, TAGLIST, TAGVALUE, ISPARAM, CTLTYPE)
+values ('CF', 'PV_AUTOID', 'HDTKDV', 'PV_AUTOID', 'Mã đăng ký', 'Auto Id', 1, 'M', 'ccccccccccc', '_', 10, null, null, null, 'Y', 'N', 'Y', null, null, 'N', 'C', null, null, null, null, null, null, 'CF4000', 'CF', null, null, null, null, 'Y', 'T');
+COMMIT;

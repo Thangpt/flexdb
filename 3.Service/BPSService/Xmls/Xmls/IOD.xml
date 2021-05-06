@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <TableInfo>
+    <QueryKey>ADD_LIST_INDICATORS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         INSERT INTO TRACKLIST(SYMBOL,AFACCTNO) VALUES(:SYMBOL,:AFACCTNO)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>REMOVE_LIST_INDICATORS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         DELETE TRACKLIST WHERE AFACCTNO=:AFACCTNO AND SYMBOL=:SYMBOL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>COUNT_LIST_INDICATORS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         SELECT COUNT(*) NUMSYMBOL FROM TRACKLIST WHERE  AFACCTNO=:AFACCTNO AND SYMBOL=:SYMBOL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_TRACKLIST_INFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         SELECT * FROM TRACKLIST WHERE AFACCTNO=:AFACCTNO ORDER BY SYMBOL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>REGALERT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         fopks_api.pr_regalert
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>REGALERTFILE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         fopks_api.pr_regalertfile
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>REGALERTDTL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         fopks_api.pr_regalertdtl
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_REGALERT_INFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         select AUTOID,REGSMS 
+         from cfregalert 
+         where STATUS='A'
+               AND REGISTERID=:L_CUSTID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETSETALERTLIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         select A.SYMBOL,B.* FROM
+              (SELECT F.SYMBOL,F.AUTOID 
+              FROM cfregalert reg,cfaltertfile F 
+              where F.REGPROFILEID=reg.autoid 
+                  AND reg.registerid=:REGISTERID)A,
+              (SELECT MAX(DECODE( D.alertcd,'LASTPRICEGT',C.alvalue,'')) LASTPRICEGT,
+                     MAX(DECODE( D.alertcd,'LASTPRICELT',C.alvalue,'')) LASTPRICELT,
+                     MAX(DECODE( D.alertcd,'TOTALQTTYGT',C.alvalue,'')) TOTALQTTYGT,
+                     MAX(DECODE( D.alertcd,'TOTALTRADEVAULEGT',C.alvalue,'')) TOTALTRADEVAULEGT,
+                     MAX(DECODE( D.alertcd,'LASTPRICEVSTOP',C.alvalue,'')) LASTPRICEVSTOP,
+                     MAX(DECODE( D.alertcd,'LASTPRICEGTAVG',C.alvalue,'')) LASTPRICEGTAVG_1,
+                     MAX(DECODE( D.alertcd,'LASTPRICELTAVG',C.alvalue,'')) LASTPRICELTAVG_2,
+                     MAX(DECODE( D.alertcd,'TOTALQTTYGTTOP',C.alvalue,'')) TOTALQTTYGTTOP,
+                     MAX(DECODE( D.alertcd,'TOTALQTTYGTAVG',C.alvalue,'')) TOTALQTTYGTAVG,
+                     MAX(DECODE( D.alertcd,'ADX',C.alvalue,'')) ADX,
+                     MAX(DECODE( D.alertcd,'DIDFF',C.alvalue,'')) DIDFF,
+                     MAX(DECODE( D.alertcd,'MACD',C.alvalue,'')) MACD,
+                     MAX(DECODE( D.alertcd,'MACDH',C.alvalue,'')) MACDH,
+                     MAX(DECODE( D.alertcd,'EMA50VSEMA200',C.alvalue,'')) EMA50VSEMA200,
+                     MAX(DECODE( D.alertcd,'EMA200VSEMA50',C.alvalue,'')) EMA200VSEMA50,
+                     MAX(DECODE( D.alertcd,'RSI14VS70',C.alvalue,'')) RSI14VS70,
+                     MAX(DECODE( D.alertcd,'RSI14VS30',C.alvalue,'')) RSI14VS30,
+                     MAX(DECODE( D.alertcd,'STOVS80',C.alvalue,'')) STOVS80,
+                     MAX(DECODE( D.alertcd,'STOVS20',C.alvalue,'')) STOVS20,
+                     REGFILEID
+               FROM cfalertdtl C, defalert D
+              WHERE C.alertid=D.autoid
+              group by REGFILEID)B
+        WHERE A.AUTOID=B.REGFILEID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>UPDATE_REGALERT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         fopks_api.pr_updateregalert
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_ALERTFEE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         SELECT MAX(DECODE(VARNAME,'WEBWARAMT',VARVALUE,'')) ALERT_FEE,
+                MAX(DECODE(VARNAME,'WEBSMSAMT',VARVALUE,'')) SMS_FEE
+         FROM SYSVAR WHERE VARNAME LIKE '%WEB%'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>REMOVE_CFALERTDTL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         DELETE cfalertdtl WHERE regfileid=:l_regfileid
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>REMOVE_CFALERTFILE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         DELETE cfaltertfile WHERE autoid=:l_regfileid
+      ]]>
+    </QueryValue>
+  </TableInfo>
+</root>

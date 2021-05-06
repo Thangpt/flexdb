@@ -1,0 +1,119 @@
+CREATE OR REPLACE PROCEDURE se0032 (
+   PV_REFCURSOR   IN OUT   PKG_REPORT.REF_CURSOR,
+   OPT            IN       VARCHAR2,
+   BRID           IN       VARCHAR2,
+   F_DATE         IN       VARCHAR2,
+   T_DATE         IN       VARCHAR2,
+   PV_CUSTODYCD   IN       VARCHAR2,
+   PV_AFACCTNO    IN       VARCHAR2,
+   PLSENT         in       varchar2
+)
+IS
+
+-- RP NAME : BAO CAO BANG KE CHUNG KHOAN GIAO DICH LO LE
+-- PERSON --------------DATE---------------------COMMENTS
+-- QUYET.KIEU           11/02/2011               CREATE NEW
+-- DIENNT               09/01/2012               EDIT
+-- ---------   ------  -------------------------------------------
+   V_STRAFACCTNO  VARCHAR2 (15);
+   V_CUSTODYCD VARCHAR2 (15);
+   V_TYPE  VARCHAR2(10);
+   V_FROMDATE DATE;
+   V_TODATE DATE;
+   --V_CURRDATE date;
+
+BEGIN
+-- GET REPORT'S PARAMETERS
+
+
+    V_CUSTODYCD := upper( PV_CUSTODYCD);
+    /*select to_date(varvalue,'DD/MM/RRRR') into V_CURRDATE
+     from sysvar where varname = 'CURRDATE' and grname = 'SYSTEM';*/
+
+     V_FROMDATE := TO_DATE(F_DATE, 'DD/MM/RRRR');
+     V_TODATE := TO_DATE(T_DATE, 'DD/MM/RRRR');
+
+   IF  (PV_AFACCTNO <> 'ALL')
+   THEN
+         V_STRAFACCTNO := PV_AFACCTNO;
+   ELSE
+         V_STRAFACCTNO := '%';
+   END IF;
+
+-- GET REPORT'S DATA
+ OPEN PV_REFCURSOR
+ FOR
+SELECT CF.FULLNAME SENDER, CF.CUSTODYCD SENDER_CUSTCD, AF.ACCTNO SENDER_ACC , SB2.SYMBOL SYMBOL,
+       OU.RECUSTODYCD, OU.RECUSTNAME, OU.outward,
+       trade +  caqtty + strade +  scaqtty + ctrade +  ccaqtty MSGAMT, SB.parvalue,
+       CASE WHEN SB.refcodeid IS NOT NULL AND TRADE + CAQTTY + STRADE + SCAQTTY + CTRADE + CCAQTTY > 0 THEN '7'
+            WHEN SB.REFCODEID IS NULL AND TRADE + CAQTTY + STRADE + SCAQTTY + CTRADE + CCAQTTY >0 THEN  '1'
+            END LOAI_CK,
+       CASE WHEN SB2.SECTYPE IN ('003','006','111','222','333') AND SB2.MARKETTYPE = '001' THEN ' TRÁI PHI?U CHUYÊN BI?T'
+            WHEN SB2.MARKETTYPE = '000' AND SB2.TRADEPLACE = '001' THEN ' HOSE'
+            WHEN SB2.MARKETTYPE = '000' AND SB2.TRADEPLACE = '002' THEN ' HNX'
+            WHEN SB2.MARKETTYPE = '000' AND SB2.TRADEPLACE = '005' THEN ' UPCOM'
+            END SAN, PLSENT SENTO, MEM.FULLNAME DEPOSITNAME,
+       CASE WHEN ou.trtype = '001' THEN 1
+            WHEN ou.trtype = '002' THEN 2
+            WHEN ou.trtype = '003' THEN 3
+            WHEN ou.trtype = '004' THEN 4
+            WHEN ou.trtype = '005' THEN 5
+            WHEN ou.trtype = '006' THEN 6
+            WHEN ou.trtype = '007' THEN 7
+            WHEN ou.trtype = '008' THEN 8
+            WHEN ou.trtype = '009' THEN 9
+            ELSE 10 END LD_CK
+FROM SESENDOUT OU,  CFMAST CF, AFMAST AF, sbsecurities SB, sbsecurities SB2, deposit_member MEM
+WHERE OU.DELTD <> 'Y'
+AND CF.CUSTID = AF.CUSTID
+AND SUBSTR(OU.ACCTNO,1,10) = AF.ACCTNO
+AND OU.CODEID = SB.CODEID
+AND TO_DATE(substr(ID2255,1,10),'DD/MM/RRRR') <= V_TODATE AND  TO_DATE(substr(ID2255,1,10),'DD/MM/RRRR') >= V_FROMDATE
+AND NVL(SB.refcodeid,SB.codeid) = SB2.CODEID
+AND OU.outward = MEM.depositid (+)
+AND OU.ID2255 IS NOT NULL
+AND CF.CUSTODYCD = V_CUSTODYCD
+AND AF.ACCTNO LIKE V_STRAFACCTNO
+AND  TRADE + CAQTTY + STRADE + SCAQTTY + CTRADE + CCAQTTY > 0
+UNION ALL
+SELECT CF.FULLNAME SENDER, CF.CUSTODYCD SENDER_CUSTCD, AF.ACCTNO SENDER_ACC , SB2.SYMBOL SYMBOL,
+       OU.RECUSTODYCD, OU.RECUSTNAME, OU.outward,
+       blocked + sblocked + cblocked  MSGAMT, SB.parvalue,
+       CASE WHEN SB.refcodeid IS NOT NULL AND BLOCKED + SBLOCKED + CBLOCKED > 0 THEN '8'
+            WHEN SB.REFCODEID IS NULL AND BLOCKED + SBLOCKED + CBLOCKED > 0 THEN '2'
+            END LOAI_CK,
+       CASE WHEN SB2.SECTYPE IN ('003','006','111','222','333') AND SB2.MARKETTYPE = '001' THEN ' TR?I PHI?U CHUY? BI?T'
+            WHEN SB2.MARKETTYPE = '000' AND SB2.TRADEPLACE = '001' THEN ' HOSE'
+            WHEN SB2.MARKETTYPE = '000' AND SB2.TRADEPLACE = '002' THEN ' HNX'
+            WHEN SB2.MARKETTYPE = '000' AND SB2.TRADEPLACE = '005' THEN ' UPCOM'
+            END SAN, PLSENT SENTO, MEM.FULLNAME DEPOSITNAME,
+       CASE WHEN ou.trtype = '001' THEN 1
+            WHEN ou.trtype = '004' THEN 4
+            WHEN ou.trtype = '005' THEN 8
+            WHEN ou.trtype = '006' THEN 2
+            WHEN ou.trtype = '007' THEN 6
+            WHEN ou.trtype = '009' THEN 9
+            ELSE 10 END LD_CK
+FROM SESENDOUT OU,  CFMAST CF, AFMAST AF, sbsecurities SB, sbsecurities SB2, deposit_member MEM
+WHERE OU.DELTD <> 'Y'
+AND CF.CUSTID = AF.CUSTID
+AND OU.ID2255 IS NOT NULL
+AND SUBSTR(OU.ACCTNO,1,10) = AF.ACCTNO
+AND OU.CODEID = SB.CODEID
+AND TO_DATE(substr(ID2255,1,10),'DD/MM/RRRR') <= V_TODATE AND  TO_DATE(substr(ID2255,1,10),'DD/MM/RRRR') >= V_FROMDATE
+AND NVL(SB.refcodeid,SB.codeid) = SB2.CODEID
+AND OU.outward = MEM.depositid (+)
+AND CF.CUSTODYCD = V_CUSTODYCD
+AND AF.ACCTNO LIKE V_STRAFACCTNO
+AND  BLOCKED + SBLOCKED + CBLOCKED > 0
+
+;
+
+EXCEPTION
+   WHEN OTHERS
+   THEN
+      RETURN;
+END;
+/
+

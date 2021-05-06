@@ -1,0 +1,84 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+BPSUtils
+</name>
+</assembly>
+<members>
+<member name="M:BPSUtils.CommonLib.XmlToTable(System.Xml.XmlNodeList)">
+	<summary>
+ 20120216: Loctx:  convert string to coressponded data type 
+ </summary>
+	<param name="pv_NodeList"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSUtils.clsExchangeData.getSymbolFromId(System.Int32,System.String,System.String)">
+	<summary>
+ Get Symbol code from Id
+ </summary>
+	<param name="pv_stockId"></param>
+	<param name="pv_floorCode"></param>
+	<param name="pv_Symbol"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSUtils.clsExchangeData.getMarketInfo(System.String)">
+	<summary>
+ Get Market State, if not exist then create new
+ </summary>
+	<param name="pv_floorcode"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSUtils.clsExchangeData.getAllCSIDXInfor">
+	<summary>
+ List of all CSIDX Infor
+ Key is index Code
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSUtils.clsExchangeData.getCIDXinfo(System.String@)">
+Get CSDXInfo 
+
+</member><member name="M:BPSUtils.clsExchangeData.setCIDXInfo(System.String,WebOnlineTrading.Company.classes.CSIDXInfor)">
+	<summary>
+ Set --&gt; Add vao list
+ </summary>
+	<param name="pv_floorcode"></param>
+	<param name="pv_marketInfo"></param>
+	<remarks></remarks>
+</member><member name="M:BPSUtils.clsExchangeData.getStockInfor(System.String)">
+	<summary>
+ Get Stock Infor of one symbol
+ </summary>
+	<param name="pv_symbol"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSUtils.clsExchangeData.getStockInforByStockId(System.Int32,System.String)">
+	<summary>
+ Get Stock Infor by StockId and Floorcode
+ </summary>
+	<param name="pv_StockId"></param>
+	<param name="pv_floorCode"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSUtils.clsExchangeData.NotifyAll">
+	<summary>
+ Notify all Changes, Only support 
+ </summary>
+	<remarks></remarks>
+</member><member name="P:BPSUtils.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:BPSUtils.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:BPSUtils.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+</members>
+</doc>

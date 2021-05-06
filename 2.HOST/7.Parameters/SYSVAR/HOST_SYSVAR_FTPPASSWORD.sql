@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'FTPPASSWORD';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('SYSTEM','FTPPASSWORD','msbs$123','Password truy cập vao ftp server','Password login ftp server','Y');
+COMMIT;
+/

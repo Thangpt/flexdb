@@ -1,0 +1,19 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+CommonLibrary
+</name>
+</assembly>
+<members>
+<member name="F:CommonLibrary.modCommond.ERR_SE_MORTAGE">
+</member><member name="M:CommonLibrary.modCommond.NumberToText(System.String)">
+	<summary>
+ Chuyển số thành chữ
+ </summary>
+	<param name="p_strNumber">Số cần chuyển</param>
+	<returns></returns>
+	<remarks>ThongPM chuyển code từ CR sang VB 02/11/2011</remarks>
+</member>
+</members>
+</doc>

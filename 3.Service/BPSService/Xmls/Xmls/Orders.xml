@@ -1,0 +1,439 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <TableInfo>
+    <QueryKey>GETORDERPRICETYPE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM ALLCODE 
+      WHERE CDTYPE='SA' AND CDNAME='PRICETYPE' 
+      AND CDVAL NOT IN ('AA','SL') 
+      ORDER BY LSTODR
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHECKSAME_NB</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT COUNT(*) CNT FROM ODMAST WHERE CODEID='$CODEID_NS' 
+      AND AFACCTNO IN (SELECT ACCTNO FROM AFMAST WHERE CUSTID=(SELECT CUSTID FROM AFMAST WHERE ACCTNO='$AFACCTNO'))
+      AND (EXECTYPE='NB' OR EXECTYPE='BC') AND DELTD = 'N' AND EXPDATE >= (SELECT TO_DATE(VARVALUE,'DD/MM/RRRR') FROM SYSVAR WHERE GRNAME = 'SYSTEM' AND VARNAME = 'CURRDATE') 
+      AND REMAINQTTY+EXECQTTY>0
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHECKSAME_NS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT COUNT(*) CNT FROM ODMAST WHERE CODEID='$CODEID_NB' 
+      AND AFACCTNO IN (SELECT ACCTNO FROM AFMAST WHERE CUSTID=(SELECT CUSTID FROM AFMAST WHERE ACCTNO='$AFACCTNO'))
+      AND (EXECTYPE='NS' OR EXECTYPE='SS' OR EXECTYPE='MS') AND DELTD = 'N' AND EXPDATE >= (SELECT TO_DATE(VARVALUE,'DD/MM/RRRR') FROM SYSVAR WHERE GRNAME = 'SYSTEM' AND VARNAME = 'CURRDATE') 
+      AND REMAINQTTY+EXECQTTY>0
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETORDERBOOK</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM VW_STRADE_SUBACCOUNT_OD
+      WHERE AFACCTNO IN (SAFACCTNOLIST)
+      AND DELTD<>'Y'
+      ORDER BY MAKETIME DESC
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETORDERITEM</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM VW_STRADE_SUBACCOUNT_OD
+      WHERE ORDERID='SORDERID'
+      ]]>
+    </QueryValue>
+  </TableInfo>  
+  <TableInfo>
+    <QueryKey>PLACEORDER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          fopks_api.pr_placeorder
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_NORMAL_ORDER_LIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT 
+            C.EXECAMT,
+            --CASE WHEN C.ORDERID=C.ROOTORDERID THEN C.EXECAMT
+            --ELSE C.EXECAMT + (SELECT G.EXECAMT FROM BUF_OD_ACCOUNT G WHERE G.ORDERID = C.ROOTORDERID) END EXECAMT, --Lenh sua thi cong execamt
+            C.ORDERID, C.USERNAME, C.CUSTODYCD, C.AFACCTNO, C.SYMBOL, to_date(C.TXDATE,'DD/MM/RRRR') TXDATE,
+            C.TXTIME, C.EXECTYPE, 
+			      /*CASE WHEN C.ORDERID=C.ROOTORDERID THEN C.PRICETYPE
+			      ELSE (SELECT G.PRICETYPE FROM BUF_OD_ACCOUNT G WHERE G.ORDERID = C.ROOTORDERID) END	PRICETYPE,*/
+            C.PRICETYPE, 
+            C.VIA, 
+            C.ORDERQTTY,
+            --CASE WHEN C.ORDERID=C.ROOTORDERID THEN C.ORDERQTTY
+            --ELSE (SELECT G.ORDERQTTY FROM BUF_OD_ACCOUNT G WHERE G.ORDERID = C.ROOTORDERID) END ORDERQTTY, 
+            C.QUOTEPRICE * 1000 QUOTEPRICE,
+            C.EXECQTTY,
+            --CASE WHEN C.ORDERID = C.ROOTORDERID THEN C.EXECQTTY
+            --ELSE (SELECT G.ORDERQTTY FROM BUF_OD_ACCOUNT G WHERE G.ORDERID = C.ROOTORDERID)- C.REMAINQTTY - C.CANCELQTTY END EXECQTTY,
+            C.HOSESESSION, C.REMAINQTTY, C.CANCELQTTY, C.ORSTATUS, C.ORSTATUSVALUE, DECODE(C.ISDISPOSAL,'Y','N', C.ISCANCEL) ISCANCEL,
+            DECODE(C.ISDISPOSAL,'Y','N', C.ISADMEND) ISADMEND, C.ISDISPOSAL, C.ROOTORDERID, C.TIMETYPE, C.TIMETYPEVALUE,
+            C.FEEDBACKMSG
+          FROM BUF_OD_ACCOUNT C
+          WHERE ((C.CUSTODYCD!=nvl(:CUSTODYCD,'zzzz')) AND C.USERNAME=:PLACECUSTID)
+          AND C.TXDATE=TO_DATE(:TXDATE,'DD/MM/RRRR')
+          AND ((C.TIMETYPEVALUE='T' AND C.ORSTATUSVALUE <> '10') -- Lenh binh thuong, bao gom ca lenh goc va lenh sua
+            OR (C.TIMETYPEVALUE='G' AND C.ORSTATUSVALUE NOT IN ('5', 'P', '6', 'W', 'R')) --Het hieu luc, tu choi, R:lenh dieu kien chua active, bi huy
+          )
+          UNION ALL -- OR C.USERNAME=:PLACECUSTID Lenh do user tu dat
+        SELECT
+            C.EXECAMT,
+            --CASE WHEN C.ORDERID=C.ROOTORDERID THEN C.EXECAMT
+            --ELSE C.EXECAMT + (SELECT G.EXECAMT FROM BUF_OD_ACCOUNT G WHERE G.ORDERID = C.ROOTORDERID) END EXECAMT, --Lenh sua thi cong execamt
+            C.ORDERID, C.USERNAME, C.CUSTODYCD, C.AFACCTNO, C.SYMBOL, to_date(C.TXDATE,'DD/MM/RRRR') TXDATE,
+            C.TXTIME, C.EXECTYPE, 
+			      /*CASE WHEN C.ORDERID=C.ROOTORDERID THEN C.PRICETYPE
+			      ELSE (SELECT G.PRICETYPE FROM BUF_OD_ACCOUNT G WHERE G.ORDERID = C.ROOTORDERID) END	PRICETYPE, */
+            C.PRICETYPE, 
+            C.VIA, 
+            C.ORDERQTTY,
+            --CASE WHEN C.ORDERID=C.ROOTORDERID THEN C.ORDERQTTY
+            --ELSE (SELECT G.ORDERQTTY FROM BUF_OD_ACCOUNT G WHERE G.ORDERID = C.ROOTORDERID) END ORDERQTTY, 
+            C.QUOTEPRICE * 1000 QUOTEPRICE,
+            C.EXECQTTY,
+            --CASE WHEN C.ORDERID = C.ROOTORDERID THEN C.EXECQTTY
+            --ELSE (SELECT G.ORDERQTTY FROM BUF_OD_ACCOUNT G WHERE G.ORDERID = C.ROOTORDERID)- C.REMAINQTTY - C.CANCELQTTY END EXECQTTY,
+            C.HOSESESSION, C.REMAINQTTY, C.CANCELQTTY, C.ORSTATUS, C.ORSTATUSVALUE, DECODE(C.ISDISPOSAL,'Y','N', C.ISCANCEL) ISCANCEL,
+            DECODE(C.ISDISPOSAL,'Y','N', C.ISADMEND) ISADMEND, C.ISDISPOSAL, C.ROOTORDERID, C.TIMETYPE, C.TIMETYPEVALUE,
+            C.FEEDBACKMSG
+          FROM BUF_OD_ACCOUNT C
+          WHERE (C.CUSTODYCD=:CUSTODYCD)
+          AND C.TXDATE=TO_DATE(:TXDATE,'DD/MM/RRRR')
+          AND ((C.TIMETYPEVALUE='T' AND C.ORSTATUSVALUE <> '10') -- Lenh binh thuong, bao gom ca lenh goc va lenh sua
+            OR (C.TIMETYPEVALUE='G' AND C.ORSTATUSVALUE NOT IN ('5', 'P', '6', 'W', 'R')) --Het hieu luc, tu choi, R:lenh dieu kien chua active, bi huy
+          )
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_NORMAL_ORDER_LIST_FILTER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT CASE WHEN C.ORDERID=C.ROOTORDERID THEN C.EXECAMT
+                ELSE C.EXECAMT + (SELECT G.EXECAMT FROM BUF_OD_ACCOUNT G WHERE G.ORDERID = C.ROOTORDERID) END EXECAMT, --Lenh sua thi cong execamt
+            C.ORDERID, C.USERNAME, C.CUSTODYCD, C.AFACCTNO, C.SYMBOL, to_date(C.TXDATE,'DD/MM/RRRR') TXDATE,
+            C.TXTIME, C.EXECTYPE, 
+			      /*CASE WHEN C.ORDERID=C.ROOTORDERID THEN C.PRICETYPE
+			      ELSE (SELECT G.PRICETYPE FROM BUF_OD_ACCOUNT G WHERE G.ORDERID = C.ROOTORDERID) END	PRICETYPE,*/
+            C.PRICETYPE, 
+            C.VIA, 
+            C.ORDERQTTY,
+            --CASE WHEN C.ORDERID=C.ROOTORDERID THEN C.ORDERQTTY
+            --ELSE (SELECT G.ORDERQTTY FROM BUF_OD_ACCOUNT G WHERE G.ORDERID = C.ROOTORDERID) END ORDERQTTY, 
+            C.QUOTEPRICE * 1000 QUOTEPRICE,
+            C.EXECQTTY,
+            --CASE WHEN C.ORDERID = C.ROOTORDERID THEN C.EXECQTTY
+            --ELSE (SELECT G.ORDERQTTY FROM BUF_OD_ACCOUNT G WHERE G.ORDERID = C.ROOTORDERID)- C.REMAINQTTY - C.CANCELQTTY END EXECQTTY,
+            C.HOSESESSION, C.REMAINQTTY, C.CANCELQTTY, C.ORSTATUS, C.ORSTATUSVALUE, DECODE(C.ISDISPOSAL,'Y','N', C.ISCANCEL) ISCANCEL,
+            DECODE(C.ISDISPOSAL,'Y','N', C.ISADMEND) ISADMEND, C.ISDISPOSAL, C.ROOTORDERID, C.TIMETYPE, C.TIMETYPEVALUE,
+            C.FEEDBACKMSG
+          FROM BUF_OD_ACCOUNT C
+          WHERE (C.CUSTODYCD!=:CUSTODYCD AND C.USERNAME=:PLACECUSTID)
+          AND C.TXDATE=TO_DATE(:TXDATE,'DD/MM/RRRR')
+          AND C.AFACCTNO LIKE :AFACCTNO
+          AND C.EXECTYPE LIKE :EXECTYPE
+          AND C.SYMBOL LIKE :SYMBOL
+          AND C.ORSTATUSVALUE LIKE :ORSTATUSVALUE          
+          AND ((C.TIMETYPEVALUE='T' AND C.ORSTATUSVALUE <> '10') -- Lenh binh thuong, bao gom ca lenh goc va lenh sua
+            OR (C.TIMETYPEVALUE='G' AND C.ORSTATUSVALUE NOT IN ('5', 'P', '6', 'W', 'R')) --Het hieu luc, tu choi, R:lenh dieu kien chua active, bi huy
+          )
+          UNION ALL -- OR C.USERNAME=:PLACECUSTID Lenh do user tu dat
+        SELECT CASE WHEN C.ORDERID=C.ROOTORDERID THEN C.EXECAMT
+                ELSE C.EXECAMT + (SELECT G.EXECAMT FROM BUF_OD_ACCOUNT G WHERE G.ORDERID = C.ROOTORDERID) END EXECAMT, --Lenh sua thi cong execamt
+            C.ORDERID, C.USERNAME, C.CUSTODYCD, C.AFACCTNO, C.SYMBOL, to_date(C.TXDATE,'DD/MM/RRRR') TXDATE,
+            C.TXTIME, C.EXECTYPE, 
+			      /*CASE WHEN C.ORDERID=C.ROOTORDERID THEN C.PRICETYPE
+			      ELSE (SELECT G.PRICETYPE FROM BUF_OD_ACCOUNT G WHERE G.ORDERID = C.ROOTORDERID) END	PRICETYPE,*/
+            C.PRICETYPE, 
+            C.VIA, 
+            C.ORDERQTTY,
+            --CASE WHEN C.ORDERID=C.ROOTORDERID THEN C.ORDERQTTY
+            --ELSE (SELECT G.ORDERQTTY FROM BUF_OD_ACCOUNT G WHERE G.ORDERID = C.ROOTORDERID) END ORDERQTTY, 
+            C.QUOTEPRICE * 1000 QUOTEPRICE,
+            C.EXECQTTY,
+            --CASE WHEN C.ORDERID = C.ROOTORDERID THEN C.EXECQTTY
+            --ELSE (SELECT G.ORDERQTTY FROM BUF_OD_ACCOUNT G WHERE G.ORDERID = C.ROOTORDERID)- C.REMAINQTTY - C.CANCELQTTY END EXECQTTY,
+            C.HOSESESSION, C.REMAINQTTY, C.CANCELQTTY, C.ORSTATUS, C.ORSTATUSVALUE, DECODE(C.ISDISPOSAL,'Y','N', C.ISCANCEL) ISCANCEL,
+            DECODE(C.ISDISPOSAL,'Y','N', C.ISADMEND) ISADMEND, C.ISDISPOSAL, C.ROOTORDERID, C.TIMETYPE, C.TIMETYPEVALUE,
+            C.FEEDBACKMSG
+          FROM BUF_OD_ACCOUNT C
+          WHERE (C.CUSTODYCD=:CUSTODYCD)
+          AND C.TXDATE=TO_DATE(:TXDATE,'DD/MM/RRRR')
+          AND C.AFACCTNO LIKE :AFACCTNO
+          AND C.EXECTYPE LIKE :EXECTYPE
+          AND C.SYMBOL LIKE :SYMBOL
+          AND C.ORSTATUSVALUE LIKE :ORSTATUSVALUE          
+          AND ((C.TIMETYPEVALUE='T' AND C.ORSTATUSVALUE <> '10') -- Lenh binh thuong, bao gom ca lenh goc va lenh sua
+            OR (C.TIMETYPEVALUE='G' AND C.ORSTATUSVALUE NOT IN ('5', 'P', '6', 'W', 'R')) --Het hieu luc, tu choi, R:lenh dieu kien chua active, bi huy
+          )
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_COND_ORDER_LIST</QueryKey>
+    <QueryValue>
+      <![CDATA[  
+       SELECT F.EXECAMT, F.ACCTNO ORDERID, CF.CUSTODYCD, F.USERNAME, F.AFACCTNO, SB.SYMBOL, F.EFFDATE TXDATE,
+                  SUBSTR(F.CREATEDDT, 12) TXTIME, F.EXECTYPE, F.PRICETYPE, F.VIA, F.QUANTITY ORDERQTTY, F.QUOTEPRICE, F.EXECQTTY, '' HOSESESSION,
+                  F.REMAINQTTY, F.CANCELQTTY, F.STATUS ORSTATUSVALUE, A.CDCONTENT ORSTATUS, 
+			      (CASE 
+			  	    WHEN (F.STATUS = 'P' OR F.STATUS = 'I' OR F.STATUS = 'W') THEN 'Y'  --da day len he thong
+				      ELSE 'N'					
+				    END	
+			      )ISCANCEL, 
+			      F.EFFDATE, F.EXPDATE, F.TIMETYPE, F.ACCTNO ROOTORDERID, F.TIMETYPE TIMETYPEVALUE  
+          FROM FOMAST F, AFMAST AF, SBSECURITIES SB, CFMAST CF,ALLCODE A
+          WHERE (CF.CUSTODYCD=:CUSTODYCD OR F.USERNAME=:PLACECUSTID)
+			    AND F.AFACCTNO = AF.ACCTNO
+			    AND CF.CUSTID = AF.CUSTID
+                AND F.TIMETYPE='G'
+			    AND SB.CODEID = F.CODEID
+                AND A.cdtype='FO'
+                AND A.CDNAME='STATUS'
+                AND A.CDVAL=F.STATUS
+          AND (F.EXECTYPE <> 'CB' AND F.EXECTYPE <> 'CS')
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_COND_ORDER_LIST_FILTER</QueryKey>
+    <QueryValue>
+      <![CDATA[  
+       SELECT F.EXECAMT, F.ACCTNO ORDERID, CF.CUSTODYCD, F.USERNAME, F.AFACCTNO, SB.SYMBOL, F.EFFDATE TXDATE,
+                  SUBSTR(F.CREATEDDT, 12) TXTIME, F.EXECTYPE, F.PRICETYPE, F.VIA, F.QUANTITY ORDERQTTY, F.QUOTEPRICE, F.EXECQTTY, '' HOSESESSION,
+                  F.REMAINQTTY, F.CANCELQTTY, F.STATUS ORSTATUSVALUE, A.CDCONTENT ORSTATUS, 
+			      (CASE 
+			  	    WHEN (F.STATUS = 'P' OR F.STATUS = 'I' OR F.STATUS = 'W') THEN 'Y'  --da day len he thong
+				      ELSE 'N'					
+				    END	
+			      )ISCANCEL, 
+			      F.EFFDATE, F.EXPDATE, F.TIMETYPE, F.ACCTNO ROOTORDERID, F.TIMETYPE TIMETYPEVALUE  
+          FROM FOMAST F, AFMAST AF, SBSECURITIES SB, CFMAST CF,ALLCODE A
+          WHERE (CF.CUSTODYCD=:CUSTODYCD OR F.USERNAME=:PLACECUSTID)
+			    AND F.AFACCTNO = AF.ACCTNO
+			    AND CF.CUSTID = AF.CUSTID
+                AND F.TIMETYPE='G'
+			    AND SB.CODEID = F.CODEID
+                AND A.cdtype='FO'
+                AND A.CDNAME='STATUS'
+                AND A.CDVAL=F.STATUS
+          AND (F.EXECTYPE <> 'CB' AND F.EXECTYPE <> 'CS')
+          AND AF.ACCTNO LIKE :ACCTNO
+          AND F.STATUS LIKE :STATUS
+          AND F.EXECTYPE LIKE :EXECTYPE
+          AND SB.SYMBOL LIKE :SYMBOL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_NORMAL_ORDER_DETAIL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          --current and previous amend order
+          SELECT  OD.ROOTORDERID, OD.ORDERID, 'N' ISDETAIL, OD.TXDATE, OD.TXTIME, OD.ORSTATUS,
+			            OD.QUOTEPRICE * 1000 QUOTEPRICE, OD.ORDERQTTY, OD.REMAINQTTY, OD.EXECQTTY MATCHQTTY, 0 MATCHPRICE, OD.CANCELQTTY, OD.ADJUSTQTTY
+		      FROM BUF_OD_ACCOUNT OD
+          WHERE (OD.CUSTODYCD=:CUSTODYCD OR OD.USERNAME=:PLACECUSTID) 
+              --AND OD.TIMETYPEVALUE='T'  -- gop ca lenh dieu kien
+		          AND OD.ROOTORDERID = :ROOTORDERID              
+		  UNION ALL
+          --exec detail 
+		      SELECT OD.ROOTORDERID, OD.ORDERID || A.TXNUM ORDERID, 'Y' ISDETAIL, A.TXDATE, A.TXTIME, '' ORSTATUS, 
+		            0 QUOTEPRICE, 0 ORDERQTTY, 0 REMAINQTTY, MATCHQTTY, MATCHPRICE, 0 CANCELQTTY, 0 ADJUSTQTTY
+		      FROM IOD A, BUF_OD_ACCOUNT OD
+		      WHERE (OD.CUSTODYCD=:CUSTODYCD OR OD.USERNAME=:PLACECUSTID)
+            --AND OD.TIMETYPEVALUE = 'T'  -- gop ca lenh dieu kien
+		        AND A.ORGORDERID = OD.ORDERID
+		        AND OD.ROOTORDERID = :ROOTORDERID        
+		   ORDER BY TXTIME
+      ]]>
+    </QueryValue>
+  </TableInfo> 
+  <TableInfo>
+    <QueryKey>GET_COND_ORDER_ROOT_DETAIL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+		  --current GTC order
+          SELECT  M.FOACCTNO ROOTORDERID, OD.ORDERID, 'N' ISDETAIL, OD.TXDATE, OD.TXTIME, OD.ORSTATUS,
+			            OD.QUOTEPRICE * 1000 QUOTEPRICE, OD.ORDERQTTY, OD.REMAINQTTY, OD.EXECQTTY MATCHQTTY, 0 MATCHPRICE, OD.CANCELQTTY
+		      FROM BUF_OD_ACCOUNT OD, ROOTORDERMAP M
+          WHERE (OD.CUSTODYCD=:CUSTODYCD OR OD.USERNAME=:PLACECUSTID) 
+              AND OD.TIMETYPEVALUE='G'
+	          AND OD.ORDERID = M.ORDERID
+			  AND M.FOACCTNO = :ROOTORDERID  --:ROOTORDERID              
+		  UNION ALL--previous GTC order	  
+          SELECT  M.FOACCTNO ROOTORDERID, OD.ORDERID, 'N' ISDETAIL, OD.TXDATE, OD.TXTIME, OD.ORSTATUS,
+	            OD.QUOTEPRICE, OD.ORDERQTTY, OD.REMAINQTTY, OD.EXECQTTY MATCHQTTY, 0 MATCHPRICE, OD.CANCELQTTY
+		      FROM VW_ODMAST_ALL OD, ROOTORDERMAPHIST M, CFMAST CF, AFMAST AF, FOMAST FO
+          WHERE (CF.CUSTODYCD=:CUSTODYCD OR FO.USERNAME=:PLACECUSTID) 
+		  		AND CF.CUSTID = AF.CUSTID AND AF.ACCTNO = OD.AFACCTNO
+			  	AND OD.ORDERID = M.ORDERID
+              	AND OD.TIMETYPE='G'   	
+				AND M.FOACCTNO = FO.ACCTNO				
+				AND M.FOACCTNO = :ROOTORDERID  --:ROOTORDERID
+
+        UNION ALL
+     		  --current GTC order detail
+		      SELECT M.FOACCTNO ROOTORDERID, OD.ORDERID || A.TXNUM ORDERID, 'Y' ISDETAIL, A.TXDATE, A.TXTIME, '' ORSTATUS, 
+		            0 QUOTEPRICE, 0 ORDERQTTY, 0 REMAINQTTY, MATCHQTTY, MATCHPRICE, 0 CANCELQTTY
+		      FROM IOD A, BUF_OD_ACCOUNT OD, ROOTORDERMAP M
+		      WHERE (OD.CUSTODYCD=:CUSTODYCD OR OD.USERNAME=:PLACECUSTID)
+            AND OD.TIMETYPEVALUE = 'G'
+		        AND A.ORGORDERID = OD.ORDERID
+				AND OD.ORDERID = M.ORDERID
+		        AND M.FOACCTNO = :ROOTORDERID  --:ROOTORDERID        
+		  UNION ALL--previous GTC order	detail  
+		      SELECT M.FOACCTNO ROOTORDERID, A.ORGORDERID || A.TXNUM ORDERID, 'Y' ISDETAIL, A.TXDATE, A.TXTIME, '' ORSTATUS, 
+		            0 QUOTEPRICE, 0 ORDERQTTY, 0 REMAINQTTY, MATCHQTTY, MATCHPRICE, 0 CANCELQTTY
+		      FROM IODHIST A, ROOTORDERMAPHIST M, CFMAST CF, FOMAST FO
+		      WHERE (CF.CUSTODYCD=:CUSTODYCD OR FO.USERNAME=:PLACECUSTID)
+		  		AND CF.CUSTODYCD = A.CUSTODYCD
+				AND A.ORGORDERID = M.ORDERID
+				AND M.FOACCTNO = FO.ACCTNO
+            	AND FO.TIMETYPE = 'G'
+		        AND M.FOACCTNO = :ROOTORDERID  --:ROOTORDERID
+	
+        ORDER BY TXDATE, ORDERID, TXTIME
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETORDERSRECORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          fopks_api.pr_GetOrder
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_COND_ORDER_ROOT_HIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          fopks_api.pr_get_gtcorder_root_hist
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <!--
+  Lay danh sach lenh dieu kien dc day len san
+  20120226: Loctx doi ten tu GETCONDORDERSRECORD sang GET_COND_ORDER_HIST
+  -->
+  <TableInfo>
+    <QueryKey>GET_COND_ORDER_HIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          fopks_api.pr_GetGTCOrder
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+  <!--Lay thong tin khop chi tiet cua lenh dieu kien dc day vao
+  20120225 Loctx add
+  -->
+  <TableInfo>
+    <QueryKey>GET_COND_ORDER_DETAIL_BY_ORDERID</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			    SELECT A.ORGORDERID ORDERID, A.TXNUM FILLID, A.TXDATE, A.TXTIME, A.MATCHQTTY EXECQTTY, A.MATCHPRICE
+		      FROM VW_IOD_ALL A
+		      WHERE A.ORGORDERID = :ORDERID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+  <TableInfo>
+    <QueryKey>GETDEALRECORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          fopks_api.pr_GetMatchOrder
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETTRANSFERRECORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          fopks_api.pr_GetCashTransfer
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETISSUERECORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          fopks_api.pr_GetRightOffInfor
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETCONFIRMORDERRECORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          fopks_api.pr_GetConfirmOrderHistByCust
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CONFIRMORDER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          cspks_odproc.pr_ConfirmOrder
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHECKCONFIRMORDER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT OD.ORDERID,OD.TXDATE,OD.CODEID, A0.CDCONTENT TRADEPLACE, A1.CDCONTENT EXECTYPE,
+        A2.CDCONTENT PRICETYPE, A3.CDCONTENT VIA, OD.ORDERQTTY,OD.QUOTEPRICE, OD.REFORDERID,
+        se.symbol,a4.CDCONTENT CONFIRMED,od.afacctno, cf.custodycd, cf.fullname,
+        cspks_odproc.fn_OD_GetRootOrderID(od.orderid) ROOTORDERID
+        FROM CONFIRMODRSTS CFMSTS,
+        (select * from ODMAST union all select * from odmasthist) OD, SBSECURITIES SE,
+        ALLCODE A0, ALLCODE A1, ALLCODE A2, ALLCODE A3,aLLCODE A4,
+        afmast af, cfmast cf
+        WHERE CFMSTS.ORDERID(+)=OD.ORDERID
+        AND OD.CODEID=SE.CODEID
+        AND a0.cdtype = 'OD' AND a0.cdname = 'TRADEPLACE' AND a0.cdval = se.tradeplace
+        AND A1.cdtype = 'OD' AND A1.cdname = 'EXECTYPE'
+        AND A1.cdval =(case when nvl(od.reforderid,'a') <>'a' and OD.EXECTYPE = 'NB' then 'AB'
+        when  nvl(od.reforderid,'a') <>'a' and OD.EXECTYPE in ('NS','MS') then 'AS'
+          else od.EXECTYPE end)
+        AND A2.cdtype = 'OD' AND A2.cdname = 'PRICETYPE' AND A2.cdval = OD.PRICETYPE
+        AND A3.cdtype = 'OD' AND A3.cdname = 'VIA' AND A3.cdval = OD.VIA
+        AND a4.cdtype = 'SY' AND a4.cdname = 'YESNO' AND a4.cdval = nvl(CFMSTS.CONFIRMED,'N')
+        and ( (od.exectype in ('NB','NS','MS') AND od.via in ('F','T','H')) or (od.exectype  not in ('NB','NS','MS')))
+        and od.exectype not in ('AB','AS')
+        and od.via not in ('O','M','K')
+        and od.txdate >=to_date('01/01/2013','DD/MM/YYYY')
+        and od.afacctno=af.acctno and af.custid=cf.custid        
+        and not exists (select orderid from CONFIRMODRSTS where orderid = od.orderid)        
+        AND cf.custodycd = :CUSTODYCD
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETORDERSTATUS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          select CDVAL, CDCONTENT from allcode where cdtype='FO' AND CDNAME='STATUS'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+</root>

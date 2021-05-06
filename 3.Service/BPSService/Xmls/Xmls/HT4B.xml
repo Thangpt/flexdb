@@ -1,0 +1,2609 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <TableInfo>
+    <QueryKey>ACCOUNT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM (V_BUSACCOUNTSTATUS) CIMAST
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CUSTOMERFILE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM CFMAST WHERE CUSTID=:CUSTID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>IOD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM (V_BUSIODSTATUS) IOD
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>ORDER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM (V_OL_ORDERSTATUS) ODMAST
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>SEC</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM (V_BUSSECSTATUS) SEMAST
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>TRADING_RESULT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM (V_BUSTRADINGRESULT) TRADING_RESULT
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+  <TableInfo>
+    <QueryKey>CUS_INFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM CFMAST WHERE USERNAME=:USERNAME
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+  <TableInfo>
+    <QueryKey>EMAILFAXAF</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT EMAIL,FAX1,ACCTNO FROM AFMAST WHERE CUSTID=:CUSTID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+  <TableInfo>
+    <QueryKey>CHECK_CFCONTACT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT ADDRESS,PHONE,EMAIL FROM CFCONTACT WHERE CUSTID=:CUSTID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+  <TableInfo>
+    <QueryKey>CFAUTH</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT O.VALDATE,O.EXPDATE,CF2.CUSTODYCD,CF2.IDCODE,CF2.CUSTID,CF2.FULLNAME
+        FROM OTRIGHT O, AFMAST AF,CFMAST CF, CFMAST CF2
+        WHERE O.AFACCTNO=AF.ACCTNO
+        AND CF.CUSTID=:CUSTID
+        AND AF.CUSTID=CF.CUSTID
+        AND O.AUTHCUSTID!=:CUSTID
+        AND CF2.CUSTID=O.AUTHCUSTID
+        AND O.DELTD = 'N'
+        AND AF.TRADEONLINE = 'Y'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+  <TableInfo>
+    <QueryKey>AUTHRIGHT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT O.* FROM OTRIGHTDTL O, CFMAST CF ,AFMAST AF
+      WHERE O.AFACCTNO=AF.ACCTNO
+      AND AF.CUSTID=CF.CUSTID
+      AND CF.CUSTID=:CUSTID
+      AND O.AUTHCUSTID!=:CUSTID
+      AND O.DELTD = 'N'
+      AND AF.TRADEONLINE = 'Y'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_TERM_DEPOSIT_ACCOUNTS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			SELECT MST.ACCTNO, MST.AFACCTNO, CF.CUSTODYCD, CF.FULLNAME, MST.BALANCE-MST.MORTGAGE AVLWITHDRAW,
+			MST.ORGAMT, MST.BALANCE, MST.MORTGAGE, MST.PRINTPAID, MST.INTNMLACR, MST.INTPAID, MST.TAXRATE, MST.BONUSRATE, MST.INTRATE, MST.TDTERM || ' ' || A4.CDCONTENT TDTERM, MST.OPNDATE, MST.FRDATE, MST.TODATE, MST.STATUS,
+			A0.CDCONTENT DESC_TDSRC, A1.CDCONTENT DESC_AUTOPAID, A2.CDCONTENT DESC_BREAKCD, A3.CDCONTENT DESC_SCHDTYPE, A4.CDCONTENT DESC_TERMCD, A5.CDCONTENT DESC_STATUS, MST.BUYINGPOWER
+			FROM TDMAST MST, AFMAST AF, CFMAST CF, TDTYPE TYP, ALLCODE A0, ALLCODE A1, ALLCODE A2, ALLCODE A3, ALLCODE A4, ALLCODE A5
+			WHERE CF.CUSTODYCD=:CUSTODYCD AND AF.ACCTNO = :AFACCTNO AND MST.ACTYPE=TYP.ACTYPE AND MST.AFACCTNO=AF.ACCTNO AND AF.CUSTID=CF.CUSTID AND MST.DELTD<>'Y'
+			AND A0.CDTYPE='TD' AND A0.CDNAME='TDSRC' AND MST.TDSRC=A0.CDVAL
+			AND A1.CDTYPE='SY' AND A1.CDNAME='YESNO' AND MST.AUTOPAID=A1.CDVAL
+			AND A2.CDTYPE='SY' AND A2.CDNAME='YESNO' AND MST.BREAKCD=A2.CDVAL
+			AND A4.CDTYPE='TD' AND A4.CDNAME='TERMCD' AND MST.TERMCD=A4.CDVAL
+			AND A5.CDTYPE='TD' AND A5.CDNAME='STATUS' AND MST.STATUS=A5.CDVAL
+			AND A3.CDTYPE='TD' AND A3.CDNAME='SCHDTYPE' AND MST.SCHDTYPE=A3.CDVAL
+			AND MST.STATUS <> 'C'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CUS_INFO_BY_IDCARD_CUSTODYCD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+           SELECT AF.ACCTNO,CF.CUSTODYCD,AF.CUSTID,CF.FULLNAME,CF.IDDATE,CF.IDPLACE, AFT.TYPENAME
+                  FROM AFMAST AF,CFMAST CF,CIMAST CI, AFTYPE AFT
+                  WHERE AF.CUSTID=CF.CUSTID AND AF.STATUS='A'
+                  AND AF.ACCTNO=CI.AFACCTNO 
+                  AND AF.ACTYPE=AFT.ACTYPE
+                  AND CF.CUSTODYCD=:CUSTODYCD
+                  AND CF.IDCODE=:IDCODE
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETCFCHANGELOG</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM CFOLCHGLOG WHERE CUSTODYCD=:CUSTODYCD
+      AND changedate>=TO_DATE(:FROMDATE,'DD/MM/RRRR')
+      AND changedate<=TO_DATE(:TODATE,'DD/MM/RRRR')
+      ORDER BY AUTOID DESC
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHECKUSERRESETPASS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT COUNT(*) NUM FROM USERLOGIN WHERE USERNAME=:USERNAME AND ISRESET='N'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETEXCHANGELIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT '10' MARKETID, 'HOSE' MARKETCODE FROM DUAL
+      UNION ALL
+      SELECT '02' MARKETID, 'HNX' MARKETCODE FROM DUAL
+      UNION ALL 
+      SELECT '04' MARKETID, 'UPCOM' MARKETCODE FROM DUAL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>UPDATE_CFMAST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_OnlineUpdateCustomerInfor
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+  <!--Broker desk-->
+  <TableInfo>
+    <QueryKey>BD_CUSTOMER_INFO_BY_CUSTODY_CODE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+            SELECT FULLNAME, IDCODE, TO_CHAR(IDDATE,'DD/MM/YYYY') IDDATE, PIN, nvl(mobile, phone) MOBILE, TO_CHAR(DATEOFBIRTH,'DD/MM/YYYY') DATEOFBIRTH,
+            CUSTTYPE
+            FROM CFMAST 
+            WHERE CUSTODYCD=:CUSTODYCD
+            AND CAREBY IN (SELECT TLGRP.GRPID FROM TLGRPUSERS TLGRP WHERE TLID like :TLID)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_QUERY_ALL_ALLCODE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT * FROM ALLCODE 
+          WHERE CDTYPE='OD' AND CDNAME='EXECTYPE' 
+          ORDER BY CDTYPE, CDNAME, LSTODR
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_SUB_ACCOUNT_BY_CUSTODY_CODE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT A.ACCTNO CDVAL, A.ACCTNO || '-' || T.TYPENAME CDCONTENT, A.TRADETELEPHONE, ROWNUM LSTODR 
+          FROM AFMAST A, CFMAST C, AFTYPE T 
+          WHERE A.CUSTID = C.CUSTID AND A.ACTYPE = T.ACTYPE AND CUSTODYCD=:CUSTODYCD AND A.STATUS IN ('A','P')
+            AND A.CAREBY IN (SELECT GRPID FROM TLGRPUSERS WHERE TLID LIKE :TLID)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_SUB_ACCOUNT_BY_CUSTODY_CODE_AUTHORIZED</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          htspks_api.sp_get_sub_account
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_SUB_ACCOUNT_BY_CUSTODY_CODE_WITHOUT_CAREBY</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT A.ACCTNO CDVAL, A.ACCTNO || '-' || T.TYPENAME CDCONTENT, ROWNUM LSTODR 
+          FROM AFMAST A, CFMAST C, AFTYPE T 
+          WHERE A.CUSTID = C.CUSTID AND A.ACTYPE = T.ACTYPE AND CUSTODYCD=:CUSTODYCD AND A.STATUS = 'A'            
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_SIGNATURE_BY_CUSTODY_CODE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT M.CUSTODYCD, S.SIGNATURE, S.VALDATE, S.EXPDATE
+            FROM CFMAST M, CFSIGN S
+           WHERE M.CUSTID = S.CUSTID
+             AND S.VALDATE <= GETCURRDATE
+             AND S.EXPDATE >= GETCURRDATE
+             AND M.CUSTODYCD =:CUSTODYCD
+             AND M.CAREBY IN (SELECT TLGRP.GRPID FROM TLGRPUSERS TLGRP WHERE TLID like :TLID)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_SIGNATURE_BY_CUSTOMER_ID</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT S.CUSTID, S.SIGNATURE, S.VALDATE, S.EXPDATE
+            FROM CFSIGN S
+           WHERE S.VALDATE <= GETCURRDATE
+             AND S.EXPDATE >= GETCURRDATE
+             AND S.CUSTID = :CUSTID                                            
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_AUTHORIZED_CUSTOMER_BY_ACCOUNT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT A.FULLNAME, A.LICENSENO, A.LNIDDATE, NVL(C.PIN,'') TELEPASS,
+                 CASE WHEN SUBSTR(LINKAUTH, 5, 1) = 'Y' THEN 'Y' ELSE 'N' END ALLOWSELL,
+                 CASE WHEN SUBSTR(LINKAUTH, 4, 1) = 'Y' THEN 'Y' ELSE 'N' END ALLOWBUY, A.CUSTID, A.ACCTNO AFACCTNO
+            FROM CFAUTH A, CFMAST C
+           WHERE A.CUSTID = C.CUSTID(+) AND A.ACCTNO = :AFACCTNO AND (SUBSTR(LINKAUTH, 5, 1) = 'Y' OR SUBSTR(LINKAUTH, 4, 1) = 'Y')
+           ORDER BY A.CUSTID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_ISSUER_RETRICT_CUSTOMER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT SYMBOL, CF.FULLNAME
+            FROM SBSECURITIES SE, ISSUER_MEMBER IM, CFMAST CF
+           WHERE SE.ISSUERID = IM.ISSUERID
+             AND CF.CUSTID = IM.CUSTID
+             AND CF.CUSTODYCD = :CUSTODYCD
+             AND SE.SYMBOL = :SYMBOL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_ORDERS_BY_USER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          htspks_api.sp_refesh_orders_by_user               
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SP_GET_ORDERS_BY_USER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          htspks_api.sp_get_orders_by_user
+      ]]>
+    </QueryValue>
+  </TableInfo>
+    <TableInfo>
+    <QueryKey>USER_AUTHENTICATE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT TLID, TLNAME, TLFULLNAME, BRID, TOKENID, CURRDATE, LOGINTIME, ROLE, CUSTID
+    FROM
+      (SELECT TLID, TLNAME, TLFULLNAME, BRID,
+        '' TOKENID, TO_CHAR(GETCURRDATE, 'DD/MM/RRRR') CURRDATE, 
+        TO_CHAR(SYSDATE, 'DD/MM/RRRR HH24:MI:SS') LOGINTIME,
+        PIN PWD, 'B' ROLE, '' CUSTID
+      FROM TLPROFILES WHERE ACTIVE='Y'
+      UNION ALL
+      SELECT U.USERNAME TLID,
+        C.USERNAME TLNAME,
+        C.FULLNAME TLFULLNAME,
+        '' BRID,
+        U.TOKENID,
+        TO_CHAR(GETCURRDATE, 'DD/MM/RRRR') CURRDATE,
+        TO_CHAR(SYSDATE, 'DD/MM/RRRR HH24:MI:SS') LOGINTIME,
+        U.LOGINPWD PWD,
+        'C' ROLE, C.CUSTID
+      FROM USERLOGIN U,
+        CFMAST C
+      WHERE U.USERNAME = C.USERNAME
+      AND U.STATUS     = 'A'
+      )
+    WHERE TLNAME = :TLNAME
+    AND PWD      = :PASSWORD
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_AUTHORIZED_USER_PLACEORDER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			SELECT DISTINCT A.AUTHTYPE, A.STRAUTH, A.CMDCODE
+			FROM CMDMENU M,
+			CMDAUTH A,
+				(SELECT GRPID, TLID FROM TLGRPUSERS WHERE TLID = :TLID) T
+				WHERE M.CMDID = A.CMDCODE
+				AND A.AUTHID = CASE
+           WHEN A.AUTHTYPE = 'G' THEN
+            T.GRPID
+           ELSE
+            T.TLID
+			END
+			AND A.CMDTYPE = 'M'
+			AND A.CMDALLOW = 'Y'
+			AND M.LEV > 1
+			AND M.CMDID = '111411'
+			ORDER BY M.CMDID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_ORDERS_BY_CAREBY</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         SELECT TXDATE, CUSTODYCD, AFACCTNO, DESC_EXECTYPE, nvl(forefid, ORDERID) ORDERID, SYMBOL,
+                 QUOTEPRICE*1000 QUOTEPRICE, EXECQTTY, 
+     orderqtty*QUOTEPRICE*1000 orderamt,
+     CANCELQTTY, decode(execqtty,0,0,round(execamt/execqtty,0)) execprice, ADJUSTQTTY,
+                 REMAINQTTY, SDTIME LASTCHANGE, CASE WHEN VIA = 'Internet' THEN VIA ELSE TLNAME END TLNAME, 
+                 EXECTYPE, PRICETYPE, ORDERQTTY, DECODE(HOSESESSION, 'O', 'Liên tục', 'A', 'Định kỳ', 'P', 'Định kỳ') HOSESESSION, 
+                 TRADEPLACE, EXECAMT, ISCANCEL, ISADMEND, FOACCTNO, ISDISPOSAL, ORSTATUS, FEEDBACKMSG, ROOTORDERID, ORSTATUSVALUE,LIMITPRICE,QUOTEQTTY,confirmed
+            FROM BUF_OD_ACCOUNT            
+            WHERE TXDATE = GETPREVDATE(GETCURRDATE, :TXDATE)
+              AND CAREBY IN (SELECT GRPID FROM TLGRPUSERS WHERE TLID LIKE :TLID)    
+              AND CUSTODYCD LIKE :CUSTODYCD
+              AND AFACCTNO LIKE :AFACCTNO              
+              AND EXECTYPE LIKE :EXECTYPE
+              AND SYMBOL LIKE :SYMBOL
+              AND ORSTATUSVALUE <> 'P'
+            ORDER BY ORDERID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_PORTFOLIO</QueryKey>
+    <QueryValue>
+      <![CDATA[      
+			SELECT CUSTODYCD, AFACCTNO, SYMBOL, 
+                 TRADE + DFTRADING + RESTRICTQTTY + REMAINQTTY + SECURITIES_SENDING_T0 + SECURITIES_SENDING_T1 + SECURITIES_SENDING_T2 + SECURITIES_SENDING_T3 +
+                  SECURITIES_SENDING_TN + WITHDRAW + BLOCKED + ABSTANDING +SECURITIES_RECEIVING_T0+SECURITIES_RECEIVING_T1+SECURITIES_RECEIVING_T2+SECURITIES_RECEIVING_T3 TOTAL_QTTY, 
+                 TRADE, DFTRADING, RESTRICTQTTY, BLOCKED,
+                 SECURITIES_RECEIVING_T0, SECURITIES_RECEIVING_T1,
+                 SECURITIES_RECEIVING_T2, SECURITIES_RECEIVING_T3,
+                 NVL(B_EXECQTTY_NEW,0) + RECEIVING - SECURITIES_RECEIVING_T0 - SECURITIES_RECEIVING_T1 - SECURITIES_RECEIVING_T2 RECEIVING_RIGHT, REMAINQTTY,
+                 SECURITIES_SENDING_T0 + SECURITIES_SENDING_T1 +
+                  SECURITIES_SENDING_T2 + SECURITIES_SENDING_T3 +
+                  SECURITIES_SENDING_TN SENDING, DEPOSIT + SENDDEPOSIT ALL_DEPOSIT, WITHDRAW, ABSTANDING 
+            FROM BUF_SE_ACCOUNT,
+			(SELECT SEACCTNO, SUM(CASE WHEN O.STSSTATUS <> 'C' THEN DECODE(O.EXECTYPE , 'NB',  O.EXECQTTY ,0 ) ELSE 0 END)  B_EXECQTTY_NEW
+				FROM ODMAST O
+				WHERE DELTD <>'Y' AND O.EXECTYPE IN ('NS','NB','MS')
+				AND O.TXDATE =(SELECT TO_DATE(VARVALUE,'DD/MM/YYYY') FROM SYSVAR WHERE GRNAME='SYSTEM' AND VARNAME='CURRDATE')
+				GROUP BY SEACCTNO
+			) OD
+            WHERE ACCTNO = SEACCTNO (+) AND CUSTODYCD = :CUSTODYCD
+              AND AFACCTNO LIKE :AFACCTNO
+              AND SYMBOL LIKE :SYMBOL
+              AND TRADE + DFTRADING + RESTRICTQTTY + REMAINQTTY + SECURITIES_SENDING_T0 + SECURITIES_SENDING_T1 + SECURITIES_SENDING_T2 + SECURITIES_SENDING_T3 +
+                  SECURITIES_SENDING_TN + WITHDRAW + BLOCKED + ABSTANDING +SECURITIES_RECEIVING_T0+SECURITIES_RECEIVING_T1+SECURITIES_RECEIVING_T2+SECURITIES_RECEIVING_T3 <> 0
+            ORDER BY CUSTODYCD, AFACCTNO, SYMBOL	  
+	  ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_CASH_INVESTMENT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+ 			    SELECT CUSTODYCD, B.AFACCTNO, PP, BALDEFOVD, AVLWITHDRAW, BALANCE, INTBALANCE,
+				       AAMT, EMKAMT, PAIDAMT, CASH_RECEIVING_T1, CASH_RECEIVING_T2,
+				       CASH_RECEIVING_T3,
+				       --RECEIVING - CASH_RECEIVING_T0 - CASH_RECEIVING_T1 - NVL(RETAIL.AMT,0) 
+					   nvl(b.careceiving,0) RECEIVING_RIGHT, BAMT,
+				       CASE WHEN T.TRFBUYEXT > 0 THEN CASH_SENDING_T0 ELSE EXECBUYAMT END NETTING,
+				       CASHT2_SENDING_T0 CASH_SENDING_T0, CASHT2_SENDING_T1 CASH_SENDING_T1, CASHT2_SENDING_T2 CASH_SENDING_T2, 
+				       MRODAMT, T0ODAMT, DFODAMT, AVLADVANCE,
+				       EXECBUYAMT, BALDEFTRFAMT, T.ACTYPE, M.MRCRLIMIT
+			      FROM BUF_CI_ACCOUNT B, AFMAST M, AFTYPE T--,
+				  --(SELECT SUM(amt) careceiving, afacctno  FROM caschd WHERE  status IN ('I','S','H') AND ISEXEC ='Y' AND deltd <> 'Y'   --T2_HoangND
+                --GROUP BY afacctno) ca
+			     WHERE B.AFACCTNO = M.ACCTNO
+				   --AND B.AFACCTNO = CA.AFACCTNO(+)
+			       AND M.ACTYPE = T.ACTYPE
+				    AND CUSTODYCD = :CUSTODYCD
+                  AND b.AFACCTNO LIKE :AFACCTNO
+                  AND ACCOUNTTYPE LIKE :ACCOUNTTYPE
+                ORDER BY CUSTODYCD, B.AFACCTNO
+
+ 
+     ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_CUSTOMER_POSITION</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT ITEM, MST.ACCTNO AFACCTNO, TYPENAME ACNAME, VAL,
+            AMT, COSTPRICE, COSTPRICEAMT,
+            PROFITANDLOSS PL, PCPL
+          FROM (
+              SELECT CUSTODYCD, AF.ACCTNO,
+                      TO_CHAR('Tiền mặt') ITEM,
+                      0 VAL, TYP.TYPENAME, 0 COSTPRICE,0 COSTPRICEAMT,
+                      GREATEST(DTL.BALANCE - NVL(DTL.Bamt, 0) -
+                                NVL(DTL.AVLADVANCE, 0),
+                                0) AMT, 0 PROFITANDLOSS, 0 BASICPRICE, 0 PCPL
+                FROM BUF_CI_ACCOUNT DTL, AFMAST AF, AFTYPE TYP--, V_GETBUYORDERINFO V, CFMAST CF
+              WHERE DTL.AFACCTNO = AF.ACCTNO
+                AND DTL.CUSTODYCD =:CUSTODYCD
+                AND AF.ACCTNO LIKE :AFACCTNO
+                AND TYP.ACTYPE = AF.ACTYPE
+              UNION ALL
+              SELECT CUSTODYCD, AF.ACCTNO, TO_CHAR('Dư nợ') ITEM,
+                    0 VAL, TYP.TYPENAME, 0 COSTPRICE,0 COSTPRICEAMT,
+                    - (LS.DEBT) AMT,
+                    0 PROFITANDLOSS, 0 BASICPRICE, 0 PCPL
+                FROM LNMAST LN, AFMAST AF, AFTYPE TYP, (SELECT LN.TRFACCTNO,
+                              SUM(LS.NML + LS.INTNMLACR + LS.FEE + LS.INTDUE +
+                                  LS.FEEDUE + LS.OVD + LS.INTOVD + LS.INTOVDPRIN +
+                                  LS.FEEOVD) DEBT
+                        FROM LNSCHD LS, LNMAST LN
+                        WHERE LN.ACCTNO = LS.ACCTNO
+                        GROUP BY LN.TRFACCTNO) LS, CFMAST CF
+              WHERE LS.TRFACCTNO = AF.ACCTNO
+                AND CF.CUSTID = AF.CUSTID
+                AND CF.CUSTID =:CUSTODYCD
+                AND AF.ACCTNO LIKE :AFACCTNO
+                AND TYP.ACTYPE = AF.ACTYPE
+              UNION ALL
+              SELECT CUSTODYCD, AF.ACCTNO, TO_CHAR(SB.SYMBOL) ITEM,
+                    SDTL.TRADE + SDTL.DFTRADING + SDTL.RESTRICTQTTY + SDTL.ABSTANDING + SDTL.BLOCKED VAL,
+                    TYP.TYPENAME, SDTL.COSTPRICE,
+                    SDTL.COSTPRICE * (SDTL.TRADE + SDTL.DFTRADING + SDTL.RESTRICTQTTY + SDTL.ABSTANDING + SDTL.BLOCKED) COSTPRICEAMT,
+                    (SEC.BASICPRICE *
+                      (SDTL.TRADE + SDTL.DFTRADING + SDTL.RESTRICTQTTY + SDTL.ABSTANDING + SDTL.BLOCKED)) AMT,
+                    (( SEC.BASICPRICE- SDTL.COSTPRICE) *
+                      (SDTL.TRADE + SDTL.DFTRADING + SDTL.RESTRICTQTTY + SDTL.ABSTANDING + SDTL.BLOCKED)) PROFITANDLOSS, SEC.BASICPRICE,
+					  ROUND((SEC.BASICPRICE- SDTL.COSTPRICE)*100/(SDTL.COSTPRICE+0.00001),2) PCPL
+                FROM BUF_SE_ACCOUNT SDTL, AFMAST AF, AFTYPE TYP, SBSECURITIES SB,
+                    SECURITIES_INFO SEC
+              WHERE SDTL.AFACCTNO = AF.ACCTNO
+                AND SDTL.CUSTODYCD =:CUSTODYCD
+                AND AF.ACCTNO LIKE :AFACCTNO
+                AND TYP.ACTYPE = AF.ACTYPE
+                AND SB.CODEID = SDTL.CODEID
+                AND SDTL.CODEID = SEC.CODEID
+              ) MST
+          WHERE AMT + VAL + PROFITANDLOSS <> 0
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_MATCHED_ORDER_DETAIL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT TXTIME, SYMBOL, MATCHPRICE, MATCHQTTY FROM VW_IOD_ALL WHERE ORGORDERID =:ORDERID ORDER BY TXTIME
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_MATCHED_ORDER_SUMMARY_BY_SYMBOL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT SYMBOL, SUM(ORDERQTTY - ADJUSTQTTY) SODERQTTY, SUM(EXECQTTY) SEXECQTTY,
+                 SUM(CASE WHEN EXECTYPE = 'NB' THEN EXECAMT ELSE 0 END) TOTALBUY,
+                 SUM(CASE WHEN EXECTYPE IN ('NS','MS') THEN EXECAMT ELSE 0 END) TOTALSELL, EXECTYPE
+          FROM BUF_OD_ACCOUNT
+          WHERE AFACCTNO=:AFACCTNO AND SYMBOL=:SYMBOL AND TXDATE = GETPREVDATE(GETCURRDATE, :DAY)
+          GROUP BY SYMBOL, EXECTYPE
+          ORDER BY SYMBOL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_PARAMETER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT VARVALUE
+          FROM SYSVAR
+          WHERE GRNAME = 'BROKERDESK' AND VARNAME = :PARAMETER
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_ALL_PARAMETER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT VARNAME, VARVALUE
+          FROM SYSVAR
+          WHERE GRNAME = 'BROKERDESK'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_OUT_STANDING_MASTER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT TY.TYPENAME, CF.CUSTODYCD, AF.ACCTNO AFACCTNO, LN.ACCTNO LNACCTNO,
+                 SCHD.RLSDATE,
+                 SCHD.NML + SCHD.OVD PRINCIPAL,
+                 SCHD.NML + SCHD.OVD + SCHD.PAID RLSAMT, 
+                 SCHD.PAID PRINPAID,
+                 SCHD.INTPAID + SCHD.FEEINTPAID + SCHD.FEEINTPREPAID INTPAID, 0 DFRATE, DAYS,
+                 SCHD.INTNMLACR  + SCHD.INTOVD + SCHD.INTDUE + SCHD.FEEINTNMLACR + SCHD.FEEINTDUE + SCHD.FEEINTNMLOVD INTNML,
+                 SCHD.INTOVDPRIN + SCHD.FEEINTOVDACR INTOVD,
+                 SCHD.OVERDUEDATE, NVL(V_DEAL.IRATE, 0) IRATE,
+                 NVL(V_DEAL.RTTDF, 0) RTTDF, NVL(V_DEAL.ODCALLRTTDF, 0) ODCALLRTTDF, SCHD.REFTYPE
+            FROM CFMAST CF, AFMAST AF, LNMAST LN, LNTYPE TY,
+                 (SELECT LNSCHD.*,
+                          DATEDIFF('D', RLSDATE, GETCURRDATE) DAYS
+                     FROM LNSCHD
+                    WHERE REFTYPE IN ('GP', 'P')
+                      AND DUENO = 0) SCHD, V_GETGRPDEALFORMULAR V_DEAL
+           WHERE AF.CUSTID = CF.CUSTID
+             AND AF.ACCTNO = LN.TRFACCTNO
+             AND LN.ACTYPE = TY.ACTYPE
+             AND SCHD.ACCTNO = LN.ACCTNO
+             AND LN.ACCTNO = V_DEAL.LNACCTNO(+)
+             AND CF.CUSTODYCD = :CUSTODYCD
+             AND AF.ACCTNO LIKE :AFACCTNO
+             AND SCHD.NML + SCHD.OVD + SCHD.INTNMLACR + SCHD.INTOVDPRIN + SCHD.INTDUE + SCHD.FEEINTNMLACR + SCHD.FEEINTDUE + SCHD.FEEINTOVDACR + SCHD.INTOVD + SCHD.FEEINTNMLOVD > 0
+           ORDER BY LN.ACCTNO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_OUT_STANDING_DETAIL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT ACCTNO DEALID, CUSTODYCD, AFACCTNO, SYMBOL, DFQTTY, DFTRADING, LNACCTNO, CACASHQTTY, CARCVQTTY, BLOCKQTTY, RCVQTTY, DFPRICE
+            FROM V_GETDEALINFO 
+           WHERE (DFTRADING + DFQTTY + BQTTY + CARCVQTTY + BLOCKQTTY + RCVQTTY > 0 OR CACASHQTTY > 0)
+             AND CUSTODYCD = :CUSTODYCD
+             AND AFACCTNO LIKE :AFACCTNO
+           ORDER BY LNACCTNO   
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_ACCOUNT_INFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT CI.CUSTODYCD, NVL(SUM(CI.PP),0) PP, SUM(CI.BALANCE) BALANCE, SUM(CI.AAMT) AAMT,
+                 NVL(SUM(CI.ODAMT + CI.DFODAMT),0) OUTSTANDING, SUM(AVLADVANCE) AVLADVANCE, MAX(CI.AUTOADV) AUTOADV, SUM(CI.ADVANCELINE) ADVANCELINE,
+                 MAX(CI.ACCOUNTTYPE) ACCOUNTTYPE, NVL(SUM(EXECBUYAMT),0) TOTALORDERAMOUNT
+            FROM BUF_CI_ACCOUNT CI 
+           WHERE CI.CUSTODYCD = :CUSTODYCD
+             AND CI.AFACCTNO LIKE :AFACCTNO
+             AND CI.CAREBY IN (SELECT GRPID FROM TLGRPUSERS WHERE TLID LIKE :TLID)
+           GROUP BY CI.CUSTODYCD
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+  <TableInfo>
+    <QueryKey>BD_GET_SECURITIES_INFO</QueryKey>
+    <QueryValue>
+      <![CDATA[         
+          SELECT SYMBOL, SUM(TRADE) TRADE, SUM(DFTRADING) MORTAGE
+            FROM BUF_SE_ACCOUNT
+           WHERE CUSTODYCD = :CUSTODYCD
+             AND AFACCTNO LIKE :AFACCTNO
+             AND SYMBOL = :SYMBOL
+           GROUP BY SYMBOL            
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+  <TableInfo>
+    <QueryKey>BD_GET_MATCHED_ORDER_SUMMARY_BY_ACCOUNT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT SYMBOL, SUM(ORDERQTTY - ADJUSTQTTY) SODERQTTY, SUM(EXECQTTY) SEXECQTTY,
+                 SUM(CASE WHEN EXECTYPE = 'NB' THEN EXECAMT ELSE 0 END) TOTALBUY,
+                 SUM(CASE WHEN EXECTYPE IN ('NS','MS') THEN EXECAMT ELSE 0 END) TOTALSELL
+          FROM BUF_OD_ACCOUNT
+          WHERE AFACCTNO=:AFACCTNO AND TXDATE = GETPREVDATE(GETCURRDATE, :DAY)
+          GROUP BY SYMBOL, EXECTYPE
+          ORDER BY SYMBOL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_MATCHED_ORDER_SUMMARY_BY_CUSTODY_CODE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT SYMBOL, SUM(ORDERQTTY - ADJUSTQTTY) SODERQTTY, SUM(EXECQTTY) SEXECQTTY,
+                 SUM(CASE WHEN EXECTYPE = 'NB' THEN EXECAMT ELSE 0 END) TOTALBUY,
+                 SUM(CASE WHEN EXECTYPE IN ('NS','MS') THEN EXECAMT ELSE 0 END) TOTALSELL,
+                 EXECTYPE, AFACCTNO
+          FROM BUF_OD_ACCOUNT
+          WHERE CUSTODYCD=:CUSTODYCD AND TXDATE = GETPREVDATE(GETCURRDATE, :DAY)
+          GROUP BY AFACCTNO, SYMBOL, EXECTYPE
+          ORDER BY AFACCTNO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_ALL_SYMBOL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT A.*, ROWNUM LSTODR
+            FROM (SELECT I.SYMBOL CDVAL, I.SYMBOL CDCONTENT, I.TRADELOT, I.TRADEUNIT
+                     FROM SECURITIES_INFO I, SBSECURITIES S
+                    WHERE I.CODEID = S.CODEID
+                      AND S.SECTYPE IN ('001', '003', '008')
+                      AND S.TRADEPLACE NOT IN ('006')
+                    ORDER BY S.SYMBOL) A
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_STOCK_LIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			SELECT S.SYMBOL, U.FULLNAME, U.ORA_ROWSCN
+			 FROM SBSECURITIES S, ISSUERS U
+			WHERE S.ISSUERID = U.ISSUERID
+			  AND S.SECTYPE IN ('001', '003', '008')
+			  AND S.TRADEPLACE NOT IN ('006')
+			  AND U.ORA_ROWSCN > :ORA_ROWSCN
+			ORDER BY U.ORA_ROWSCN
+      ]]>
+    </QueryValue>
+  </TableInfo>  
+    <TableInfo>
+    <QueryKey>GET_MARKET_INFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			SELECT DISTINCT S.SYMBOL, S.STATUS, S.CEILINGPRICE, S.FLOORPRICE, S.BASICPRICE, S.AVGPRICE, 
+				   DECODE(SE.TRADEPLACE, '001', '10', '002', '02', '005', '04', '000') FLOORCODE
+			FROM SECURITIES_INFO S, SBSECURITIES SE
+			WHERE S.SYMBOL = SE.SYMBOL
+			    AND SE.SECTYPE IN ('001', '003', '008')
+				AND SE.TRADEPLACE NOT IN ('006')
+      ]]>
+    </QueryValue>
+  </TableInfo>  
+  <TableInfo>
+    <QueryKey>GET_ALL_SYMBOL_TICKSIZE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT TS.SYMBOL, TS.TICKSIZE, TS.FROMPRICE, TS.TOPRICE
+            FROM SECURITIES_TICKSIZE TS, SBSECURITIES SE
+           WHERE TS.CODEID = SE.CODEID
+             AND SE.SECTYPE IN ('001', '003', '008')
+             AND SE.TRADEPLACE NOT IN ('006')
+          ORDER BY SYMBOL, FROMPRICE
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_DEFICIT_AMOUNT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          fopks_api.pr_GetSecureRatio
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SP_GET_PPSE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          pr_getppse
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_ALLOCATE_GUARANTEE_T0</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          fopks_api.pr_Allocate_Guarantee_BD
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_ALLOCATE_GUARANTEE_FOR_ACCOUNT_AT_OTHER_COMPANY</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          fopks_api.pr_AllocateAVDL3rdAccount
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_ALLOCATE_STOCK_FOR_ACCOUNT_AT_OTHER_COMPANY</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          fopks_api.pr_AllocateStock3rdAccount
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_BANK_INFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT BANKACCTNO, BANKNAME FROM AFMAST WHERE ACCTNO = :AFACCTNO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_PP_SE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          pr_getppse
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SP_OD0086</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          od0086
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SP_OD0087</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          od0087
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SP_OD9001</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          od9001
+      ]]>
+    </QueryValue>
+  </TableInfo>  
+  <TableInfo>
+    <QueryKey>BD_SP_OD9002</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          od9002
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SP_OD9003</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          od9003
+      ]]>
+    </QueryValue>
+  </TableInfo>
+<TableInfo>
+    <QueryKey>BD_SP_OD0040</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          OD0040
+      ]]>
+    </QueryValue>
+  </TableInfo>  
+  <TableInfo>
+    <QueryKey>BD_SP_OD0019</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          OD0019
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SP_CF1002</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          CF1002
+      ]]>
+    </QueryValue>
+  </TableInfo>  
+  <TableInfo>
+    <QueryKey>BD_SP_CF1000</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          CF1000
+      ]]>
+    </QueryValue>
+  </TableInfo>    
+  <TableInfo>
+    <QueryKey>BD_SP_RE0087_1</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          RE0087_1
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SP_RE0089</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          RE0089_1
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SP_RE0088_1</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          RE0088_1
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SP_RE0090_1</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          RE0090_1
+      ]]>
+    </QueryValue>
+  </TableInfo>   
+   <TableInfo>
+    <QueryKey>BD_SP_CF1008</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          CF1008
+      ]]>
+    </QueryValue>
+  </TableInfo>  
+  <TableInfo>
+    <QueryKey>BD_SP_GET_RE_GROUP_ID</QueryKey>
+    <QueryValue>
+      <![CDATA[
+		SELECT CDVAL, CDCONTENT, LSTODR
+		FROM
+		  ( 
+		  SELECT DISTINCT TO_CHAR(AUTOID) CDVAL, FULLNAME CDCONTENT, 0 LSTODR FROM REGRP 
+		  UNION ALL
+		  SELECT DISTINCT TO_CHAR(AUTOID) CDVAL, FULLNAME CDCONTENT, 0 LSTODR FROM REGRPHIST
+		  )
+		ORDER BY CDVAL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_AUTHORIZED_900X_REPORT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+		SELECT CUSTID CDVAL, FULLNAME CDCONTENT, 1 LSTODR
+		  FROM CFAUTH
+		 WHERE ACCTNO = :AFACCTNO
+		UNION ALL
+		SELECT '000' CDVAL, 'Không chọn' CDCONTENT, 0 LSTODR
+		  FROM DUAL
+		 ORDER BY CDVAL
+      ]]>
+    </QueryValue>
+  </TableInfo>  
+  <TableInfo>
+    <QueryKey>BD_GET_MARKET_STATUS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT 'HOSE' FLOORCODE, SYSVALUE STATUS FROM ORDERSYS WHERE SYSNAME='CONTROLCODE'
+          UNION ALL
+          SELECT 'HNX' FLOORCODE, SYSVALUE STATUS FROM ORDERSYS_HA WHERE SYSNAME='CONTROLCODE'
+          UNION ALL
+          SELECT 'UPCOM' FLOORCODE, SYSVALUE STATUS FROM ORDERSYS_HA WHERE SYSNAME='CONTROLCODE'          
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SEARCH_CUSTOMER_INFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT CUSTODYCD, FULLNAME, DATEOFBIRTH, IDCODE, IDDATE, IDPLACE, ADDRESS
+            FROM CFMAST
+           WHERE FULLNAME LIKE :FULLNAME AND IDCODE LIKE :IDCODE
+             AND NVL(PHONE,'%%') LIKE :PHONE AND DATEOFBIRTH LIKE :DATEOFBIRTH             
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_SECURITIES_PRICE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT SE.SYMBOL, BASICPRICE/1000 BASICPRICE, CEILINGPRICE/1000 CEILINGPRICE, FLOORPRICE/1000 FLOORPRICE, A.CDCONTENT TRADEPLACE 
+            FROM SECURITIES_INFO I , SBSECURITIES SE , ALLCODE A
+           WHERE I.CODEID = SE.CODEID AND A.CDTYPE = 'OD' AND A.CDNAME='TRADEPLACE' AND A.CDVAL = SE.TRADEPLACE
+             AND I.SYMBOL = :SYMBOL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHECKUSERRESETPASS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT COUNT(*) NUM FROM USERLOGIN WHERE USERNAME=:USERNAME AND ISRESET='Y'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETEXCHANGELIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT '10' MARKETID, 'HOSE' MARKETCODE FROM DUAL
+          UNION ALL
+          SELECT '02' MARKETID, 'HNX' MARKETCODE FROM DUAL
+          UNION ALL 
+          SELECT '04' MARKETID, 'UPCOM' MARKETCODE FROM DUAL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETCUSINFOBYCUSTID</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT CUSTODYCD,IDCODE,FULLNAME,IDDATE,IDPLACE FROM CFMAST WHERE CUSTID=:CUSTID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>UPDATE_PRICE_FROM_GATEWAY</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          pr_UpdatePriceFromGw
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_REFRESH_CI_ACCOUNT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+           fopks_api.pr_RefreshCIAccount
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_COUNTRY</QueryKey>
+    <QueryValue>
+      <![CDATA[
+           select CDVAL,CDCONTENT from allcode where CDNAME='COUNTRY' and CDCONTENT !='----' order by CDCONTENT
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_PROVINCE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+           select CDVAL,CDCONTENT from allcode where CDNAME = 'PROVINCE' order by CDCONTENT
+      ]]>
+    </QueryValue>
+  </TableInfo>
+   <TableInfo>
+    <QueryKey>HOSTATUS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+           SELECT VARVALUE FROM SYSVAR WHERE VARNAME='HOSTATUS' AND VARVALUE<>'0'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETRIGHTINFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+           fopks_api.pr_get_rightinfo
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_IDTYPE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          select * from allcode where cdtype = 'CF' and cdname = 'IDTYPE' order by cdval
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_LOAN_INFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+           SELECT V_DEAL.GROUPID,TY.TYPENAME, CF.CUSTODYCD,CF.FULLNAME, AF.ACCTNO AFACCTNO, LN.ACCTNO LNACCTNO,
+                 ROUND( SCHD.INTOVDPRIN + SCHD.FEEINTOVDACR+SCHD.INTNMLACR  + SCHD.INTOVD + SCHD.INTDUE + SCHD.FEEINTNMLACR + SCHD.FEEINTDUE + SCHD.FEEINTNMLOVD+SCHD.NML + SCHD.OVD) TOTALLOAN,
+                 to_char(SCHD.RLSDATE,'dd/mm/yyyy') RLSDATE,
+                 SCHD.NML + SCHD.OVD PRINCIPAL,
+                 SCHD.NML + SCHD.OVD + SCHD.PAID RLSAMT,
+                 SCHD.PAID PRINPAID,
+                 SCHD.INTPAID + SCHD.FEEINTPAID + SCHD.FEEINTPREPAID INTPAID, 0 DFRATE
+                 ,case when ROUND( SCHD.INTOVDPRIN + SCHD.FEEINTOVDACR+SCHD.INTNMLACR  + SCHD.INTOVD + SCHD.INTDUE + SCHD.FEEINTNMLACR + SCHD.FEEINTDUE + SCHD.FEEINTNMLOVD+SCHD.NML + SCHD.OVD) > 0 then   SCHD.DAYS
+                       else DATEDIFF('D', schd.rlsdate, schd.PAIDDATE) end DAYS,
+                 SCHD.INTNMLACR  + SCHD.INTOVD + SCHD.INTDUE + SCHD.FEEINTNMLACR + SCHD.FEEINTDUE + SCHD.FEEINTNMLOVD INTNML,
+                 SCHD.INTOVDPRIN + SCHD.FEEINTOVDACR INTOVD,
+                 to_char(SCHD.OVERDUEDATE, 'dd/mm/yyyy') OVERDUEDATE, NVL(V_DEAL.IRATE, 0) IRATE,
+                 NVL(V_DEAL.RTTDF, 0) RTTDF, NVL(V_DEAL.ODCALLRTTDF, 0) ODCALLRTTDF, SCHD.REFTYPE
+            FROM CFMAST CF, AFMAST AF, LNMAST LN, LNTYPE TY,
+                 (SELECT LNSCHD.*,DATEDIFF('D', RLSDATE, GETCURRDATE) DAYS FROM LNSCHD WHERE REFTYPE IN ('GP', 'P') AND DUENO = 0
+                    union all
+                 select lnschdhist.*, DATEDIFF('D', RLSDATE, GETCURRDATE) DAYS FROM LNSCHDhist WHERE REFTYPE IN ('GP', 'P') AND DUENO = 0
+                 ) SCHD, V_GETGRPDEALFORMULAR V_DEAL
+           WHERE AF.CUSTID = CF.CUSTID
+             AND AF.ACCTNO = LN.TRFACCTNO
+             AND LN.ACTYPE = TY.ACTYPE
+             AND SCHD.ACCTNO = LN.ACCTNO
+             AND LN.ACCTNO = V_DEAL.LNACCTNO(+)
+             AND CF.CUSTODYCD like :CUSTODYCD
+             AND AF.ACCTNO like :AFACCTNO
+             --AND SCHD.NML + SCHD.OVD + SCHD.INTNMLACR + SCHD.INTOVDPRIN + SCHD.INTDUE + SCHD.FEEINTNMLACR + SCHD.FEEINTDUE + SCHD.FEEINTOVDACR + SCHD.INTOVD + SCHD.FEEINTNMLOVD > 0
+             AND SCHD.RLSDATE >= TO_DATE(:F_DATE,'DD/MM/YYYY')
+			 AND SCHD.RLSDATE <= TO_DATE(:T_DATE,'DD/MM/YYYY')
+           ORDER BY LN.ACCTNO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>REGISTERONLINE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+           fopks_api.pr_OnlineRegister
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_NET_ASSET</QueryKey>
+    <QueryValue>
+      <![CDATA[
+           fopks_api.pr_GetNetAsset
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_REPAYMENT_HIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+		SELECT  V.GROUPID, LN.ACCTNO ACCTNO,
+		  CASE WHEN LN.FTYPE ='DF' THEN 'DF' ELSE
+		  (CASE WHEN LS.REFTYPE ='GP' THEN 'BL' ELSE 'CL' END) END  F_TYPE,
+		  TO_CHAR(LS.RLSDATE,'DD/MM/RRRR') RLSDATE, TO_CHAR(LS.OVERDUEDATE,'DD/MM/RRRR') OVERDUEDATE,
+		  LS.NML+LS.OVD+LS.PAID F_GTGN,
+		  LS.PAID - NVL(LNTR.PRIN_MOVE,0) F_GTTL,
+		  LS.NML+LS.OVD  -  NVL(LNTR.PRIN_MOVE,0)  F_DNHT,
+		  LS.INTNMLACR+LS.INTDUE+LS.INTOVD+LS.INTOVDPRIN +
+		  LS.FEEINTNMLACR + LS.FEEINTOVDACR + LS.FEEINTNMLOVD + LS.FEEINTDUE
+		  - NVL(LNTR.PRFEE_MOVE,0) F_LAI_PHI,
+		  CASE WHEN LN.FTYPE ='DF' THEN  TO_CHAR(LN.RATE2) || ' - ' || TO_CHAR(LN.CFRATE2)  ELSE
+		  --BAO LANH
+		  (CASE WHEN LS.REFTYPE ='GP' THEN TO_CHAR(LN.ORATE2) || ' - ' || TO_CHAR(LN.CFRATE2) ELSE
+		  --MARGIN
+		  TO_CHAR(LN.RATE2) || ' - ' || TO_CHAR(LN.CFRATE2) END) END  F_TLLAI, CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD
+		  FROM (SELECT * FROM LNMAST UNION SELECT * FROM LNMASTHIST) LN,
+		  (SELECT * FROM LNSCHD UNION SELECT * FROM LNSCHDHIST) LS,
+		  (SELECT AUTOID,SUM((CASE WHEN NML > 0 THEN 0 ELSE NML END) + OVD) PRIN_MOVE,
+		  SUM(INTNMLACR +INTDUE+INTOVD+INTOVDPRIN +
+		  FEEINTNMLACR+ FEEINTDUE+FEEINTOVD+FEEINTOVDPRIN) PRFEE_MOVE
+		  FROM ( SELECT * FROM LNSCHDLOG UNION ALL SELECT * FROM LNSCHDLOGHIST ) LNSLOG
+		  WHERE NVL(DELTD,'N') <>'Y' AND TXDATE > TO_DATE(:T_DATE,'DD/MM/YYYY')
+		  GROUP BY AUTOID) LNTR,
+		  CFMAST CF, AFMAST AF , V_GETGRPDEALFORMULAR V, V_GETSECMARGINRATIO SEC
+		WHERE LN.ACCTNO = LS.ACCTNO
+		AND LS.REFTYPE IN ('P','GP')
+		AND LS.RLSDATE >= TO_DATE(:F_DATE,'DD/MM/YYYY')
+		AND LS.RLSDATE <= TO_DATE(:T_DATE,'DD/MM/YYYY')
+		AND LN.ACCTNO = V.LNACCTNO (+)
+		AND LS.AUTOID = LNTR.AUTOID(+)
+		AND CF.CUSTID = AF.CUSTID
+		AND LN.TRFACCTNO = AF.ACCTNO
+		AND AF.ACCTNO LIKE :AFACCTNO
+		AND AF.ACCTNO = SEC.AFACCTNO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_SYSTEM_VALUE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+           SELECT * FROM SYSVAR WHERE GRNAME = :GRNAME AND VARNAME = :VARNAME
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_SYSTEM_WATCH_LIST</QueryKey>
+    <QueryValue>
+      <![CDATA[   
+SELECT TRADEPLACE NAME, COLLECTIONTOSTRING(CAST(COLLECT(SYMBOL ORDER BY SYMBOL) AS COLLECTION), ',') SYMBOLS, '0' LISTTYPE, FLOORCODE
+      FROM (SELECT SYMBOL, A.CDCONTENT TRADEPLACE,  decode(se.tradeplace, '001', '10', '002', '02', '005', '04', '00') floorcode  
+               FROM SBSECURITIES SE, ALLCODE A
+              WHERE SE.TRADEPLACE = A.CDVAL
+                AND A.CDNAME = 'TRADEPLACE'
+                AND CDTYPE = 'SE'
+                AND SE.SECTYPE IN ('001', '003', '008')
+                AND SE.TRADEPLACE NOT IN ('006','003')
+                AND SE.HALT = 'N'
+              ORDER BY SE.TRADEPLACE, SE.SYMBOL DESC)
+     GROUP BY TRADEPLACE,FLOORCODE
+    UNION
+    SELECT * FROM WATCHLIST WHERE LISTTYPE = '1' OR NAME IN ('VN30', 'HNX30') AND ORA_ROWSCN > :ORA_ROWSCN
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_ALLCODE_VALUE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+           SELECT CDVAL, CDCONTENT, LSTODR FROM ALLCODE WHERE CDTYPE = :CDTYPE AND CDNAME = :CDNAME AND CDUSER = 'Y'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_TRANSFER_RECORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+		    fopks_api.pr_GetCashTransfer
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_DEPOSIT_RECORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+		     fopks_api.pr_MoneyTransDetail
+      ]]>
+    </QueryValue>
+  </TableInfo>
+ <TableInfo>
+    <QueryKey>GET_DEAL_RECORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+		SELECT OD.TXDATE, A1.CDCONTENT EXECTYPE, OD.AFACCTNO, OD.ORDERID, OD.CODEID, OD.SYMBOL,
+		  IOD.MATCHQTTY, IOD.MATCHPRICE, IOD.MATCHQTTY*IOD.MATCHPRICE MATCHAMT,
+		  ROUND(IOD.MATCHQTTY*IOD.MATCHPRICE*OD.FEERATE) FEEAMT,OD.FEERATE,
+		  CASE WHEN INSTR(OD.EXECTYPE,'S')>0 THEN IOD.MATCHQTTY*IOD.MATCHPRICE*OD.TAXRATE ELSE 0 END SELLTAXAMT,
+		  CASE WHEN INSTR(OD.EXECTYPE,'B')>0 THEN IOD.MATCHQTTY ELSE 0 END RECVQTTY,
+		  CASE WHEN INSTR(OD.EXECTYPE,'S')>0 THEN IOD.MATCHQTTY ELSE 0 END TRANFQTTY,
+		  CASE WHEN INSTR(OD.EXECTYPE,'B')>0 THEN IOD.MATCHQTTY*IOD.MATCHPRICE
+		   + ROUND(IOD.MATCHQTTY*IOD.MATCHPRICE*OD.FEERATE) ELSE 0 END TRANFAMT,
+		  CASE WHEN INSTR(OD.EXECTYPE,'B')>0 THEN IOD.MATCHQTTY*IOD.MATCHPRICE
+		      + ROUND(IOD.MATCHQTTY*IOD.MATCHPRICE*OD.FEERATE)
+		      WHEN INSTR(OD.EXECTYPE,'S')>0 THEN IOD.MATCHQTTY*IOD.MATCHPRICE
+		      - ROUND(IOD.MATCHQTTY*IOD.MATCHPRICE*OD.FEERATE) - IOD.MATCHQTTY*IOD.MATCHPRICE*OD.TAXRATE ELSE 0 END RECVAMT
+		FROM
+		(
+		  SELECT OD.TXDATE, OD.EXECTYPE, OD.AFACCTNO, OD.ORDERID, OD.CODEID, SB.SYMBOL, OD.EXECAMT, OD.EXECQTTY,
+		      CASE WHEN OD.EXECAMT >0 AND OD.FEEACR =0 AND OD.STSSTATUS = 'N' THEN ROUND(ODT.DEFFEERATE/100,5) ELSE ROUND(OD.FEEACR/OD.EXECAMT,5) END FEERATE,
+		      CASE WHEN OD.EXECAMT >0 AND INSTR(OD.EXECTYPE,'S')>0 AND OD.STSSTATUS = 'N'
+		                  THEN ROUND(TO_NUMBER(SYS.VARVALUE)/100,5) ELSE OD.TAXRATE/100 END TAXRATE
+		  FROM VW_ODMAST_ALL OD, SBSECURITIES SB, AFMAST AF, SYSVAR SYS, ODTYPE ODT, CFMAST CF
+		  WHERE OD.CODEID = SB.CODEID AND AF.ACCTNO = OD.AFACCTNO AND AF.CUSTID = CF.CUSTID
+		      AND OD.ORSTATUS IN ('4','5','7','12') AND OD.EXECQTTY>0
+		      AND OD.ACTYPE = ODT.ACTYPE
+		      AND SYS.GRNAME = 'SYSTEM' AND SYS.VARNAME = 'ADVSELLDUTY'
+		      AND CF.CUSTODYCD LIKE :CUSTODYCD
+		      AND AF.ACCTNO LIKE :AFACCTNO
+		      AND SB.SYMBOL LIKE :SYMBOL
+		      AND OD.EXECTYPE LIKE :EXECTYPE
+		      AND OD.TXDATE >= TO_DATE(:F_DATE,'DD/MM/YYYY')
+		      AND OD.TXDATE <= TO_DATE(:T_DATE,'DD/MM/YYYY')
+		) OD, VW_IODS IOD, ALLCODE A1
+		WHERE OD.ORDERID = IOD.ORGORDERID
+		  AND A1.CDTYPE = 'OD' AND A1.CDNAME = 'EXECTYPE' AND A1.CDVAL = OD.EXECTYPE
+		ORDER BY OD.TXDATE DESC, SUBSTR(OD.ORDERID,11,6) DESC,OD.AFACCTNO, OD.EXECTYPE, OD.SYMBOL
+      ]]>
+    </QueryValue>
+  </TableInfo>  
+  <TableInfo>
+    <QueryKey>GET_ADVANCE_RECORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+		SELECT AD.ODDATE, AD.TXDATE, AD.TXDATE EXECDATE, AD.CLEARDT, STS.AMT, AD.AMT+AD.FEEAMT AAMT,
+		      AD.FEEAMT, AD.AMT RECVAMT, AD.CLEARDT-AD.TXDATE ADVDAYS, A1.CDVAL STATUS, A2.CDVAL ADVPLACE, CI.TLLOG_AUTOID
+		  FROM
+		  (
+		    SELECT STS.TXDATE, STS.AFACCTNO, SUM(STS.AMT-STS.FEEACR-STS.TAXSELLAMT) AMT, SUM(AAMT) AAMT, SUM(FAMT) FAMT, STS.CLEARDATE
+		    FROM
+		    (
+		      SELECT STS.TXDATE, STS.AFACCTNO, STS.AMT, STS.AAMT, STS.FAMT, OD.FEEACR, OD.TAXSELLAMT, STS.CLEARDAY, STS.CLEARCD, STS.CLEARDATE
+		      FROM VW_STSCHD_ALL STS,
+		        (
+		            SELECT OD.ORDERID,
+		             CASE WHEN OD.FEEACR >0 THEN OD.FEEACR ELSE OD.EXECAMT*ODT.DEFFEERATE/100 END FEEACR,
+		             CASE WHEN OD.TAXSELLAMT >0 THEN OD.TAXSELLAMT ELSE OD.EXECAMT*TO_NUMBER(SYS.VARVALUE)/100 END TAXSELLAMT
+		             FROM VW_ODMAST_ALL OD, SYSVAR SYS, ODTYPE ODT
+		              WHERE INSTR(OD.EXECTYPE,'S')>0 AND OD.EXECAMT >0
+		                 AND OD.ACTYPE = ODT.ACTYPE
+		                 AND SYS.GRNAME = 'SYSTEM' AND SYS.VARNAME = 'ADVSELLDUTY'
+		        ) OD
+		      WHERE STS.ORGORDERID = OD.ORDERID
+		          AND STS.DUETYPE = 'RM' AND STS.DELTD = 'N'
+		          AND STS.AFACCTNO LIKE :AFACCTNO
+		    ) STS
+		    GROUP BY STS.TXDATE, STS.AFACCTNO, STS.CLEARDAY, STS.CLEARCD, STS.CLEARDATE
+		  ) STS
+		  INNER JOIN AFMAST AF ON STS.AFACCTNO = AF.ACCTNO
+		  INNER JOIN CFMAST CF ON AF.CUSTID = CF.CUSTID AND CF.CUSTODYCD = :CUSTODYCD
+		  INNER JOIN VW_ADSCHD_ALL AD
+		  ON AD.ACCTNO = STS.AFACCTNO AND AD.ODDATE = STS.TXDATE AND AD.CLEARDT = STS.CLEARDATE
+		      AND AD.STATUS||AD.DELTD LIKE :STATUS
+		      AND AD.TXDATE >= TO_DATE(:F_DATE,'DD/MM/YYYY')
+		      AND AD.TXDATE <= TO_DATE(:T_DATE,'DD/MM/YYYY')
+		  INNER JOIN ALLCODE A1 ON A1.CDTYPE = 'AD' AND A1.CDNAME = 'ADSTATUS' AND A1.CDVAL = AD.STATUS||AD.DELTD
+		  INNER JOIN ALLCODE A2 ON A2.CDTYPE = 'SA' AND A2.CDNAME = 'VIA' AND A2.CDVAL = DECODE(SUBSTR(AD.TXNUM,1,2),'68','O','F') AND A2.CDVAL LIKE :VIA
+		  INNER JOIN VW_CITRAN_GEN CI ON AD.TXDATE = CI.TXDATE AND AD.TXNUM = CI.TXNUM AND CI.TXCD = '0012'
+		  ORDER BY AD.ODDATE DESC, CI.TLLOG_AUTOID DESC, substr(AD.TXNUM,5,6) DESC
+      ]]>
+    </QueryValue>
+  </TableInfo> 
+    <TableInfo>
+    <QueryKey>GET_ORDERS_RECORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+		SELECT OD.AFACCTNO, OD.ORDERID, OD.TXDATE, SB.SYMBOL, A1.CDCONTENT TRADEPLACE, A2.CDVAL VIA,
+		  OD.EXECTYPE, OD.ORDERQTTY, (CASE WHEN OD.PRICETYPE IN ('ATO','ATC','MP') THEN OD.PRICETYPE ELSE TO_CHAR(OD.QUOTEPRICE) END) QUOTEPRICE,
+		  OD.EXECQTTY, CASE WHEN OD.EXECQTTY>0 THEN ROUND(OD.EXECAMT/OD.EXECQTTY) ELSE 0 END EXECPRICE, OD.EXECAMT,
+		  A3.CDVAL ORSTATUS,
+		  CASE WHEN OD.EXECAMT >0 AND OD.FEEACR =0 AND OD.STSSTATUS = 'N' THEN OD.EXECAMT*ODT.DEFFEERATE/100
+		      WHEN OD.EXECAMT >0 AND OD.FEEACR >0 THEN OD.FEEACR
+		      ELSE (OD.REMAINQTTY*OD.QUOTEPRICE + OD.EXECAMT)*ODT.DEFFEERATE/100 END FEEACR,
+		  '' CMSFEE, CASE WHEN OD.EXECAMT >0 AND INSTR(OD.EXECTYPE,'S')>0 AND OD.STSSTATUS = 'N'
+		                  THEN ROUND(OD.EXECAMT*TO_NUMBER(SYS.VARVALUE)/100) ELSE ROUND(OD.EXECAMT*OD.TAXRATE/100) END SELLTAXAMT,
+		  round(CASE WHEN OD.EXECAMT >0 AND OD.FEEACR =0 AND OD.STSSTATUS = 'N' THEN ODT.DEFFEERATE
+		      WHEN OD.EXECAMT >0 AND OD.FEEACR >0 THEN OD.FEEACR/OD.EXECAMT*100 ELSE ODT.DEFFEERATE END,4) FEERATE, CF.FULLNAME, CF.CUSTODYCD, OD.ADJUSTQTTY
+		FROM
+		  (SELECT MST.*,
+		     (CASE WHEN MST.REMAINQTTY <> 0 AND MST.EDITSTATUS='C' THEN 'C'
+		        WHEN MST.REMAINQTTY <> 0 AND MST.EDITSTATUS='A' THEN 'A'
+		        WHEN MST.EDITSTATUS IS NULL AND MST.CANCELQTTY <> 0 THEN '5'
+		        WHEN MST.REMAINQTTY = 0 AND MST.CANCELQTTY <> 0 AND MST.EDITSTATUS='C' THEN '3'
+		        when MST.REMAINQTTY = 0 and MST.ADJUSTQTTY>0 AND mst.pricetype = 'MP' then '4'
+		        when MST.REMAINQTTY = 0 and MST.ADJUSTQTTY>0 then '10'
+		        WHEN MST.REMAINQTTY = 0 AND MST.EXECQTTY>0 AND MST.ORSTATUS = '4' THEN '12' ELSE MST.ORSTATUS END) ORSTATUSVALUE
+		    FROM
+		      (SELECT OD1.*,OD2.EDSTATUS EDITSTATUS
+		       from vw_odmast_all OD1,(SELECT * FROM vw_odmast_all WHERE EDSTATUS IN ('C','A')) OD2
+		       WHERE OD1.ORDERID=OD2.REFORDERID(+) AND substr(OD1.EXECTYPE,1,1) <> 'C'
+		       AND substr(OD1.EXECTYPE,1,1) <> 'A' AND od1.edstatus NOT IN ('C','A') --AND OD1.ORSTATUS <>'7'
+		     ) MST
+		  ) OD, SBSECURITIES SB, AFMAST AF, ALLCODE A1, ALLCODE A2, ALLCODE A3, SYSVAR SYS, ODTYPE ODT, CFMAST CF
+		WHERE OD.CODEID=SB.CODEID AND AF.ACCTNO = OD.AFACCTNO AND AF.CUSTID = CF.CUSTID
+		  AND OD.ACTYPE = ODT.ACTYPE
+		  AND A1.CDTYPE = 'SE' AND A1.CDNAME = 'TRADEPLACE' AND A1.CDVAL = SB.TRADEPLACE
+		  AND A2.CDTYPE = 'SA' AND A2.CDNAME = 'VIA' AND A2.CDVAL = OD.VIA
+		  AND A3.CDTYPE = 'OD' AND A3.CDNAME = 'ORSTATUS' AND A3.CDVAL = OD.ORSTATUSVALUE
+		  AND SYS.GRNAME = 'SYSTEM' AND SYS.VARNAME = 'ADVSELLDUTY'
+		  AND CF.CUSTODYCD = :CUSTODYCD
+		  AND AF.ACCTNO LIKE :AFACCTNO
+		  AND SB.SYMBOL LIKE :SYMBOL
+		  AND OD.ORSTATUS LIKE :STATUS
+		  AND OD.EXECTYPE LIKE :EXECTYPE
+		  AND OD.TXDATE >= TO_DATE(:F_DATE,'DD/MM/YYYY')
+		  AND OD.TXDATE <= TO_DATE(:T_DATE,'DD/MM/YYYY')
+		ORDER BY OD.TXDATE DESC, SUBSTR(OD.ORDERID,11,6) DESC
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_RIGHTS_RECORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+		SELECT AF.ACCTNO, CF.custodycd, cF.fullname, CF.CUSTODYCD, CF.FULLNAME,
+			   CF.MOBILE, CF.IDCODE, CAS.BALANCE,
+			   (DECODE(CAM.CATYPE, '001', DEVIDENTRATE, '010',
+					   (case
+						  when devidentvalue = 0 and DEVIDENTRATE <> '0' then
+						   DEVIDENTRATE || '%'
+						  else
+						   to_char(devidentvalue)
+						end), '002', DEVIDENTSHARES, '011', DEVIDENTSHARES, '003',
+					   RIGHTOFFRATE, '014', RIGHTOFFRATE, '004', SPLITRATE, '012',
+					   SPLITRATE, '006', DEVIDENTSHARES, '005', devidentshares, '022',
+					   DEVIDENTSHARES, '021', EXRATE, '023', EXRATE, '007',
+					   INTERESTRATE, '008', EXRATE, '017', EXRATE, '015',
+					   interestrate || '%', '016', interestrate || '%', '020',
+					   devidentshares)) RATE, A0.CDVAL CATYPE,
+			   A1.CDVAL STATUS, CAM.CAMASTID, SE.SYMBOL, CAM.REPORTDATE,
+			   CAS.QTTY SLCKCV, CAS.AMT, CAM.ACTIONDATE, SE.CODEID CODEID,
+			   NVL(SB2.SYMBOL, se.symbol) EXSYMBOL,
+			   NVL(CAM.TOCODEID, CAM.CODEID) TOCODEID, CAM.STATUS CASTATUS,
+			   cas.trade, cam.catype typeca, CASE WHEN CAM.CATYPE = '011' THEN CAS.QTTY ELSE CAS.PQTTY END PQTTY, 
+			   CASE WHEN CAM.CATYPE = '014' THEN CAM.EXPRICE ELSE 0 END EXPRICE,
+			   CASE WHEN CAM.CATYPE = '014' THEN CAS.BALANCE ELSE 0 END REGQTTY, CAS.AAMT
+		  FROM CASCHD CAS, SBSECURITIES SE, CAMAST CAM, AFMAST AF, CFMAST CF,
+			   ALLCODE A0, ALLCODE A1, SBSECURITIES SB2
+		 WHERE CAS.CODEID = SE.CODEID
+		   AND NVL(TOCODEID, CAM.codeid) = SB2.CODEID
+		   AND CAM.CAMASTID = CAS.CAMASTID
+		   AND CAS.AFACCTNO = AF.ACCTNO
+		   AND AF.CUSTID = CF.CUSTID
+		   AND A0.CDTYPE = 'CA'
+		   AND A0.CDNAME = 'CATYPE'
+		   AND A0.CDVAL = CAM.CATYPE
+		   AND A1.CDTYPE = 'CA'
+		   AND A1.CDNAME = 'CASTATUS'
+		   AND A1.CDVAL = CAS.STATUS
+		   AND CAM.CATYPE NOT IN ('002', '019')
+		   AND cf.custodycd = :CUSTODYCD
+		   AND CAS.AFACCTNO LIKE :AFACCTNO
+		   AND SE.SYMBOL LIKE :SYMBOL
+		   AND INSTR(DECODE(:STATUS, 'Y', 'C,G,H,J', 'N', 'I,P,N,A,S,D,R,M,E,V,B,W,O', '%%', 'C,G,H,J,I,P,N,A,S,D,R,M,E,V,B,W,O'), CAM.STATUS) > 0
+		   and CAM.REPORTDATE >= TO_DATE(:F_DATE, 'DD/MM/YYYY')
+		   AND CAM.REPORTDATE <= TO_DATE(:T_DATE, 'DD/MM/YYYY')
+		   and cas.deltd <> 'Y'
+		   and cam.deltd <> 'Y'
+		 ORDER BY CAM.REPORTDATE, SE.SYMBOL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_OPEN_PORTFOLIOS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+            SELECT CF.CUSTODYCD, AF.ACCTNO AFACCTNO, SE.ACCTNO SEACCTNO, SE.CODEID, SB.SYMBOL,
+                NVL(SE.TRADE,0) + NVL(SE.MORTAGE,0) + NVL(SE.BLOCKED,0) /*+ NVL(SE.NETTING,0)*/ SEQTTY, SE.COSTPRICE, SB.BASICPRICE,
+                (NVL(SE.TRADE,0) + NVL(SE.MORTAGE,0) + NVL(SE.BLOCKED,0) /*+ NVL(SE.NETTING,0)*/) * SE.COSTPRICE VAL,
+                (NVL(SE.TRADE,0) + NVL(SE.MORTAGE,0) + NVL(SE.BLOCKED,0) /*+ NVL(SE.NETTING,0)*/) * SB.BASICPRICE CURVAL,
+                (NVL(SE.TRADE,0) + NVL(SE.MORTAGE,0) + NVL(SE.BLOCKED,0) /*+ NVL(SE.NETTING,0)*/) * (SB.BASICPRICE-SE.COSTPRICE) PROFITANDLOSS,
+                CASE WHEN SE.COSTPRICE>0 THEN ROUND((SB.BASICPRICE-SE.COSTPRICE)/SE.COSTPRICE * 100,4) ELSE 0 END PCPROFITANDLOSS,
+                CASE WHEN DATEDIFF('MONTH', SE.OPNDATE,SYSDATE) <=6 AND SBS.REFCODEID IS NULL THEN 'Y' ELSE 'N' END EDITABLE, NVL(CA.QTTY,0) RIGHTQTTY
+            FROM SEMAST SE, AFMAST AF, SECURITIES_INFO SB, SBSECURITIES SBS, CFMAST CF, 
+            	(SELECT SUM(QTTY) QTTY, CODEID, AFACCTNO FROM CASCHD WHERE DELTD = 'N' AND STATUS = 'S' GROUP BY CODEID,AFACCTNO) CA
+            WHERE SE.AFACCTNO = AF.ACCTNO AND CF.CUSTID = AF.CUSTID
+				AND SE.CODEID = SB.CODEID
+                AND SB.CODEID = SBS.CODEID
+				AND SE.AFACCTNO = CA.AFACCTNO(+)
+                AND SE.CODEID = CA.CODEID(+)
+                AND NVL(SE.TRADE,0) + NVL(SE.MORTAGE,0) + NVL(SE.BLOCKED,0) >0 --KHONG LAY RA NEU DA BAN HET CK.
+                AND SBS.SECTYPE NOT IN ('004','009') -- KO LAY LEN CAC CK QUYEN MUA CHO GIAO DICH
+                AND CF.CUSTODYCD = :CUSTODYCD
+                AND AF.ACCTNO LIKE :AFACCTNO                
+            ORDER BY SB.SYMBOL, AF.ACCTNO, SB.SYMBOL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_CLOSED_PORTFOLIOS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+            SELECT STS.SEACCTNO, STS.AFACCTNO, SUM(STS.AMT) AMT, SUM(STS.QTTY) QTTY, STS.CODEID,
+                MAX(STS.SYMBOL) SYMBOL, round(SUM(STS.AMT)/SUM(STS.QTTY),4) SELLPRICE,
+				ROUND(SUM(STS.COSTPRICE * STS.QTTY)/SUM(STS.QTTY),4) COSTPRICE,
+                SUM(STS.AMT) - SUM(STS.COSTPRICE*STS.QTTY) PROFITANDLOSS,
+                CASE WHEN SUM(STS.COSTPRICE*STS.QTTY)/SUM(STS.QTTY) > 0
+                        THEN ROUND(100*(SUM(STS.AMT) - SUM(STS.COSTPRICE*STS.QTTY))/SUM(STS.COSTPRICE*STS.QTTY),4)
+                        ELSE 0 END PCPROFITANDLOSS
+            FROM
+                (
+                    SELECT STS.TXDATE, STS.ACCTNO SEACCTNO, STS.AFACCTNO, STS.AMT AMT, STS.QTTY QTTY, STS.CODEID,
+                        SB.SYMBOL SYMBOL, CASE WHEN STS.txdate = getcurrdate THEN SE.costprice ELSE STS.costprice END costprice
+                    FROM VW_STSCHD_ALL STS, SBSECURITIES SB, AFMAST AF, SEMAST SE, CFMAST CF
+                    WHERE STS.DUETYPE= 'SS' AND SB.CODEID = STS.CODEID
+                        AND AF.ACCTNO = STS.AFACCTNO AND AF.CUSTID = CF.CUSTID
+                        AND STS.acctno = SE.acctno
+                        AND SB.SECTYPE NOT IN ('004','009') -- Ko lay len cac CK quyen mua cho giao dich
+                        AND CF.CUSTODYCD = :CUSTODYCD
+                        AND STS.AFACCTNO LIKE :AFACCTNO
+                        AND SB.SYMBOL LIKE :SYMBOL
+                        --AND STS.TXDATE <= TO_DATE(T_DATE,'DD/MM/YYYY')
+                        --AND STS.TXDATE >= TO_DATE(F_DATE,'DD/MM/YYYY')
+                ) STS
+            GROUP BY STS.SEACCTNO, STS.AFACCTNO, STS.CODEID
+            ORDER BY MAX(STS.SYMBOL), STS.AFACCTNO, STS.SEACCTNO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_ALL_PORTFOLIOS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+		SELECT STS.*
+            FROM
+            (
+                SELECT STS.AFACCTNO, STS.SEACCTNO, STS.SYMBOL, STS.CODEID, STS.SEQTTY,
+                    /*CASE WHEN STS.SEQTTY = 0 THEN NVL(B_STS.B_COSTPRICE,0) ELSE STS.COSTPRICE END COSTPRICE,*/
+                    STS.COSTPRICE, STS.BASICPRICE, STS.VAL, STS.CURVAL,
+                    STS.SEQTTY * (STS.BASICPRICE-STS.COSTPRICE) PROFITANDLOSS,
+                    CASE WHEN STS.COSTPRICE>0 THEN ROUND((STS.BASICPRICE-STS.COSTPRICE)/(STS.COSTPRICE) * 100,4) ELSE 0 END PCPROFITANDLOSS,
+                    NVL(B_STS.AMT,0) BUYAMT, NVL(B_STS.QTTY,0) BUYQTTY,
+                    NVL(S_STS.AMT,0) SELLAMT, NVL(S_STS.QTTY,0) SELLQTTY, NVL(S_STS.SELLPRICE,0) SELLPRICE, NVL(S_STS.PROFITANDLOSS,0) RPROFITANDLOSS,
+                    NVL(S_STS.PCPROFITANDLOSS,0) RPCPROFITANDLOSS
+                FROM
+                    (
+                        SELECT AF.ACCTNO AFACCTNO, SE.ACCTNO SEACCTNO, SE.CODEID, SB.SYMBOL,
+                            NVL(SE.TRADE,0) + NVL(SE.MORTAGE,0) + NVL(SE.BLOCKED,0) /*+ NVL(SE.NETTING,0)*/ SEQTTY, SE.COSTPRICE, SB.BASICPRICE,
+                            (NVL(SE.TRADE,0) + NVL(SE.MORTAGE,0) + NVL(SE.BLOCKED,0) /*+ NVL(SE.NETTING,0)*/) * SE.COSTPRICE VAL,
+                            (NVL(SE.TRADE,0) + NVL(SE.MORTAGE,0) + NVL(SE.BLOCKED,0) /*+ NVL(SE.NETTING,0)*/) * SB.BASICPRICE CURVAL
+                            --(NVL(SE.TRADE,0) + NVL(SE.MORTAGE,0) + NVL(SE.BLOCKED,0) /*+ NVL(SE.NETTING,0)*/) * (SB.BASICPRICE-SE.COSTPRICE) PROFITANDLOSS,
+                            --CASE WHEN SE.COSTPRICE>0 THEN ROUND((SB.BASICPRICE-SE.COSTPRICE)/(SE.COSTPRICE) * 100,4) ELSE 0 END PCPROFITANDLOSS
+                        FROM SEMAST SE, AFMAST AF, SECURITIES_INFO SB, SBSECURITIES SBS, CFMAST CF
+                        WHERE SE.AFACCTNO = AF.ACCTNO AND AF.CUSTID = CF.CUSTID
+                            AND SE.CODEID = SB.CODEID
+                            AND SBS.CODEID = SB.CODEID
+                            AND SBS.SECTYPE NOT IN ('004','009') -- KO LAY LEN CAC CK QUYEN MUA CHO GIAO DICH
+                            AND CF.CUSTODYCD = :CUSTODYCD
+                            AND AF.ACCTNO LIKE :AFACCTNO
+                            --AND SB.SYMBOL LIKE V_SYMBOL
+                    ) STS,
+                    (
+                        SELECT STS.ACCTNO SEACCTNO, STS.AFACCTNO, SUM(STS.AMT) AMT, SUM(STS.QTTY) QTTY, STS.CODEID,
+                            ROUND(SUM(STS.AMT + (CASE WHEN OD.EXECAMT >0 AND OD.FEEACR =0 AND OD.STSSTATUS = 'N' THEN OD.EXECAMT*ODT.DEFFEERATE/100 ELSE OD.FEEACR END))/SUM(STS.QTTY),4) B_COSTPRICE
+                        FROM VW_STSCHD_ALL STS, AFMAST AF, SBSECURITIES SB, VW_ODMAST_ALL OD, ODTYPE ODT, CFMAST CF
+                        WHERE STS.DUETYPE= 'RS' AND STS.CODEID = SB.CODEID
+                            AND AF.ACCTNO = STS.AFACCTNO AND AF.CUSTID = CF.CUSTID
+                            AND STS.ORGORDERID = OD.ORDERID
+                            AND OD.ACTYPE = ODT.ACTYPE
+                            AND CF.CUSTODYCD = :CUSTODYCD
+                            AND STS.AFACCTNO LIKE :AFACCTNO
+                            --AND SB.SYMBOL LIKE V_SYMBOL
+                            --AND STS.TXDATE <= TO_DATE(T_DATE,'DD/MM/YYYY')
+                            --AND STS.TXDATE >= TO_DATE(F_DATE,'DD/MM/YYYY')
+                        GROUP BY STS.ACCTNO, STS.AFACCTNO, STS.CODEID
+                    ) B_STS,
+                    (
+                        SELECT STS.SEACCTNO, STS.AFACCTNO, SUM(STS.AMT) AMT, SUM(STS.QTTY) QTTY, STS.CODEID,
+                            MAX(STS.SYMBOL) SYMBOL, ROUND(SUM(STS.AMT)/SUM(STS.QTTY),4) SELLPRICE,
+                            ROUND(SUM(STS.COSTPRICE * STS.QTTY)/SUM(STS.QTTY),4) COSTPRICE,
+                            SUM(STS.AMT) - SUM(STS.COSTPRICE*STS.QTTY) PROFITANDLOSS,
+                            CASE WHEN SUM(STS.COSTPRICE*STS.QTTY)/SUM(STS.QTTY) > 0
+                                    THEN ROUND(100*(SUM(STS.AMT) - SUM(STS.COSTPRICE*STS.QTTY))/SUM(STS.COSTPRICE*STS.QTTY),4)
+                                    ELSE 0 END PCPROFITANDLOSS
+                        FROM
+                            (
+                                SELECT STS.TXDATE, STS.ACCTNO SEACCTNO, STS.AFACCTNO, STS.AMT AMT, STS.QTTY QTTY, STS.CODEID,
+                                    SB.SYMBOL SYMBOL, CASE WHEN STS.TXDATE = GETCURRDATE THEN SE.COSTPRICE ELSE STS.COSTPRICE END COSTPRICE
+                                FROM VW_STSCHD_ALL STS, SBSECURITIES SB, AFMAST AF, SEMAST SE, CFMAST CF
+                                WHERE STS.DUETYPE= 'SS' AND SB.CODEID = STS.CODEID
+                                    AND AF.ACCTNO = STS.AFACCTNO AND AF.CUSTID = CF.CUSTID
+                                    AND STS.ACCTNO = SE.ACCTNO
+                                    AND SB.SECTYPE NOT IN ('004','009') -- KO LAY LEN CAC CK QUYEN MUA CHO GIAO DICH
+                                    AND CF.CUSTODYCD = :CUSTODYCD
+                                    AND STS.AFACCTNO LIKE :AFACCTNO
+                                    --AND SB.SYMBOL LIKE V_SYMBOL
+                                    --AND STS.TXDATE <= TO_DATE(T_DATE,'DD/MM/YYYY')
+                                    --AND STS.TXDATE >= TO_DATE(F_DATE,'DD/MM/YYYY')
+                            ) STS
+                        GROUP BY STS.SEACCTNO, STS.AFACCTNO, STS.CODEID
+                    ) S_STS
+                WHERE STS.SEACCTNO = B_STS.SEACCTNO(+)
+                    AND STS.SEACCTNO = S_STS.SEACCTNO(+)
+            ) STS
+            WHERE STS.SEQTTY + STS.BUYQTTY + STS.SELLQTTY>0
+            ORDER BY STS.SYMBOL,STS.AFACCTNO, STS.SEACCTNO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_TRADE_DIARY</QueryKey>
+    <QueryValue>
+      <![CDATA[
+		fopks_api.pr_gettradediary
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_BASKETS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			SELECT ROWNUM LSTODR, A.* FROM (SELECT DISTINCT BASKETID AS CDVAL, NVL(DESCRIPTION,BASKETID) CDCONTENT FROM SECBASKET WHERE BASKETID IN ('MS TopUp VB_2016','MS') ORDER BY BASKETID) A
+      ]]>
+    </QueryValue>
+  </TableInfo>   
+  <TableInfo>
+    <QueryKey>GET_BASKET_DETAIL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			SELECT SYMBOL, MRRATIORATE, MRRATIOLOAN, MRPRICERATE, MRPRICELOAN FROM SECBASKET WHERE BASKETID = :BASKETID ORDER BY SYMBOL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_CUSTOMER_FULL_INFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+            SELECT CF.FULLNAME, CF.IDCODE, TO_CHAR(CF.IDDATE,'DD/MM/YYYY') IDDATE, CF.SEX, CF.IDPLACE, CF.ADDRESS, CF.PHONE, CF.MOBILE, CF.EMAIL, AF.AFACCTNOS
+            FROM CFMAST CF, (SELECT COLLECTIONTOSTRING(CAST(COLLECT(ACCTNO) AS COLLECTION)) AFACCTNOS, CUSTID FROM AFMAST GROUP BY CUSTID) AF
+            WHERE CF.CUSTID = AF.CUSTID AND CUSTODYCD=:CUSTODYCD
+      ]]>
+    </QueryValue>
+  </TableInfo>  
+  <TableInfo>
+    <QueryKey>BD_GET_ACCOUNT_INFO_02</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			fopks_api.pr_get_ciacount
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_ACCOUNT_INFO_03</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			fopks_api.pr_GetNetAssetDetail_byCus
+      ]]>
+    </QueryValue>
+  </TableInfo>
+    <TableInfo>
+    <QueryKey>BD_GET_ADD_VND</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			select custodycd,acctno,ADDVND
+            from vw_mr0003
+            where ACCTNO = :AFACCTNO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_MARGINRATE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			SELECT AFACCTNO, MARGINRATE FROM v_getsecmarginratio_ALL WHERE AFACCTNO = :AFACCTNO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_CI_TRANSACTION_DETAIL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			fopks_api.pr_GetCashStatement
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_SE_TRANSACTION_DETAIL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			PR_GETSEDETAIL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_ORDERS_MATCHED</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			PR_GETORDERINFO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_ORDERS_MATCHED_DETAIL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			PR_GETORDERDETAIL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_CUSTOMER_INFO_01</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			SELECT CUSTODYCD,
+			  FULLNAME,
+			  IDCODE,
+			  IDPLACE,
+			  IDDATE,
+			  MOBILE,
+			  ADDRESS
+			FROM CFMAST
+			WHERE CUSTODYCD = :CUSTODYCD
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_CUSTOMER_INFO_02</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			SELECT OT.AFACCTNO
+			  || '-'
+			  || AFTYPE.TYPENAME AFACCTNO,
+			  OT.REG_ACCTNO BANKACC ,
+			  ot.reg_beneficary_name BANKACNAME ,
+			  ot.reg_beneficary_info BANKNAME,
+			  OT.CITYEF ,
+			  OT.CITYBANK,
+			  OT.BANKID BANK_NO
+			FROM VW_STRADE_MT_ACCOUNTS OT,
+			  AFMAST,
+			  AFTYPE
+       --BANK_INFO BI
+			WHERE OT.AFACCTNO = AFMAST.ACCTNO
+			AND AFMAST.ACTYPE = AFTYPE.ACTYPE
+      --and ot.reg_beneficary_info=bi.full_name
+			AND OT.AFACCTNO   = :AFACCTNO
+			AND TYPE          = 1
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_CUSTOMER_INFO_03</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			SELECT B.*,B.AFACCTNO|| '-'|| AFTYPE.TYPENAME TYACCTNO, B.CIACCOUNT||'.'|| AFTYPE.TYPENAME || ' ' ||B.CINAME AS FULLCONTACT, 
+			RECF.CUSTODYCD RECCUSTODYCD FROM CFOTHERACC B, AFTYPE, CFMAST CF, AFMAST AF, CFMAST RECF, AFMAST REAF 
+            WHERE B.AFACCTNO LIKE '%' AND B.TYPE='0' AND CF.CUSTID = AF.CUSTID 
+            AND RECF.CUSTID = REAF.CUSTID AND REAF.ACCTNO = B.CIACCOUNT
+            AND AF.ACCTNO = B.AFACCTNO AND AF.ACTYPE = AFTYPE.ACTYPE AND AF.ACCTNO =:ACCTNO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_CUSTOMER_INFO_04</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			SELECT 'AUT' TYPE, CFAUTH.AUTOID, CFAUTH.ACCTNO, '010' ROLE, CFAUTH.fULLNAME, CFAUTH.LICENSENO, 
+            TO_CHAR(CFAUTH.VALDATE) VALDATE, TO_CHAR(CFAUTH.EXPDATE) EXPDATE, CFAUTH.CUSTID 
+            FROM CFAUTH, CFMAST, AFMAST WHERE CFMAST.CUSTID = AFMAST.CUSTID 
+            AND CFAUTH.ACCTNO = AFMAST.ACCTNO  AND AFMAST.ACCTNO =:ACCTNO 
+UNION ALL  
+           SELECT 'REL' TYPE, AUTOID, CFRELATION.CUSTID ACCTNO, CDCONTENT ROLE, 
+           CFMAST.FULLNAME, CFMAST.IDCODE LICENSENO, ' ' EXDATE, ' ' EXPDATE, RECUSTID CUSTID 
+           FROM CFRELATION , CFMAST, ALLCODE, CFMAST CF2, AFMAST AF
+           WHERE CFMAST.CUSTID = TRIM(CFRELATION.RECUSTID) AND ALLCODE.CDNAME = 'RETYPE' 
+           AND ALLCODE.CDTYPE = 'CF' AND ALLCODE.CDVAL = CFRELATION.RETYPE AND CF2.CUSTID = TRIM(CFRELATION.CUSTID) 
+           AND CF2.CUSTID = TRIM(CFRELATION.CUSTID) AND CF2.CUSTODYCD =:CUSTODYCD AND AF.ACCTNO =:ACCTNO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHANGE_PASS_PIN</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			fopks_api.pr_updatepasspinonline
+      ]]>
+    </QueryValue>
+  </TableInfo>  
+   <TableInfo>
+    <QueryKey>GET_PERSONAL_INFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			SELECT M.IDDATE,
+					M.DATEOFBIRTH,
+					M.FULLNAME,
+					M.SEX,
+					M.IDCODE,
+					M.IDPLACE,
+					M.ADDRESS,
+					M.MOBILE,
+					M.EMAIL,
+					M.PHONE,
+					N.ADDRESS ADDRESS_MSBS,
+					N.PHONE PHONE_PERSONAL,
+					N.EMAIL EMAIL2
+			FROM CFMAST M LEFT JOIN CFCONTACT N ON M.CUSTID=N.CUSTID 
+			WHERE USERNAME=:USERNAME
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHECK_PIN_CODE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			SELECT CUSTODYCD FROM CFMAST WHERE CUSTODYCD=UPPER(:CUSTODYCD) AND PIN=LOWER(:PIN)
+      ]]>
+    </QueryValue>
+  </TableInfo> 
+   <TableInfo>
+    <QueryKey>CHECK_LOGIN_PASSWORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			SELECT * FROM USERLOGIN WHERE USERNAME=UPPER(:SUSERNAME) AND LOGINPWD=LOWER(:SPASSWORD)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+     <TableInfo>
+    <QueryKey>CHECK_SMS_PASSWORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			select cf.custid from userlogin u, cfmast cf
+			where u.username=cf.username
+			and u.status='A'
+			and u.username=:SUSERNAME and u.tradingpwd=:STRADINGPASSWORD
+      ]]>
+    </QueryValue>
+  </TableInfo>
+   <TableInfo>
+    <QueryKey>GET_CHANGE_INFO_HISTORY</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			SELECT * FROM CFOLCHGLOG WHERE CUSTODYCD=:CUSTODYCD
+            AND changedate>=TO_DATE(:FROMDATE,'DD/MM/RRRR')
+            AND changedate<=TO_DATE(:TODATE,'DD/MM/RRRR')
+            ORDER BY AUTOID DESC
+      ]]>
+    </QueryValue>
+  </TableInfo> 
+   <TableInfo>
+    <QueryKey>GET_LOGIN_HISTORY</QueryKey>
+    <QueryValue>
+      <![CDATA[
+           SELECT * FROM LOGINHIST  WHERE USERID=UPPER(:USERID)
+			 AND logintime>=TO_DATE(:FROMDATE,'DD/MM/RRRR')
+             AND logintime<=TO_DATE(:TODATE,'DD/MM/RRRR')
+             ORDER BY LOGINID DESC
+      ]]>
+    </QueryValue>
+  </TableInfo>
+   <TableInfo>
+    <QueryKey>UPDATE_PINCODE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          PR_UPDATEPIN
+      ]]>
+    </QueryValue>
+  </TableInfo>   
+   <TableInfo>
+    <QueryKey>GET_BANK_NAME</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT BANK_NO AS CDVAL, FULL_NAME AS CDCONTENT
+          FROM BANK_INFO
+          ORDER BY FULL_NAME
+      ]]>
+    </QueryValue>	
+  </TableInfo> 
+  <TableInfo>
+    <QueryKey>GET_BANK_BRANCH</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT bank_no||'.'||SB_BRANCH_CODE AS CDVAL, FULL_NAME AS CDCONTENT,ORG_NO
+          FROM BANK_BRANCH_INFO 
+          WHERE BANK_NO=:BANK_NO
+          ORDER BY FULL_NAME
+      ]]>
+    </QueryValue>	
+  </TableInfo>  
+  <TableInfo>
+    <QueryKey>REGISTER_CASH_TRANSFER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         fopks_api.pr_regtranferacc 
+      ]]>
+    </QueryValue>	
+  </TableInfo> 
+  <TableInfo>
+    <QueryKey>GET_BANK_ORGNO_FROM_BANK_BRANCHINFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          select bank_no||'.'||org_no org_no
+          from bank_branch_info
+          WHERE sb_branch_code=substr(:sb_branch_code,5) 
+      ]]>
+    </QueryValue>	
+  </TableInfo>
+ <TableInfo>
+    <QueryKey>EDIT_REGISTER_CASH_TRANSFER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         fopks_api.pr_EditTranferacc
+      ]]>
+    </QueryValue>	
+  </TableInfo>
+ <TableInfo>
+    <QueryKey>DELETE_REGISTER_CASH_TRANSFER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         fopks_api.pr_RemoveTranferacc
+      ]]>
+    </QueryValue>	
+  </TableInfo>   
+ <TableInfo>
+    <QueryKey>GET_CONVERT_BOND_HISTORY</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         fopks_api.pr_GetConvertBondHist
+      ]]>
+    </QueryValue>	
+  </TableInfo> 
+ <TableInfo>
+    <QueryKey>GET_BOND_LIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         fopks_api.pr_GetBonds2SharesList
+      ]]>
+    </QueryValue>	
+  </TableInfo>  
+   <TableInfo>
+    <QueryKey>GET_RIGHTOF_HISTORY</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         fopks_api.pr_GetRightOffInfor
+      ]]>
+    </QueryValue>	
+  </TableInfo>  
+    <TableInfo>
+    <QueryKey>GET_RIGHTOF_LIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         fopks_api.pr_get_rightofflist
+      ]]>
+    </QueryValue>	
+  </TableInfo>   
+  <TableInfo>
+    <QueryKey>GET_BROKERID</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         SELECT CF.FULLNAME,
+		A0.CDCONTENT DESC_STATUS, RF.CUSTID, RF.AFACCTNO, RF.EFFDATE, RF.EXPDATE
+		FROM RECFLNK RF, CFMAST CF, ALLCODE A0
+		WHERE A0.CDTYPE='RE' AND A0.CDNAME='STATUS' AND A0.CDVAL=RF.STATUS AND RF.CUSTID=CF.CUSTID
+		AND RF.CUSTID=CF.CUSTID
+      ]]>
+    </QueryValue>	
+  </TableInfo> 
+  <TableInfo>
+  <QueryKey>GETOTHERUSERINFO</QueryKey> 
+ <QueryValue>
+ <![CDATA[           
+      select af.acctno, cf.fullname, aft.typename ,(af.acctno ||'-'|| aft.typename|| '  '|| cf.fullname) as FULLCONTACT
+          from afmast af, cfmast cf, aftype aft
+           where af.custid=cf.custid
+           and cf.custodycd=:custodycd
+           and AF.ACTYPE= AFT.ACTYPE 
+  ]]> 
+  </QueryValue>
+  </TableInfo>
+   <TableInfo>
+    <QueryKey>UPDATE_TELLER_PASSWORD</QueryKey> 
+ <QueryValue>
+<![CDATA[           
+       pr_change_broker_password
+  ]]> 
+  </QueryValue>
+  </TableInfo>
+<TableInfo>
+    <QueryKey>INTERNAL_TRANSFER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        fopks_api.pr_InternalTransfer
+           
+      ]]>
+    </QueryValue>
+</TableInfo>
+<TableInfo>
+    <QueryKey>EXTERNAL_TRANSFER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        fopks_api.pr_ExternalTransfer
+           
+      ]]>
+    </QueryValue>
+</TableInfo>
+ <TableInfo>
+    <QueryKey>REGISTER_RIGHT_PURCHASE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         fopks_api.pr_RightoffRegiter
+      ]]>
+    </QueryValue>	
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_INFO_ADVANCE_PAYMENT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         fopks_api.pr_GetInfor4AdvancePayment
+      ]]>
+    </QueryValue>	
+  </TableInfo>
+    <TableInfo>
+    <QueryKey>ADVANCE_PAYMENT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         fopks_api.pr_AdvancePayment
+      ]]>
+    </QueryValue>	
+  </TableInfo>
+   <TableInfo>
+  <QueryKey>GETSELLODDORDERLIST</QueryKey> 
+ <QueryValue>
+<![CDATA[         
+		SELECT SYMBOL, QUANTITY, QUOTEPRICE, AMOUNT, FEEAMT, TAXAMT, AMOUNT - FEEAMT - TAXAMT RCVAMT FROM
+          (SELECT SYMBOL, QUANTITY, QUOTEPRICE, QUANTITY * QUOTEPRICE AMOUNT,
+                 FN_CAL_FEE_AMT(QUANTITY * QUOTEPRICE,FEETYPE) FEEAMT, QUANTITY * QUOTEPRICE * (TAXRATE/100) TAXAMT
+            FROM
+                (SELECT c.custodycd, s.codeid, inf.symbol, inf.floorprice quoteprice,
+                      least(nvl(s.trade,0) - nvl(vw.execqtty,0), fn_GetCKLL(c.custodycd, s.codeid)) quantity,'00009' feetype,
+                      CASE WHEN T.VAT ='Y' THEN (select VARVALUE from sysvar where varname = 'ADVSELLDUTY') ELSE '0' END taxrate
+                    FROM SEMAST S, AFMAST A, CFMAST C,AFTYPE T, SECURITIES_INFO INF, sbsecurities sec, v_getsellorderinfo vw
+                        WHERE S.AFACCTNO = A.ACCTNO AND A.CUSTID = C.CUSTID
+                              AND INF.CODEID = S.CODEID
+                              AND INF.CODEID = SEC.CODEID
+                              AND SEC.sectype <> '004'
+                              AND SEC.tradeplace in ('001','002','005')
+                              AND s.acctno = vw.seacctno(+)
+                              AND A.ACTYPE = T.ACTYPE AND A.ACCTNO = :ACCTNO)
+           ) WHERE QUANTITY > 0
+  ]]> 
+  </QueryValue>
+  </TableInfo>
+ <TableInfo>
+  <QueryKey>SELLODDORDER</QueryKey> 
+ <QueryValue>
+ <![CDATA[       fopks_api.pr_Tradelot_Retail
+      
+  ]]> 
+  </QueryValue>
+  </TableInfo>
+ <TableInfo>
+  <QueryKey>CANCELODDORDER</QueryKey> 
+ <QueryValue>
+ <![CDATA[       fopks_api.pr_Cancel_Tradelot_Retail
+      
+  ]]> 
+  </QueryValue>
+  </TableInfo>
+ <TableInfo>
+  <QueryKey>GETCANCELODDORDERLIST</QueryKey> 
+<QueryValue>
+ <![CDATA[        SELECT TXNUM, TXDATE, SYMBOL, QTTY, PRICE, QTTY * PRICE AMT, FEEAMT, TAXAMT, round((QTTY * PRICE) - FEEAMT - TAXAMT) REALAMT FROM 
+        (SELECT  FN_GET_LOCATION(AF.BRID) LOCATION, CF.CUSTODYCD, 
+                C.CODEID, C.SYMBOL, 
+                C.PARVALUE, A.AFACCTNO, B.* , 
+                CF.IDCODE ,A4.CDCONTENT TRADEPLACE,
+                A2.AFACCTNO AFACCTNO2
+        FROM SEMAST A, SERETAIL B, SBSECURITIES C ,AFMAST AF , CFMAST CF ,ALLCODE A4,SEMAST A2
+        WHERE A.ACCTNO = B.ACCTNO AND A.CODEID = C.CODEID 
+              AND B.QTTY > 0 AND B.status ='N' AND AF.ACCTNO =A.AFACCTNO 
+              AND AF.CUSTID =CF.CUSTID
+        AND A4.CDTYPE = 'SE' AND A4.CDNAME = 'TRADEPLACE'  AND A4.CDVAL = C.TRADEPLACE
+        and A2.ACCTNO=B.DESACCTNO AND AF.ACCTNO=:ACCTNO)
+      
+  ]]> 
+  </QueryValue>
+  </TableInfo>
+<TableInfo>
+    <QueryKey>GETSELLODDORDERINFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT AMOUNT,FEEAMT, TAXAMT, AMOUNT - FEEAMT - TAXAMT RCVAMT FROM
+			(SELECT SELLQTTY * QUOTEPRICE AMOUNT, FN_CAL_FEE_AMT(SELLQTTY * QUOTEPRICE,FEETYPE) FEEAMT, SELLQTTY * QUOTEPRICE * (TAXRATE/100) TAXAMT
+			FROM
+				(SELECT C.CUSTODYCD, S.CODEID, INF.SYMBOL, INF.FLOORPRICE QUOTEPRICE,
+					LEAST(MOD(S.TRADE,INF.TRADELOT), FN_GETCKLL(C.CUSTODYCD, S.CODEID)) QUANTITY,'00009' FEETYPE,
+					CASE WHEN T.VAT ='Y' THEN (SELECT VARVALUE FROM SYSVAR WHERE VARNAME = 'ADVSELLDUTY_SET') ELSE '0' END TAXRATE, :QUANTITY SELLQTTY
+				FROM SEMAST S, AFMAST A, CFMAST C,AFTYPE T, SECURITIES_INFO INF
+                WHERE S.AFACCTNO = A.ACCTNO AND A.CUSTID = C.CUSTID
+				AND INF.CODEID = S.CODEID
+                AND A.ACTYPE = T.ACTYPE AND A.ACCTNO = :ACCTNO
+                AND INF.SYMBOL=:SYMBOL)
+   )
+      ]]>
+    </QueryValue>
+</TableInfo>
+  <TableInfo>
+    <QueryKey>REGISTER_CONVERT_BOND</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         fopks_api.pr_Bonds2SharesRegister
+      ]]>
+    </QueryValue>	
+  </TableInfo> 
+ <TableInfo>
+    <QueryKey>GETBANKTRANSFERFEE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      select fopks_api.fn_getExTransferMoneyFee(:AMOUNT, :BANKID) result from dual      
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETINTERNALTRANSFERFEE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      select fopks_api.fn_getInTransferMoneyFee(:FROMACCTNO, :TOACCTNO, :AMOUNT) result from dual
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>AUTHENTICATE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      htspks_api.sp_login
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_ACCOUNT_INFOR</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      htspks_api.sp_get_account_infor
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_PERMISSTION_TYPE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT HTSPKS_API.FN_VALIDATION_TYPE(:P_MODULE, :P_CUSTID , :P_AFACCTNO ) RESULT FROM DUAL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>IS_GRANTED_PERMISSTION</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT HTSPKS_API.FN_IS_MODULE_PERMISSION(:P_MODULE, :P_PERMISSION_INDEX, :P_AFACCTNO) RESULT FROM DUAL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_CURRENT_TIME</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT TO_CHAR(SYSDATE, 'DD/MM/RRRR HH24:MI:SS')RESULT  FROM DUAL
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHECK_CASH_TRANSFER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      FOPKS_API.PR_CHECKCASHTRANSFER
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_TRADELOT_RETAIL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+	fopks_api.pr_get_TradelotRetail
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_REPAYMENT_HISTORY</QueryKey>
+    <QueryValue>
+      <![CDATA[
+	fopks_api.pr_GetRePaymentHist
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_TRANSFER_STOCK</QueryKey>
+    <QueryValue>
+      <![CDATA[
+	SELECT * FROM 
+        (SELECT SYM.SYMBOL, SEMAST.AFACCTNO,
+             LEAST(SEMAST.TRADE,FN_GET_SEMAST_AVL_WITHDRAW(SEMAST.AFACCTNO, SEMAST.CODEID)) TRADE, NVL(SETL.QTTY,0) BLOCKED
+          FROM SBSECURITIES SYM, SEMAST, 
+               (SELECT ACCTNO , SUM(QTTY) QTTY FROM SEMASTDTL WHERE STATUS='N' AND DELTD <>'Y' AND  QTTYTYPE ='002' GROUP BY ACCTNO) SETL
+          WHERE SYM.CODEID = SEMAST.CODEID 
+                AND SEMAST.ACCTNO = SETL.ACCTNO(+)
+                AND SYM.SECTYPE <> '004')
+      WHERE TRADE + BLOCKED > 0 AND AFACCTNO =:ACCTNO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>TRANSFER_STOCK</QueryKey>
+    <QueryValue>
+      <![CDATA[
+	fopks_api.pr_Transfer_SE_account
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_CONFIRMORDER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+	    fopks_api.pr_GetConfirmOrderHistByCust
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CONFIRMORDER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+	cspks_odproc.pr_ConfirmOrder
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_INVESTMENTS_BASIC</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			fopks_api.pr_get_Portfolio
+      ]]>
+    </QueryValue>
+  </TableInfo>
+   <TableInfo>
+    <QueryKey>INSERT_WATCHLIST_BASIC</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			INSERT INTO TRACKLIST(SYMBOL,AFACCTNO) VALUES(:SYMBOL,:AFACCTNO)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_WATCHLIST_SYMBOL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			SELECT * FROM TRACKLIST WHERE AFACCTNO =:AFACCTNO AND DELTD = 'N'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>ADD_LIST_INDICATORS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        pr_add_list_indicators
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>REMOVE_LIST_INDICATORS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        pr_remove_list_indicators
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>COUNT_LIST_INDICATORS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT COUNT(*) NUMSYMBOL FROM TRACKLIST WHERE  AFACCTNO=:AFACCTNO AND SYMBOL=:SYMBOL
+      ]]>
+    </QueryValue>
+  </TableInfo> 
+	<TableInfo>
+    <QueryKey>COUNT_ALERT_RESULT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        select count(1) from alert_result where tradingdate =:tradingdate and ISread='N' and custid=:custid
+      ]]>
+    </QueryValue>
+  </TableInfo>   
+  <TableInfo>
+    <QueryKey>UPDATE_ALERT_RESULT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        pr_read_alert_results
+      ]]>
+    </QueryValue>
+  </TableInfo>
+	<TableInfo>
+		<QueryKey>GET_VMR1810</QueryKey>
+		<QueryValue>
+			<![CDATA[
+SELECT A.*, nvl(T0af.AFT0USED,0)
+AFT0USED,NVL(T0.CUSTT0USED,0) CUSTT0USED,least (A.T0CAL - A.ADVANCELINE ,A.T0LOANLIMIT - nvl(t0.CUSTT0USED,0)) T0REAL
+    ,A.T0LOANLIMIT - NVL(T0.CUSTT0USED,0)-- - NVL(CUSTT0PENDING,0)
+  CUSTT0REMAIN    ,GREATEST(nvl(urlt.t0,0) - nvl(uflt.t0acclimit,0),0)
+urt0limitremain    ,a.t0cal - a.advanceline T0Remain, 0 T0OVRQ , tlp.tlid, tlp.tlfullname
+FROM
+ (
+  SELECT CF.CUSTID, CF.CUSTODYCD, AF.ACCTNO,CF.FULLNAME,cf.t0loanrate, AF.ADVANCELINE, CF.MRLOANLIMIT, CF.T0LOANLIMIT,af.CAREBY, af.actype,
+  CF.CONTRACTCHK    ,nvl((ci.balance - NVL(v_getbuy.secureamt,0)) + NVL(ADV.avladvance,0) + v_getsec.senavamt - (NVL(ln.marginamt,0) +
+  NVL(ln.t0amt,0)),0) navamt    ,nvl(v_getsec.SELIQAMT,0) SELIQAMT, NVL(ln.marginamt,0) + NVL(ln.t0amt,0) totalloan  , nvl(setotal,0) + (ci.balance -
+  NVL(v_getbuy.secureamt,0)) + NVL(ADV.avladvance,0) setotal ,ROUND(least (nvl((ci.balance - NVL(v_getbuy.secureamt,0)) + NVL(ADV.avladvance,0) +
+  v_getsec.senavamt - (NVL(ln.marginamt,0) + NVL(ln.t0amt,0)),0) * cf.t0loanrate /100,
+  nvl(v_getsec.SELIQAMT,0) )) T0CAL    ,GREATEST(0, NVL(NVL(ln.t0amt,0) - NVL(ci.balance +  NVL(v_getbuy.secureamt,0) + NVL(ADV.avladvance,0),0),0))
+  T0DEB    ,NVL(buf.MARGINRATE,0) MARGINRATE, nvl(se.MARGINRATE_T0,0) MARGINRATE_T0,  se.PP , lnt.minterm  period FROM
+  CFMAST CF, CIMAST CI, AFMAST AF, AFTYPE AFT, LNTYPE LNT,
+        (select sum(aamt) aamt,sum(depoamt) avladvance,sum(paidamt) paidamt, sum(advamt) advanceamount,afacctno from v_getAccountAvlAdvance group by afacctno) adv
+        ,( select trfacctno, trunc(sum(prinnml+prinovd+intnmlacr+intdue+intovdacr +intnmlovd+feeintnmlacr+feeintdue+feeintovdacr+feeintnmlovd),0) marginamt,
+trunc(sum(oprinnml+oprinovd+ointnmlacr+ointdue+ointovdacr+ointnmlovd),0) t0amt,
+trunc(sum(prinovd+intovdacr+intnmlovd+feeintovdacr+feeintnmlovd + nvl(ls.dueamt,0) + intdue + feeintdue),0) marginovdamt,
+trunc(sum(oprinovd+ointovdacr+ointnmlovd),0) t0ovdamt   from lnmast ln, lntype lnt,
+(select acctno, sum(nml) dueamt from lnschd, (select * from sysvar where varname = 'CURRDATE' and grname = 'SYSTEM') sy
+ where reftype = 'P' and overduedate = to_date(varvalue,'DD/MM/RRRR') group by acctno) ls
+ where ftype = 'AF' and ln.actype = lnt.actype
+and ln.acctno = ls.acctno(+)
+group by ln.trfacctno
+        ) ln , v_getbuyorderinfo v_getbuy , v_getsecmargininfo_ALL v_getsec ,V_GETSECMARGINRATIO se , buf_ci_account
+buf    WHERE AF.ACCTNO = CI.ACCTNO  AND AF.CUSTID = CF.CUSTID (+)
+        AND AF.ACCTNO = ADV.AFACCTNO (+)
+		AND buf.afacctno=se.afacctno
+        and af.acctno = v_getbuy.afacctno (+)   and af.acctno = v_getsec.afacctno (+)
+        and af.acctno = ln.trfacctno (+)
+        and af.acctno = buf.afacctno(+)
+        and cf.contractchk = 'Y'
+        and af.actype = aft.actype
+        and aft.t0lntype= lnt.actype
+    ) A,(SELECT CUSTID, SUM(ADVANCELINE) TOTALADVLINE FROM AFMAST GROUP BY CUSTID) v_t0
+, (select sum(acclimit) CUSTT0USED, af.CUSTID from useraflimit us, afmast af where af.acctno = us.acctno and
+us.typereceive = 'T0'  group by custid) T0
+, (select sum(acclimit) AFT0USED, acctno from
+useraflimit
+us where us.typereceive = 'T0' group by
+acctno) T0af
+, (select tliduser,allocatelimmit,usedlimmit,acctlimit,t0,t0max from userlimit where tliduser = :TLID) urlt
+,(select tliduser,sum(decode(typereceive,'T0',acclimit, 0)) t0acclimit,sum(decode(typereceive,'MR',acclimit, 0))
+mracclimit  from useraflimit where typeallocate = 'Flex' and tliduser = :TLID
+ group by tliduser
+) uflt, tlprofiles tlp, TLGROUPS GRP
+
+WHERE A.CUSTID = v_t0.custid (+)
+      AND A.custid = t0.custid (+)
+      and a.acctno = T0af.acctno(+)
+      and a.t0loanrate >=0
+      and tlp.tlid = uflt.tliduser(+)
+      and tlp.tlid = urlt.tliduser(+)
+      and tlp.tlid = :TLID
+      AND a.CAREBY = GRP.GRPID AND
+      GRP.GRPTYPE = '2'
+      AND a.CAREBY IN (SELECT TLGRP.GRPID
+      FROM TLGRPUSERS TLGRP
+      WHERE TLID = :TLID)
+      and a.acctno = :AFACCTNO
+      ]]>
+		</QueryValue>
+	</TableInfo>
+  <TableInfo>
+    <QueryKey>GET_VMR1811</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT TLID USERID, TLNAME USERNAME, ACCTNO, CUSTODYCD, FULLNAME, ACCLIMIT, USRLIMIT, T0AMT, T0ACCUSER, ADVT0AMT, ADVT0AMT AS ADVT0AMTMAX, ACCUSERHIST, ADVAMTHIST, ADVAMTHIST AS ADVAMTHISTMAX
+       FROM VW_ACCOUNT_ADVT0 MST
+        where MST.ADVAMTHIST + MST.ADVT0AMT > 0 AND MST.TLID = :TLID
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_MAXT0OVRQ</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        select * from sysvar where grname = 'MARGIN' and varname = 'MAXT0OVRQ'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+<TableInfo>
+		<QueryKey>BD_GET_NETASSET_DETAIL</QueryKey>
+		<QueryValue>
+			<![CDATA[
+        FOPKS_API.pr_GetNetAssetDetail
+      ]]>
+		</QueryValue>
+	</TableInfo>
+<TableInfo>
+		<QueryKey>BD_ALLOCATEGUARANTEE_T0</QueryKey>
+		<QueryValue>
+			<![CDATA[
+        FOPKS_API.pr_AllocateGuaranteeT0
+      ]]>
+		</QueryValue>
+	</TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SP_RE00701</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          RE0070_1
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SP_RE00721</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          RE0072_1
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SP_MR3007</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          MR3007
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_INVERSTMENT_PORTFOLIO</QueryKey>
+    <QueryValue>
+      <![CDATA[           
+       FOPKS_API.pr_GetNetAssetDetail
+      ]]>
+    </QueryValue>
+  </TableInfo>
+    <TableInfo>
+    <QueryKey>BD_SP_MR9000</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          select * from vw_mr9000_msbs mr where  exists (select gu.grpid from tlgrpusers gu where mr.careby = gu.grpid and gu.tlid = :TLID )
+          
+      ]]>
+    </QueryValue>
+  </TableInfo>
+   <TableInfo>
+    <QueryKey>BD_SP_MR0005</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         select mr.* from vw_mr0005 mr where mr.custodycd like :CUSTODYCD and mr.acctno like :AFACCTNO and mr.cdaction like :ACTION and exists (select gu.grpid from tlgrpusers gu where mr.careby = gu.grpid and gu.tlid = :TLID )
+          
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_OT_RIGHT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        htspks_api.sp_get_ot_rights
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_CARE_BY_BY_NAME</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        htspks_api.sp_get_careby_by_name
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>PLACEORDER_C</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          fopks_api.pr_placeorder
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_VSE2207</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          select * from v_SE2207 v 
+          where v.CUSTODYCD like :CUSTODYCD
+                and v.ACCTNO like :AFACCTNO
+                and v.SYMBOL like :SYMBOL
+                and v.refullname like :REFULLNAME
+                and exists (select 1 from reuserlnk 
+                            where refrecflnkid = v.refrecflnkid and tlid like :TLID)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_ALL_LISTED_SYMBOL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+           select * from (
+ SELECT  I.SYMBOL, u.fullname ,i.Listtingdate, a.cdcontent floor, a.cdval floorcode, i.floorprice, i.ceilingprice, i.basicprice
+          FROM SECURITIES_INFO I, SBSECURITIES S, issuers u, allcode a
+          WHERE I.CODEID = S.CODEID and s.issuerid = u.issuerid
+                AND S.SECTYPE IN ('001', '003', '008')
+                AND S.TRADEPLACE NOT IN ('006','003')
+                and a.cdname = 'TRADEPLACE' and a.cdtype = 'OD' and a.cdval = s.tradeplace
+                and a.cdcontent in (:HNX,:HOSE, :UPCOM)
+          ORDER BY I.Listtingdate desc)
+where rownum <=20
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_RIGHT_NEWS_INFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         select a.* from (select se.symbol,ca.* 
+                          from camast ca, securities_info se
+                          where ca.codeid = se.codeid and ca.catype = '014' and se.symbol like :SYMBOL 
+                          order by ca.reportdate desc) a
+         where rownum =1
+         union
+         select a.* from (select se.symbol,ca.* 
+                          from camast ca, securities_info se
+                          where ca.codeid = se.codeid and ca.catype = '021' and se.symbol like :SYMBOL  
+                          order by ca.reportdate desc) a
+         where rownum =1
+         union
+         select a.* from (select se.symbol,ca.* 
+                          from camast ca, securities_info se
+                          where ca.codeid = se.codeid and ca.catype = '011' and se.symbol like :SYMBOL  
+                          order by ca.reportdate desc) a
+         where rownum =1  
+         union
+         select a.* from (select se.symbol,ca.* 
+                          from camast ca, securities_info se
+                          where ca.codeid = se.codeid and ca.catype = '010' and se.symbol like :SYMBOL  
+                          order by ca.reportdate desc) a
+         where rownum =1  
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_ADDITIONAL_STOCKS_INFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        select a.cdcontent floorname,a1.cdcontent catypename, a.cdval floorcode, s.symbol,ca.* from camast ca, SBSECURITIES S , allcode a, allcode a1
+         where ca.reportdate  >= ( select to_date(varvalue,'DD/MM/RRRR')  from sysvar where varname ='CURRDATE') 
+              and ca.catype in ('021', '014','010')
+              and ca.CODEID = S.CODEID
+              AND S.SECTYPE IN ('001', '003', '008')
+              AND S.TRADEPLACE NOT IN ('006','003')
+              and a.cdname = 'TRADEPLACE' 
+              and a.cdtype = 'OD'
+              and a.cdval = s.tradeplace
+              and a1.cdtype = 'CA'
+              and a1.cdname = 'CATYPE'
+              and a1.cdval = ca.catype
+              and s.symbol like :SYMBOL
+       order by ca.reportdate desc 
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>PR_RELEASE_GUARANTEE_T0</QueryKey>
+    <QueryValue>
+      <![CDATA[
+       fopks_api.pr_ReleaseGuaranteeT0
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>PR_GET_TOTAL_INVESTMENT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+       fopks_api.pr_GetTotalInvesment
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_CUSTOMER_CLASS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+       select a.cdcontent from cfmast cf, allcode a
+       where cf.custodycd = :CUSTODYCD and a.cdname = 'CLASS'
+            and cf.class = a.cdval
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SP_CF0040</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          CF0040
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_SEC_INFO_4SELL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          GETSECINFO4SELLEST
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_FN_TOAMT_1810</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          select fn_TOAMT_1810(:pv_acctno,:PV_T0AMTUSED,:PV_PP,:PV_ADVANCELINE) result from dual
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_FN_T0AMTPENDING_1810</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          select fn_t0amtpending_1810(:pv_accontno,:RLIMIT,:PV_T0CAL,:PV_ADVANCELINE,:pv_CUSTAVLLIMIT,:PV_T0AMTUSED,:PV_PP,:PV_T0DEB) result from dual
+      ]]>
+    </QueryValue>
+  </TableInfo>
+ <TableInfo>
+    <QueryKey>FN_GET_USERTOLIMIT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          select FN_GET_USERTOLIMIT(:p_userid,:p_T0AMTPENDING,:p_period) result from dual
+      ]]>
+    </QueryValue>
+  </TableInfo>
+ <TableInfo>
+    <QueryKey>FN_GET_NAME_TLID</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          select fn_getName_TLID(:pv_tlid) result from dual
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>FN_CHECK_MARGIN_RATE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          select fn_checkmarginrate(:p_acctno) result from dual
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>FN_GET_TLGRP</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          select FN_GET_TLGR(:p_userid) result from dual
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>FN_GET_LIST_CUSTOMER_LOAN</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          fopks_api.pr_list_loan_t0
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_LIST_SYMBOL_MARGIN</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT DISTINCT b.SYMBOL 
+          from AFSERISK  a, sbsecurities b, aftype c 
+          where a.codeid=b.codeid
+            and a.actype =c.actype
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>FN_GET_NAV_NO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT fn_get_nav_no(:CUSTODYCD,:AFACCTNO) RESULT FROM dual
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_GROUP_BROKER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT GRP.AUTOID, PRGRP.FULLNAME PRNAME, GRP.FULLNAME,
+            CF.CUSTID, GRP.GRPLEVEL, GRP.MINDREVAMT+GRP.MINIREVAMT MINREVENUE,
+            CASE WHEN TO_DATE(:TODATE,'DD/MM/RRRR') BETWEEN GRP.EFFDATE AND GRP.EXPDATE THEN  A0.CDCONTENT ELSE 'Ðóng' END DESC_STATUS, CF.FULLNAME REFULLNAME,
+            SP_FORMAT_REGRP_MAPCODE(GRP.AUTOID) MAPCODE, SP_FORMAT_REGRP_GRPLEVEL(GRP.AUTOID) MAPLEVEL, TYP.TYPENAME
+          FROM REGRP GRP, ALLCODE A0, CFMAST CF, REGRP PRGRP, RETYPE TYP, RECFLNK RF
+          WHERE GRP.ACTYPE=TYP.ACTYPE AND CF.CUSTID=GRP.CUSTID AND A0.CDTYPE='RE' AND A0.CDNAME='STATUS' AND A0.CDVAL=GRP.STATUS
+            AND GRP.PRGRPID = PRGRP.AUTOID (+) AND GRP.CUSTID=RF.CUSTID 
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_GROUP_BRANCH</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT BRID CDVAL, PRBRID, BRNAME, DCNAME, A1.CDCONTENT STATUS, DESCRIPTION CDCONTENT, ROWNUM LSTODR FROM BRGRP, ALLCODE A1 WHERE A1.CDTYPE = 'SA' AND A1.CDNAME = 'BRSTATUS' AND A1.CDVAL=STATUS   
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SP_MR4001</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          MR4001
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_SP_MR4002</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          MR0016
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>PR_GET_SUMMARY_ACCOUNT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          fopks_api.pr_getaccount
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>PR_GET_CUSTOMER_RIGHT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          fopks_api.pr_getcustomrightofflist
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>AUTHENTICATE_BY_TOKEN</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      htspks_api.sp_loginToken
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHANGE_PASSWORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+			fopks_api.pr_updatepassonline
+      ]]>
+    </QueryValue>
+  </TableInfo>
+</root>

@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'MAXPERIODPENDING';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('MARGIN','MAXPERIODPENDING','3','Số ngày tối đa chờ trước khi xử lý trên hệ thống','Max pending days before liquiding','Y');
+COMMIT;
+/

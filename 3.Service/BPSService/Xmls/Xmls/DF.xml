@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <TableInfo>
+    <QueryKey>GETRIGHTOFFLIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+         fopks_api.pr_get_rightofflist
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETPAYMENTDETAIL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT V.*,CD.CDCONTENT DEALTYPE, SB.TRADELOT,
+        V.PRINNML+V.INTNMLACR+V.INTDUE+V.OPRINNML+V.OINTNMLACR+V.OINTDUE+V.FEE+V.FEEDUE -NVL(STS.NML,0) INDUEAMT,
+        NVL(STS.NML,0) DUEAMT, V.PRINOVD+V.INTOVDACR+V.INTNMLOVD+V.OPRINOVD+V.OINTOVDACR+V.OINTNMLOVD+V.FEEOVD OVERDUEAMT,
+        MST.EXPDATE, (CASE WHEN TYP.NINTCD='000' THEN 1 ELSE 0 END) FLAGINTACR, -- N?U LÀ 000 LÀ CÁCH TÍNH NHU CU
+        0 INTDAY,
+        0 INTOVDDAY,
+        V.INTNMLACR+ V.OINTNMLACR + V.OINTOVDACR + V.INTOVDACR INTACR, GREATEST(V.INTAMTACR+V.FEEAMT,V.FEEMIN-V.RLSFEEAMT) DEALFEEAMT
+        ,sb.CEILINGPRICE,sb.tradeunit, sb.floorprice
+        FROM V_GETDEALINFO V, ALLCODE CD, SECURITIES_INFO SB,
+         (SELECT S.ACCTNO, SUM(NML) NML, M.TRFACCTNO FROM LNSCHD S, LNMAST M
+                WHERE S.OVERDUEDATE = TO_DATE((SELECT VARVALUE FROM SYSVAR WHERE GRNAME ='SYSTEM' AND VARNAME ='CURRDATE'),'DD/MM/RRRR') AND S.NML > 0 AND S.REFTYPE IN ('P')
+                    AND S.ACCTNO = M.ACCTNO AND M.STATUS NOT IN ('P','R','C')
+                GROUP BY S.ACCTNO, M.TRFACCTNO
+                ORDER BY S.ACCTNO) STS, LNMAST MST, LNTYPE TYP, (SELECT TO_DATE(VARVALUE,'DD/MM/RRRR') CURRDATE FROM SYSVAR WHERE VARNAME='CURRDATE') DT
+        WHERE V.STATUS='A' AND V.LNACCTNO = STS.ACCTNO (+) AND V.CODEID=SB.CODEID        
+        AND V.ACCTNO = 'CUSTIDAFMAST'
+        AND MST.ACTYPE=TYP.ACTYPE AND V.LNACCTNO=MST.ACCTNO
+        AND CD.CDNAME='DFTYPE' AND CD.CDTYPE='DF' AND CD.CDVAL=V.DFTYPE
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETDEALDFACCTNO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT   MST.FILTERCD, MST.VALUE, MST.VALUECD, MST.DISPLAY, MST.EN_DISPLAY,
+			  MST.DESCRIPTION 
+        FROM VW_CUSTODYCD_SUBACCOUNT MST, AFTYPE AFT, MRTYPE MR, AFMAST AFM 
+        WHERE MST.FILTERCD = UPPER('DFACCTNO') AND AFM.ACTYPE = AFT.ACTYPE AND AFT.MRTYPE = MR.ACTYPE
+        AND MST.VALUE = AFM.ACCTNO
+        AND MR.MRTYPE NOT IN ('T')
+        ORDER BY MST.VALUE
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETAFACCTNO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT   ACCTNO FROM AFMAST WHERE CUSTID = 'CUSTIDAFMAST'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETSTOCKLIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT   *	 FROM   
+        (SELECT	'' AUTOID, 'N' DTYPE, B.SYMBOL,B.CODEID , A.TRADE - NVL (D.SECUREAMT, 0) + NVL (D.SERECEIVING, 0) QTTY,  cd.cdcontent TYPENAME, 
+          C.BASICPRICE PRICE, NULL TXDATE, NULL CLEARDATE
+			    FROM	SEMAST A, SBSECURITIES B, (SELECT	 CODEID, BASICPRICE, TXDATE FROM SECURITIES_INFO) C, v_getsellorderinfo D, allcode cd
+				  WHERE A.CODEID = B.CODEID AND A.CODEID = C.CODEID(+) AND A.ACCTNO = D.SEACCTNO(+) AND A.AFACCTNO = 'STOCKLISTACCTNO' 
+            AND  A.TRADE+ A.MORTAGE - NVL (D.SECUREMTG, 0)- NVL (D.SECUREAMT, 0) 	+ NVL (D.SERECEIVING, 0) <> 0
+            AND B.SECTYPE <> '004' AND cd.cdtype = 'DF' AND cd.cdname = 'DEALTYPE' AND cd.cdval = 'N'
+				  UNION
+				  SELECT	AUTOID, DTYPE, SYMBOL,C.CODEID, QTTY, TYPENAME, PRICE, v.TXDATE,	v.CLEARDATE 
+          FROM	v_getCreateDeal v, (SELECT	 CODEID, BASICPRICE, TXDATE FROM SECURITIES_INFO) C
+          WHERE	v.codeid = c.codeid AND v.AFACCTNO = 'STOCKLISTACCTNO' and v.status <> 'W')
+          WHERE   qtty > 0 AND DTYPE IN ('N','B','R') 
+          AND symbol IN  (SELECT	symbol FROM	dfbasket bk, dftype dft WHERE	bk.basketid = dft.basketid AND dft.actype LIKE NVL ('', '%')
+          )
+        ORDER BY   SYMBOL,DTYPE
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETDFTYPE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT TYP.ACTYPE, SBC.CCYNAME CCYCD, TYP.TYPENAME, TYP.GLGRP, A0.CDCONTENT STATUS, TYP.GLBANK, TYP.SUBCD, TYP.DESCRIPTION NOTES,
+        TYP.BASKETID, TYP.RRTYPE, TYP.DFTYPE, TYP.LNTYPE, TYP.AUTODRAWNDOWN, TYP.CIACCTNO, TYP.LIMITCHK, TYP.OPTPRICE 
+        FROM DFTYPE TYP, SBCURRENCY SBC, ALLCODE A0 WHERE A0.CDTYPE = 'SY'
+         AND A0.CDNAME = 'YESNO' AND A0.CDVAL=TYP.STATUS AND SBC.CCYCD=TYP.CCYCD 
+         AND TYP.STATUS = 'Y' AND APPRV_STS='A'
+        ORDER BY TYP.ACTYPE
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETLN4PAYMENT_old</QueryKey>
+    <QueryValue>
+      <![CDATA[
+            SELECT   symbol,MAX (dftyp) dftyp,SUM (feeamt) feeamt,SUM (indueamt) indueamt,SUM (overdueamt) overdueamt,SUM (dfqtty) dfqtty,
+               SUM (dftrade) dftrade,TO_CHAR (MAX (dfrlsdate), 'DD/MM/RRRR') rlsdate,TO_CHAR (MAX (dfduedate), 'DD/MM/RRRR') duedate,
+               MAX (dfprice) dfprice,MAX (triggerprice) triggerprice,MAX (description) description,dfacctno
+        FROM   (SELECT   NVL (df.symbol, a2.cdcontent) symbol,cf.custodycd,af.acctno,
+                         a1.cdcontent || '. ' || df.desc_dftype dftyp,NVL ( GREATEST (df.intamtacr + df.feeamt, df.feemin - df.rlsfeeamt), 0) feeamt,ls.nml + ls.intnmlacr + ls.fee + ls.intdue + ls.feedue indueamt,
+                         ls.ovd + ls.intovd + ls.intovdprin + ls.feeovd overdueamt,NVL ( df.dfqtty + df.rcvqtty + df.carcvqtty + df.blockqtty + df.bqtty, 0) dfqtty,NVL (dfqtty - NVL (v.secureamt, 0), 0) dftrade,
+                         CASE WHEN ls.reftype = 'P' THEN ls.rlsdate  ELSE NULL END dfrlsdate,CASE WHEN ls.reftype = 'P' THEN ls.overduedate ELSE NULL END   dfduedate,
+                         df.dfprice,df.triggerprice,df.duedate,df.description, CASE WHEN ln.ftype = 'DF' THEN  NVL (df.acctno, 'aa') ELSE lpad(to_char(ls.autoid),12,'-') end dfacctno
+                  FROM   (SELECT   dfmast.*,lnschd.rlsdate,lnschd.overduedate duedate,sb.symbol,a0.cdcontent desc_dftype FROM   dfmast,sbsecurities sb,allcode a0,lnschd
+                           WHERE sb.codeid = dfmast.codeid AND a0.cdtype = 'DF' AND a0.cdname = 'DFTYPE' AND a0.cdval = dfmast.dftype AND lnschd.acctno = dfmast.lnacctno
+                           AND lnschd.reftype IN ('P', 'GP')) df, lnmast LN,v_getdealsellorderinfo v,allcode a1,allcode a2,afmast af,cfmast cf,aftype,mrtype,lnschd ls
+                          WHERE LN.acctno = df.lnacctno(+) AND df.acctno = v.dfacctno(+) AND af.acctno = LN.trfacctno AND af.custid = cf.custid
+                         AND af.acctno = '$DFACCTNO' AND af.actype = aftype.actype AND aftype.mrtype = mrtype.actype AND LN.acctno = ls.acctno
+                         AND ls.reftype IN ('GP', 'P') AND a2.cdtype = 'SA' AND a2.cdname = 'MARGINTYPE' AND a2.cdval = mrtype.mrtype
+                         AND a1.cdtype = 'LN' AND a1.cdname = 'FTYPE' AND a1.cdval = LN.ftype)
+          GROUP BY   ROLLUP (symbol,dfacctno);
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+  <TableInfo>
+    <QueryKey>GET_DFGROUP_INFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+            FOPKS_API.pr_GetGroupDFInfor
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+  <TableInfo>
+    <QueryKey>GET_DFDETAIL_INFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+              FOPKS_API.pr_GetDetailDFInfor
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+  <TableInfo>
+    <QueryKey>GET_DFGROUP_INFO_HIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+            fopks_api.pr_GetGroupDFInforAll
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+  <TableInfo>
+    <QueryKey>GET_DFDETAIL_INFO_HIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+              FOPKS_API.pr_GetDetailDFInforAll
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+<!--
+FOPKS_API.pr_GetDFPaidHistory
+-->
+  <TableInfo>
+    <QueryKey>GET_DFPAY_INFO_HIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          FOPKS_API.pr_GetDFPaidHistory              
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+  <TableInfo>
+    <QueryKey>GET_DFPAID_DETAIL_INFO_HIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          FOPKS_API.pr_GetDFPaidDetail
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+
+  <TableInfo>
+    <QueryKey>DO_DF_PAYMENT_ONLINE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+              FOPKS_API.pr_PaidDealOnline
+      ]]>
+    </QueryValue>
+  </TableInfo>
+	<TableInfo>
+		<QueryKey>GETERRORDEF_VIVN</QueryKey>
+		<QueryValue>
+			<![CDATA[
+			SELECT ERRNUM ERRORID,'ERR_'||MODCODE||'_'||ERRNUM ERRORCODE,ERRDESC ERRORDESC FROM DEFERROR
+			]]>
+		</QueryValue>
+	</TableInfo>
+	<TableInfo>
+		<QueryKey>GETERRORDEF_EN</QueryKey>
+		<QueryValue>
+			<![CDATA[
+			SELECT ERRNUM ERRORID,'ERR_'||MODCODE||'_'||ERRNUM ERRORCODE,EN_ERRDESC ERRORDESC FROM DEFERROR
+			]]>
+		</QueryValue>
+	</TableInfo>
+</root>

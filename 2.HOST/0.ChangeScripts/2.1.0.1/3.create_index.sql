@@ -1,0 +1,7 @@
+
+
+create index BL_ODMAST_TXDATE_IDX on BL_ODMAST (TXDATE);
+create index BL_ODMASTHIST_TXDATE_IDX on BL_ODMASTHIST (TXDATE);
+
+
+

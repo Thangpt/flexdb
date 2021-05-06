@@ -1,0 +1,272 @@
+CREATE OR REPLACE PROCEDURE od0072 (
+   PV_REFCURSOR             IN OUT   PKG_REPORT.REF_CURSOR,
+   OPT                      IN       VARCHAR2,
+   BRID                     IN       VARCHAR2,
+   F_DATE                   IN       VARCHAR2,
+   T_DATE                   IN       VARCHAR2,
+   PV_CUSTODYCD             IN       VARCHAR2,
+   PV_ACCTNO                IN       VARCHAR2,
+   EXECTYPE                 IN       VARCHAR2,
+   VIA                      IN       VARCHAR2
+ )
+IS
+--
+-- PURPOSE: BAO CAO THONG KE DAT LENH
+-- MODIFICATION HISTORY
+-- PERSON      DATE      COMMENTS
+-- QUOCTA   13-02-2012   CREATED
+-- ---------   ------  -------------------------------------------
+
+   V_STROPTION         VARCHAR2  (5);
+   V_STRBRID           VARCHAR2  (40);
+   V_INBRID            VARCHAR2  (4);
+
+   V_FDATE             DATE;
+   V_TDATE             DATE;
+   V_CRRDATE           DATE;
+
+   V_CUSTODYCD         VARCHAR2(100);
+   V_ACCTNO            VARCHAR2(100);
+   V_EXECTYPE          VARCHAR2(100);
+   V_VIA               VARCHAR2(100);
+
+   V_NUMFEEACR         NUMBER := 0;
+   V_NUMFEEACR_BRO     NUMBER := 0;
+   V_NUMEXECAMT__BRO   NUMBER := 0;
+
+   CUR                 PKG_REPORT.REF_CURSOR;
+
+BEGIN
+
+   V_STROPTION := upper(OPT);
+   V_INBRID := BRID;
+
+   IF (V_STROPTION = 'A') THEN
+      V_STRBRID := '%';
+   ELSE if (V_STROPTION = 'B') then
+            select brgrp.mapid into V_STRBRID from brgrp where brgrp.brid = V_INBRID;
+        else
+            V_STRBRID := BRID;
+        end if;
+   END IF;
+
+-- GET REPORT'S PARAMETERS
+
+   V_FDATE              :=    TO_DATE(F_DATE, SYSTEMNUMS.C_DATE_FORMAT);
+   V_TDATE              :=    TO_DATE(T_DATE, SYSTEMNUMS.C_DATE_FORMAT);
+
+   SELECT TO_DATE(SY.VARVALUE, SYSTEMNUMS.C_DATE_FORMAT) INTO V_CRRDATE
+   FROM SYSVAR SY WHERE SY.VARNAME = 'CURRDATE' AND SY.GRNAME = 'SYSTEM';
+
+   IF (PV_CUSTODYCD <> 'ALL' OR PV_CUSTODYCD <> '' OR PV_CUSTODYCD <> NULL) THEN
+      V_CUSTODYCD   := UPPER(PV_CUSTODYCD);
+   ELSE
+      V_CUSTODYCD   := '%';
+   END IF;
+
+   IF (PV_ACCTNO <> 'ALL' OR PV_ACCTNO <> '' OR PV_ACCTNO <> NULL) THEN
+      V_ACCTNO      := UPPER(PV_ACCTNO);
+   ELSE
+      V_ACCTNO      := '%';
+   END IF;
+
+   IF (EXECTYPE <> 'ALL' OR EXECTYPE <> '' OR EXECTYPE <> NULL) THEN
+      V_EXECTYPE      := EXECTYPE;
+   ELSE
+      V_EXECTYPE      := '%';
+   END IF;
+
+   IF (VIA <> 'ALL' OR VIA <> '' OR VIA <> NULL) THEN
+      V_VIA      := VIA;
+   ELSE
+      V_VIA      := '%';
+   END IF;
+
+--- TINH GT KHOP MG
+OPEN CUR
+FOR
+    SELECT NVL(SUM(IO.MATCHPRICE * IO.MATCHQTTY), 0)
+    FROM
+           (SELECT * FROM  ODMAST OD  WHERE OD.DELTD <>'Y'
+           AND  OD.TXDATE <= TO_DATE (T_DATE , 'DD/MM/YYYY') AND OD.TXDATE >= TO_DATE (F_DATE , 'DD/MM/YYYY')
+           AND  OD.EXECTYPE LIKE  V_EXECTYPE AND  OD.VOUCHER  LIKE '%'
+           AND  OD.PRICETYPE LIKE '%' AND OD.Via LIKE V_VIA
+           --AND (SUBSTR(OD.ORDERID,1,4) LIKE V_STRBRID OR SUBSTR(OD.AFACCTNO,1,4) LIKE V_STRBRID)
+           and instr(V_STRBRID,SUBSTR(OD.AFACCTNO,1,4))>0
+           UNION  ALL
+           SELECT * FROM  ODMASTHIST OD  WHERE OD.DELTD <>'Y'
+           AND  OD.TXDATE <= TO_DATE (T_DATE ,'DD/MM/YYYY') AND OD.TXDATE >= TO_DATE (F_DATE ,'DD/MM/YYYY')
+           AND OD.EXECTYPE LIKE  V_EXECTYPE AND  OD.VOUCHER  LIKE '%'
+           AND  OD.PRICETYPE LIKE '%' AND OD.via LIKE V_VIA
+           --AND(SUBSTR(OD.ORDERID,1,4) LIKE V_STRBRID OR SUBSTR(OD.AFACCTNO,1,4) LIKE V_STRBRID)
+           and (instr(V_STRBRID,SUBSTR(OD.AFACCTNO,1,4))>0  OR SUBSTR(OD.AFACCTNO,1,4) LIKE V_STRBRID)
+           ) OD,
+           (SELECT * FROM IOD where DELTD <> 'Y' AND SUBSTR(custodycd,4,1)  = 'P'
+           UNION ALL SELECT * FROM IODHIST where DELTD <> 'Y' AND SUBSTR(custodycd,4,1)  = 'P'
+           ) IO,
+           (SELECT * FROM SBSECURITIES WHERE SYMBOL LIKE '%' AND TRADEPLACE LIKE '%'
+           ) SB,
+           (
+            SELECT * FROM AFMAST AF, CFMAST CF WHERE AF.CUSTID = CF.CUSTID
+                AND CF.CUSTODYCD LIKE V_CUSTODYCD AND AF.ACCTNO LIKE V_ACCTNO
+                and (af.brid like V_STRBRID or INSTR(V_STRBRID,af.brid) <> 0)
+           ) CFA
+    WHERE  OD.ORDERID = IO.ORGORDERID
+    AND    OD.CODEID  = SB.CODEID
+    AND    OD.AFACCTNO= CFA.ACCTNO
+  ;
+LOOP
+FETCH CUR
+       INTO V_NUMEXECAMT__BRO ;
+       EXIT WHEN CUR%NOTFOUND;
+END LOOP;
+CLOSE CUR;
+
+--- TINH TONG PHI
+OPEN CUR
+FOR
+    SELECT SUM(AMT.FEEACR)
+    FROM (
+         SELECT SUM(OD.FEEACR) FEEACR
+         FROM ODMAST OD, (SELECT * FROM SBSECURITIES WHERE SYMBOL LIKE '%' AND TRADEPLACE LIKE '%') SB,
+              (SELECT * FROM AFMAST AF, CFMAST CF
+              WHERE AF.CUSTID = CF.CUSTID AND CF.CUSTODYCD LIKE V_CUSTODYCD AND AF.ACCTNO LIKE V_ACCTNO
+                and (af.brid like V_STRBRID or INSTR(V_STRBRID,af.brid) <> 0)
+              ) CFA
+         WHERE OD.DELTD <> 'Y'
+         AND   OD.TXDATE <= TO_DATE (T_DATE ,'DD/MM/YYYY') AND OD.TXDATE >= TO_DATE (F_DATE ,'DD/MM/YYYY')
+         AND   OD.EXECTYPE LIKE V_EXECTYPE AND OD.CODEID = SB.CODEID
+         AND   OD.VOUCHER  LIKE '%'  AND OD.PRICETYPE LIKE '%'
+         --AND   (SUBSTR(OD.ORDERID,1,4) LIKE V_STRBRID OR SUBSTR(OD.AFACCTNO,1,4) LIKE V_STRBRID)
+         and (instr(V_STRBRID,SUBSTR(OD.AFACCTNO,1,4))>0 OR SUBSTR(OD.AFACCTNO,1,4) LIKE V_STRBRID)
+         AND   OD.via LIKE V_VIA
+         AND   OD.AFACCTNO = CFA.ACCTNO
+         UNION ALL
+         SELECT SUM(OD.FEEACR) FEEACR
+         FROM ODMASTHIST OD, (SELECT * FROM SBSECURITIES WHERE SYMBOL  LIKE  '%' AND TRADEPLACE  LIKE '%') SB,
+              (SELECT * FROM AFMAST AF, CFMAST CF
+              WHERE AF.CUSTID = CF.CUSTID AND CF.CUSTODYCD LIKE V_CUSTODYCD AND AF.ACCTNO LIKE V_ACCTNO
+              and (af.brid like V_STRBRID or INSTR(V_STRBRID,af.brid) <> 0)
+              ) CFA
+         WHERE OD.DELTD <>'Y'
+         AND   OD.TXDATE <= TO_DATE (T_DATE ,'DD/MM/YYYY') AND OD.TXDATE >= TO_DATE(F_DATE ,'DD/MM/YYYY')
+         AND   OD.EXECTYPE LIKE V_EXECTYPE
+         AND   OD.PRICETYPE LIKE '%'
+         AND   OD.CODEID = SB.CODEID
+         --AND   (SUBSTR(OD.ORDERID,1,4) LIKE V_STRBRID OR SUBSTR(OD.AFACCTNO,1,4) LIKE V_STRBRID)
+         and (instr(V_STRBRID,SUBSTR(OD.AFACCTNO,1,4))>0 OR SUBSTR(OD.AFACCTNO,1,4) LIKE V_STRBRID)
+         AND   OD.via LIKE V_VIA
+         AND   OD.AFACCTNO = CFA.ACCTNO
+         )AMT
+      ;
+LOOP
+  FETCH CUR
+       INTO V_NUMFEEACR ;
+       EXIT WHEN CUR%NOTFOUND;
+  END LOOP;
+CLOSE CUR;
+
+--- TINH TONG PHI MOI GIOI
+OPEN CUR
+FOR
+    SELECT SUM(AMT.FEEACR)
+    FROM (
+         SELECT SUM(FEEACR) FEEACR
+         FROM ODMAST OD, AFMAST AF ,CFMAST CF, (SELECT * FROM SBSECURITIES WHERE SYMBOL LIKE '%' AND TRADEPLACE  LIKE '%') SB
+         WHERE OD.DELTD <> 'Y'
+         AND  OD.afacctno = AF.acctno
+         AND  AF.custid = CF.custid
+         AND  AF.ACCTNO LIKE V_ACCTNO
+         and (af.brid like V_STRBRID or INSTR(V_STRBRID,af.brid) <> 0)
+         AND  CF.CUSTODYCD LIKE V_CUSTODYCD
+         AND  OD.TXDATE <= TO_DATE (T_DATE ,'DD/MM/YYYY')
+         AND  OD.TXDATE >= TO_DATE (F_DATE ,'DD/MM/YYYY')
+         AND  SUBSTR(CF.custodycd,4,1)  = 'P'
+         AND  OD.CODEID = SB.CODEID
+         AND  OD.EXECTYPE LIKE V_EXECTYPE
+         AND  OD.VOUCHER  LIKE '%'
+         AND  OD.PRICETYPE LIKE '%'
+         --AND (SUBSTR(OD.ORDERID,1,4) LIKE V_STRBRID OR SUBSTR(OD.AFACCTNO,1,4) LIKE V_STRBRID)
+         and (instr(V_STRBRID,SUBSTR(OD.AFACCTNO,1,4))>0 OR SUBSTR(OD.AFACCTNO,1,4) LIKE V_STRBRID)
+         AND OD.via LIKE V_VIA
+         UNION ALL
+         SELECT SUM(FEEACR) FEEACR
+         FROM ODMASTHIST OD, AFMAST AF ,CFMAST CF, (SELECT * FROM SBSECURITIES WHERE SYMBOL  LIKE  '%' AND TRADEPLACE  LIKE '%') SB
+         WHERE OD.DELTD <> 'Y'
+         AND   OD.afacctno = AF.acctno
+         AND   AF.custid =CF.custid
+         AND   AF.ACCTNO LIKE V_ACCTNO
+         and (af.brid like V_STRBRID or INSTR(V_STRBRID,af.brid) <> 0)
+         AND   CF.CUSTODYCD LIKE V_CUSTODYCD
+         AND   OD.TXDATE <= TO_DATE (T_DATE ,'DD/MM/YYYY')
+         AND   OD.TXDATE >= TO_DATE (F_DATE ,'DD/MM/YYYY')
+         AND   SUBSTR(CF.custodycd,4,1)  = 'P'
+         AND   OD.CODEID = SB.CODEID
+         AND   OD.EXECTYPE LIKE V_EXECTYPE
+         AND   OD.VOUCHER  LIKE '%'
+         AND   OD.PRICETYPE LIKE '%'
+         --AND   (SUBSTR(OD.ORDERID,1,4) LIKE V_STRBRID OR SUBSTR(OD.AFACCTNO,1,4) LIKE V_STRBRID)
+         and (instr(V_STRBRID,SUBSTR(OD.AFACCTNO,1,4))>0 OR SUBSTR(OD.AFACCTNO,1,4) LIKE V_STRBRID)
+         AND   OD.via LIKE V_VIA
+         )AMT
+  ;
+
+LOOP
+  FETCH CUR
+       INTO V_NUMFEEACR_BRO ;
+       EXIT WHEN CUR%NOTFOUND;
+  END LOOP;
+CLOSE CUR;
+
+--- GET REPORT'S DATA
+OPEN PV_REFCURSOR
+FOR
+         SELECT nvl(V_NUMFEEACR,0) V_NUMFEEACR, nvl(V_NUMFEEACR_BRO,0) V_NUMFEEACR_BRO ,nvl(V_NUMEXECAMT__BRO,0) V_NUMEXECAMT__BRO ,T.*,NVL(IO.MATCHQTTY,0) MATCHQTTY,NVL(IO.MATCHPRICE,0) MATCHPRICE FROM
+                 (SELECT OD.ORDERID,OD.TXDATE,SB.SYMBOL,(CASE WHEN OD.PRICETYPE IN ('ATO','ATC')THEN  OD.PRICETYPE  ELSE   TO_CHAR(OD.QUOTEPRICE) END )QUOTEPRICE ,OD.ORDERQTTY,OD.CIACCTNO,CF.FULLNAME,OD.FEEACR,
+                         SB.TRADEPLACE TRADEPLACE,CF.CUSTODYCD , OD.VIA  VIA, OD.TXTIME,OD.MATCHTYPE,
+                         (CASE  WHEN OD.REFORDERID IS NOT NULL THEN 'C' ELSE OD.EXECTYPE END)EXTY,OD.EXECTYPE,
+                         (CASE  WHEN OD.REFORDERID IS NOT NULL THEN 'C' ELSE 'O' END ) TYORDER
+                 FROM (SELECT * FROM ODMAST
+                        WHERE deltd <>'Y'
+                        --and (SUBSTR(ORDERID,1,4) LIKE V_STRBRID OR SUBSTR(AFACCTNO,1,4) LIKE V_STRBRID)
+                        and (instr(V_STRBRID,SUBSTR(AFACCTNO,1,4))>0 OR SUBSTR(AFACCTNO,1,4) LIKE V_STRBRID)
+                        UNION ALL
+                        SELECT * FROM ODMASTHIST
+                        WHERE deltd <>'Y'
+                        --and (SUBSTR(ORDERID,1,4) LIKE V_STRBRID OR SUBSTR(AFACCTNO,1,4) LIKE V_STRBRID)
+                        and (instr(V_STRBRID,SUBSTR(AFACCTNO,1,4))>0 OR SUBSTR(AFACCTNO,1,4) LIKE V_STRBRID)
+                       )OD,
+                       SBSECURITIES SB, AFMAST AF, CFMAST CF
+                 WHERE  OD.CODEID = SB.CODEID
+                       AND OD.CIACCTNO = AF.ACCTNO
+                       AND AF.CUSTID = CF.CUSTID
+                       AND AF.ACCTNO LIKE V_ACCTNO
+                       AND CF.CUSTODYCD LIKE V_CUSTODYCD
+                       and (af.brid like V_STRBRID or INSTR(V_STRBRID,af.brid) <> 0)
+                       AND OD.TXDATE BETWEEN V_FDATE AND V_TDATE
+                       AND SB.SYMBOL LIKE '%'
+                       AND OD.EXECTYPE LIKE V_EXECTYPE
+                       AND OD.MATCHTYPE like '%'
+                       AND SB.TRADEPLACE LIKE  '%'
+                       AND OD.PRICETYPE LIKE '%'
+                       AND nvl(OD.VOUCHER,'N') LIKE '%'
+                       AND OD.Via LIKE V_VIA
+                  )T
+                  LEFT JOIN
+                  (SELECT * FROM IOD
+                   WHERE DELTD <> 'Y'
+                   UNION ALL
+                   SELECT * FROM IODHIST
+                   WHERE DELTD<>'Y'
+                  ) IO
+                  ON IO.ORGORDERID = T.ORDERID
+         ORDER BY  T.EXECTYPE, T.SYMBOL,T.TXDATE,T.CIACCTNO
+
+          ;
+EXCEPTION
+   WHEN OTHERS
+   THEN
+      RETURN;
+END;                                                              -- PROCEDURE
+/
+

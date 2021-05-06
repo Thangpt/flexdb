@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <TableInfo>
+    <QueryKey>PR_VALIDATEAFLIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      txpks_NOTIFY.PR_VALIDATEAFLIST
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>USERID-TLNAME</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      txpks_NOTIFY.PR_GETTLID2TLNAME
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHECKISBROKER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+            select * from tlprofiles where TLNAME=:TLNAME
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BROKER_AUTHENTICATE_APPROVAL</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT TLID, TLNAME, TLFULLNAME, BRID, TOKENID, CURRDATE, LOGINTIME, ROLE, CUSTID
+            FROM
+          (SELECT TLID, TLNAME, TLFULLNAME, BRID,
+            '' TOKENID, TO_CHAR(GETCURRDATE, 'DD/MM/RRRR') CURRDATE, 
+            TO_CHAR(SYSDATE, 'DD/MM/RRRR HH24:MI:SS') LOGINTIME,
+            PIN PWD, 'B' ROLE, '' CUSTID
+          FROM TLPROFILES WHERE ACTIVE='Y'      
+          )
+            WHERE TLNAME = :TLNAME
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BROKER_AUTHENTICATE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT TLID, TLNAME, TLFULLNAME, BRID, TOKENID, CURRDATE, LOGINTIME, ROLE, CUSTID
+            FROM
+          (SELECT TLID, TLNAME, TLFULLNAME, BRID,
+            '' TOKENID, TO_CHAR(GETCURRDATE, 'DD/MM/RRRR') CURRDATE, 
+            TO_CHAR(SYSDATE, 'DD/MM/RRRR HH24:MI:SS') LOGINTIME,
+            PIN PWD, 'B' ROLE, '' CUSTID
+          FROM TLPROFILES WHERE ACTIVE='Y'      
+          )
+            WHERE TLNAME = :TLNAME
+            AND PWD      = :PASSWORD
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>BD_GET_SUB_ACCOUNT_BY_CUSTODY_CODE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+          SELECT 0 OWNER,A.ACCTNO,C.Fax FAX1,C.Email,C.CUSTODYCD,C.CUSTID,'YYYYNNNNNN' LINKAUTH, 
+                CI.COREBANK,A.STATUS,T.TYPENAME, T.TYPENAME AFTYPE,-- T.TYPENAME TYPENAME,T.AFTYPE,
+                'Y' EXPIRED,A.tradeonline,A.AUTOADV,
+        A.ACCTNO CDVAL, A.ACCTNO || '-' || T.TYPENAME CDCONTENT, TRADETELEPHONE, C.FULLNAME, C.CUSTODYCD || '.' || T.TYPENAME DESCNAME, 
+         A.COREBANK ISCOREBANK, 
+         A.BANKACCTNO, A.BANKNAME, ROWNUM LSTODR 
+          FROM AFMAST A, CFMAST C, AFTYPE T,CIMAST ci
+          WHERE A.CUSTID = C.CUSTID AND A.ACTYPE = T.ACTYPE AND CUSTODYCD=UPPER(:CUSTODYCD) 
+            AND A.acctno=ci.afacctno
+            AND A.STATUS IN ('A', 'P') 
+            AND A.CAREBY IN (SELECT GRPID FROM TLGRPUSERS WHERE TLID LIKE :TLID)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+</root>

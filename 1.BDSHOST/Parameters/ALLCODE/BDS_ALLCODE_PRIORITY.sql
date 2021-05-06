@@ -1,0 +1,12 @@
+﻿--
+--
+/
+DELETE ALLCODE WHERE CDNAME = 'PRIORITY';
+insert into ALLCODE (CDTYPE, CDNAME, CDVAL, CDCONTENT, LSTODR, CDUSER, EN_CDCONTENT)
+values ('SA', 'PRIORITY', '1', 'Cao', -1, 'Y', 'Cao');
+insert into ALLCODE (CDTYPE, CDNAME, CDVAL, CDCONTENT, LSTODR, CDUSER, EN_CDCONTENT)
+values ('SA', 'PRIORITY', '2', 'Bình thường', 0, 'Y', 'Binh thuong');
+insert into ALLCODE (CDTYPE, CDNAME, CDVAL, CDCONTENT, LSTODR, CDUSER, EN_CDCONTENT)
+values ('SA', 'PRIORITY', '3', 'Thấp', 1, 'Y', 'Thap');
+COMMIT;
+/

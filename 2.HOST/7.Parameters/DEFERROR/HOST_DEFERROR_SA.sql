@@ -1,0 +1,566 @@
+﻿--
+--
+/
+DELETE DEFERROR WHERE MODCODE = 'SA';
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100001,'[-100001]: Mã chi nhánh/đại lý bị trùng!','[-100001]: Branch code is duplicated!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100002,'[-100002]: Không thể xoá chi nhánh/đại lý hiện tại!','[-100002]: Cannot delete current branch!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100003,'[-100003]: Không thể xoá chi nhánh/đại lý tồn tại chi nhánh/đại lý cấp dưới!','[-100003]: Cannot delete the branch which contains sub branch!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100004,'[-100004]: Không thể xoá chi nhánh/đại lý tồn tại giao dịch viên!','[-100004]: Cannot delete the branch which contains tellers!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100005,'[-100005]: Mã chi nhánh cấp trên không tồn tại!','[-100005]: Superior branch is not exist!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100006,'[-100006]: Mã giao dịch viên đã tồn tại!','[-100006]: Teller id is duplicated!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100007,'[-100007]: Người sử dụng này thuộc nhóm cụ thể!','[-100007]: This user belongs to some groups!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100008,'[-100008]: Nhóm này đã tồn tại!','[-100008]: Group id is duplicated!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100009,'[-100009]: Nhóm này có chứa người sử dụng','[-100009]: This group contain some users!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100010,'[-100010]: ERR_SA_CHECKER1_OVR','[-100010]: ERR_SA_CHECKER1_OVR','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100011,'[-100011]: ERR_SA_CHECKER2_OVR','[-100011]: ERR_SA_CHECKER2_OVR','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100012,'[-100012]: ERR_SA_APPCHK_MISSING','[-100012]: ERR_SA_APPCHK_MISSING','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100013,'[-100013]: Mã sự kiện không tồn tại','[-100013]: Event code not found','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100014,'[-100014]: ERR_SA_TRANSACTION_NOTFOUND','[-100014]: ERR_SA_TRANSACTION_NOTFOUND','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100015,'[-100015]: Số tiểu khoản không tồn tại !','[-100015]: ERR_SA_PRINTINFO_ACCTNOTFOUND','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100016,'[-100016]: ERR_SA_SHOULDAPPROVE_BEFORECASHIER','[-100016]: ERR_SA_SHOULDAPPROVE_BEFORECASHIER','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100017,'[-100017]: Giao dịch này không được phép xóa!','[-100017]: Transaction can not be deleted!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100018,'[-100018]: Giao dịch không hợp lệ!','[-100018]: Invalid transaction','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100019,'[-100019]: ERR_SA_VARIABLE_NOTFOUND','[-100019]: ERR_SA_VARIABLE_NOTFOUND','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100020,'[-100020]: ERR_SA_BDS_OPERATION_STILLACTIVE','[-100020]: ERR_SA_BDS_OPERATION_STILLACTIVE','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100021,'[-100021]: Chi nhánh đã đóng cửa !','[-100021]: ERR_SA_BDS_OPERATION_ISINACTIVE','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100022,'[-100022]: Hội sở đã được khởi tạo','[-100022]: ERR_SA_HOST_OPERATION_STILLACTIVE','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100023,'Hệ thống đang xử lý dữ liệu cuối ngày. Vui lòng đăng nhập lại sau.','System is processing end of day. Please login later.','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100024,'[-100024]: ERR_SA_ONLY_HEADOFFICE_RUNBATCH','[-100024]: ERR_SA_ONLY_HEADOFFICE_RUNBATCH','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100025,'[-100025]: Mã chứng khoán không tồn tại!','[-100025]: Symbol not found!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100026,'[-100026]: Mã loại tiền không tồn tại!','[-100026]: Currency is not exist!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100027,'[-100027]: Không xoá được mã chứng khoán do vẫn còn dữ liệu liên quan!','[-100027]: Cannot delete the Securities which contains related data','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100028,'[-100028]: Không tìm thấy mã tổ chức phát hành này!','[-100028]: Issuer ID is not exists','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100029,'[-100029]: Vẫn còn chi nhánh hoạt động nên không thể đóng cửa Hội sở !','[-100029]: ERR_SA_STILLHAS_BRGRP_ACTIVE','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100030,'[-100030]: ERR_SA_CALENDAR_MISSING','[-100030]: ERR_SA_CALENDAR_MISSING','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100031,'[-100031]: Khoảng giá của chứng khoán này bị trùng!','[-100031]: Secticksize is duplicated!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100032,'[-100032]: Mã loại tiền bị trùng','[-100032]: Currency id is duplicated!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100033,'[-100033]: Mã tổ chức phát hành bị trùng!','[-100033]: Issuer id is duplicated!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100034,'[-100034]: Mã khách hàng không tồn tại!','[-100034]: Customer id is not existed!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100035,'[-100035]: Không thể xoá tổ chức phát hành do vẫn còn dữ liệu liên quan!','[-100035]: Cannot delete the issuer which contains related data!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100037,'[-100037]: Mã báo cáo không được trùng!','[-100037]:Report code is duplicated!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100038,'[-100038]: Mã báo cáo không tồn tại!','[-100038]:Report code not exist!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100039,'[-100039]: Mã phân hệ không tồn tại!','[-100038]:Module code not exist!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100040,'[-100040]: Mã chi nhánh không tồn tại!','[-100040]: Branch code not exist!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100041,'[-100041]: Loại tỷ giá này không tồn tại!','[-100041]:Rate not exist!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100042,'[-100042]: Không thể xóa mã loại tiền do vẫn còn dữ liệu liên quan!','[-100042]:Cannot delete the Currency which contains related data!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100043,'[-100043]: NSD này đã có trong DS phân quyền!','[-100043]: This user is existed in assignment list!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100044,'[-100044]: NSD này đã có trong DS thực hiện giao dịch!','[-100044]: This user is existed in transaction execute list!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100045,'[-100045]: Nhóm này đã có trong DS phân quyền!','[-100045]: This group is existed in assignment list!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100046,'[-100046]: Nhóm này đã có trong DS thực hiện giao dịch!','[-100046]: This group is existed in transaction execute list!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100047,'[-100047]: Bạn không có quyền thực hiện giao dịch này!','[-100047]: You do not have permission to execute this transaction!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100048,'[-100048]: Không thể xóa NSD hiện tại!','[-100048]: Can not delete current user!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100049,'[-100049]: Tên NSD này đã tồn tại!','[-100049]: User name is duplicated!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100050,'[-100050]: Tên nhóm này đã tồn tại!','[-100050]: Group name is duplicated!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100051,'[-100051]: Giao dịch vượt quá hạn mức cho phép!','[-100051]: Transaction limit is exceeded!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100052,'[-100052]: Duyệt giao dịch vượt quá hạn mức cho phép!','[-100052]: Approve limit is exceeded!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100053,'[-100053]: Thanh toán vượt quá hạn mức cho phép!','[-100053]: Cash limit is exceeded!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100054,'[-100054]: Mã khách hàng không tồn tại!','[-100054]:Customer ID is not existed!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100055,'[-100055]: Bạn không có quyền duyệt giao dịch này!','[-100055]: You do not have permission to approve this transaction!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100056,'[-100056]: Bạn không có quyền thanh toán giao dịch này!','[-100056]: You do not have permission to settle this transaction!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100057,'[-100057]: Trùng mã chứng khoán!','[-100057]: This symbol has been used!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100058,'[-100058]: ERR_SA_SYMBOL_NOTFOUND!','[-100058]: ERR_SA_SYMBOL_NOTFOUND!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100059,'[-100059]: Sự kiện đã được khai báo rồi ,không được khai báo trùng !','[-100059]: ERR_SA_EVENT_DUPLICATED!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100060,'[-100060]: ERR_SA_ICCFTIER_DUPLICATED!','[-100060]: ERR_SA_ICCFTIER_DUPLICATED!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100061,'[-100061]: ERR_SA_CCYCD_NOTACTIVE!','[-100061]: ERR_SA_CCYCD_NOTACTIVE!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100062,'[-100062]: ERR_SA_SECTICKSIZE_CONSTRAINTS!','[-100062]: ERR_SA_SECTICKSIZE_CONSTRAINTS!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100063,'[-100063]: ERR_SA_ACCTNO_NOTFOUND!','[-100063]: ERR_SA_ACCTNO_NOTFOUND!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100064,'[-100064]: ERR_SA_LICENSENO_ISNOT_EMPTY!','[-100064]: ERR_SA_LICENSENO_ISNOT_EMPTY!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100065,'[-100065]: ERR_SA_CDVAL_DUPLICATED!','[-100065]: ERR_SA_CDVAL_DUPLICATED!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100066,'[-100066]: Bạn không phải là giao dịch viên!','[-100066]: You are not a teller!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100067,'[-100067]: Bạn không phải là nhân viên quỹ!','[-100067]: You are not a cashier!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100068,'[-100068]: Bạn không phải là người kiểm soát viên!','[-100068]: You are not a officer!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100069,'[-100069]: Bạn không phải là kiểm soát nội bộ!','[-100069]: You are not a checker!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100070,'[-100070]: Chưa định nghĩa hạn mức nhập giao dịch!','[-100070]: Transaction limit is not defined!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100071,'[-100071]: Chưa định nghĩa hạn mức thanh toán!','[-100071]: Cash limit is not defined!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100072,'[-100072]: Chưa định nghĩa hạn mức duyệt giao dịch!','[-100072]: Approve limit is not defined!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100073,'[-100073]: Chưa định nghĩa hạn mức duyệt rủi ro giao dịch!','[-100073]: Risk approve limit is not defined!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100074,'[-100074]: ERR_SA_TL_CURRENT_USR !','[-100074]: ERR_SA_TL_CURRENT_USR !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100075,'[-100075]: ERR_SA_SECTICKSIZE_INVALID !','[-100075]: ERR_SA_SECTICKSIZE_INVALID !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100076,'[-100076]: ERR_SA_READ_TRADING_RESULT_TWICE !','[-100076]: ERR_SA_READ_TRADING_RESULT_TWICE !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100077,'[-100077]: ERR_SA_ISSUERS_LEN_ISSUERID_EQUAL_10!','[-100077]: ERR_SA_ISSUERS_LEN_ISSUERID_EQUAL_10!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100078,'[-100078] Không tìm thấy dữ liệu','[-100078] Data not found','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100079,'[-100079]:ERR_SA_TLLOG_INVALID_STATUS !','[-100079] :ERR_SA_TLLOG_INVALID_STATUS !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100080,'[-100080]:ERR_SA_ISSUER_HAS_ONE_NORMALSHARE !','[-100080] :ERR_SA_ISSUER_HAS_ONE_NORMALSHARE !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100081,'[-100081]: Không tồn tại mã tài khoản GLBANK!','[-100081]: GLBANK is not exists. Cannot add new or edit GL account!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100082,'[-100082]: Ngày hiệu lực phải lớn hơn ngày hiện tại!','[-100082] :Effective date must be later than current date!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100083,'[100083]: Ngày hệ thống đã thay đổi, Thoát và Đăng nhập lại để thực hiện giao dịch !','[-100083] :ERR_SA_BUSDATE_BRANCHDATE_PLS_LOGIN_OUT !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100084,'[-100084]:ERR_SA_TRADING_RESULT_INVALID_DATE !','[-100084] :ERR_SA_TRADING_RESULT_INVALID_DATE !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100085,'[-100085]: Lỗi nhập giao dịch!','[-100085]: Error on create transaction!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100086,'[-100086]: ERR_SA_STCSE_DUPLICATED!','[-100086]: ERR_SA_STCSE_DUPLICATED!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100087,'[-100087]: Mã chứng khoán đã được khai báo cho loại hình hoặc tiểu khoản !','[-100087] : Stock Code has been declared for the type or sub-account !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100088,'[-100088]: Ngày hiệu lực phải lơn hơn hoặc bằng ngày hiện tại !','[-100088] : The effective date must be greater than or equal to the current date !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100089,'[-100089]: ERR_SA_IBT_DOESNOTALLOW','[-100089]: ERR_SA_IBT_DOESNOTALLOW','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100090,'[-100090]: Giao dịch viên đã được khai báo với kỳ hạn bảo lãnh này !','[-100090]: Teller has been declared the term of this guarantee !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100091,'[-100091]: Giao dịch viên đã được gán kỳ hạn bảo lãnh không được xóa hoặc không hoạt động !','[-100091]: Tellers were assigned guarantee period are not cleared or inactive !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100092,'[-100092]: Giao dịch viên đã cấp hạn bảo lãnh cho KH không được xóa !','[-100092]: Tellers were granted bail term customers, not cleared !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100093,'Mã thành viên lưu ký bị trùng!','Deposit id is duplicated!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100096,'[-100096]: Chính sách ưu đãi phí môi giới đã có qui định chi tiết!','[-100096]: Brokerage promotion has detail regulation!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100097,'[-100097]: Bảo lãnh sức mua toàn bộ KH/ngày của cùng một user phải khai báo bằng nhau ','[-100097]: Guarantee all customer purchases / day by the same user must declare equal ','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100098,'[-100098]: Trường Mua/Bán cho Loại chính sách Bảo lãnh phải là "Mua"  !','[-100098] : Purchase / Sale Guarantee policy type is Buy!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100099,'[-100099]: Bước xử lý batch phải xử lý tuần tự, kiểm tra các bước chưa thực hiện!','[-100099]: ERR_BATCH_PROCESS_FOLLOW_SEQUENCE','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100100,'[-100100]: ERR_SA_HOST_VOUCHER_DOESNOT_FOUND','[-100100]: ERR_SA_HOST_VOUCHER_DOESNOT_FOUND','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100101,'[-100101]:ERR_SA_FIELD_DUPLICATED','[-100101]:ERR_SA_FIELD_DUPLICATED','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100102,'[-100102]:Tiểu khoản tiền không tồn tài','[-100102]:ERR_SA_CIACCOUNT_NOTFOUND','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100103,'[-100103]:ERR_SA_BANKID_NOTFOUND','[-100103]:ERR_SA_BANKID_NOTFOUND','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100104,'[-100104]: ERR_SA_FLRATE_NOT_IN_SYSTEM_RATE_RANGE','[-100104]: ERR_SA_FLRATE_NOT_IN_SYSTEM_RATE_RANGE','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100105,'[-100105]: ERR_SA_CERATE_NOT_IN_SYSTEM_RATE_RANGE!','[-100105]: ERR_SA_CERATE_NOT_IN_SYSTEM_RATE_RANGE!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100106,'[-100106]: ERR_SA_ICRATE_NOT_IN_SYSTEM_RATE_RANGE!','[-100106]: ERR_SA_ICRATE_NOT_IN_SYSTEM_RATE_RANGE!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100107,'[-100107]: ERR_SA_ICRATE_NOT_IN_PRODUCT_RATE_RANGE!','[-100107]: ERR_SA_ICRATE_NOT_IN_PRODUCT_RATE_RANGE!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100108,'[-100108]:ERR_SA_LSTODR_DUPLICATED!','[-100108]:ERR_SA_LSTODR_DUPLICATED!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100109,'[-100109]: ERR_SA_GLACCTNO_NOTFOUND!','[-100109]:ERR_SA_GLACCTNO_NOTFOUND!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100110,'[-100110]:ERR_SA_EVENT_DOESNOT_EXITS!','[-100110]:ERR_SA_EVENT_DOESNOT_EXITS!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100111,'[-100111]:You can not change product type with other GL group!','[-100111]:You can not change product type with other GL group!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100112,'[-100112]:Mat khau giao dich khong hop le!','[-100112]:Invalid trading password!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100113,'[-100113]:Phien giao dich khong hop le!','[-100113]:Invalid trading secssion!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100114,'[-100114]:ERR_SA_EXTREFDEF_CONTRAINT!','[-100114]:ERR_SA_EXTREFDEF_CONTRAINT!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100115,'[-100115]:Khong duoc doi sang loai hinh margin khac!','[-100115]:Cannot change to other margin type!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100116,'[-100116]:Khong duoc doi sang loai hinh hop dong khac!','[-100116]:Cannot change to other contract type!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100117,'[-100117]:Khong duoc doi sang loai hinh vay khac!','[-100117]:Cannot change to other loan type!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100118,'[-100118]:Mã phí không tồn tại','[-100118]:ERR_SA_FEEMAP_FEECD_DOESNOT_EXISTS','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100119,'[-100119]:Bạn không được làm do hệ thống đã thực hiện bước xử lý trước chạy batch!','[-100119]: System process before batch already','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100120,'[-100120] Tiểu khoản không được phép thực hiện giao dịch này.','[-100120] Sub-accounts are not allowed to perform this transaction','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100121,'[-100121]: Mã ngân hàng đã tồn tại','[-100121]: BANKCODE EXIST','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100123,'[-100123]: Không thể xoá dữ liệu khi còn giao dịch liên quan','[-100123]: CAN NOT DELETE','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100124,'[-100124]: Số TK GL không tồn tại','[-100124]: GLACOUNT Not Found','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100125,'[-100125]: Không được phép đổi loại hình core bank!','[-100125]: Cannot change core bank type!','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100126,'[-100126]: Nguồn cho vay trên mỗi loại hình tín dụng phải khác nhau!','[-100126]: Loan source on each type must be different!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100127,'[-100127]: Ngày hiệu lực phải là ngày hiện tại !','[-100127]: Ngày hiệu lực phải là ngày hiện tại !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100130,'[-100130]: Một loại hình không được gán 2 biểu lãi suất lồng nhau !','[-100130]: Can not assign 2 interest table for 1 product type!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100131,'[-100131]: Vượt quá số tiền được phép chuyển khoản tối đa qua kênh giao dịch trực tuyến !','[-100131]: Exceed max amount allowed to transfer online!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100132,'[-100132]: Vượt quá số lần được phép chuyển khoản trong một ngày qua kênh giao dịch trực tuyến !','[-100132]: Exceed number of times transfer online per day!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100133,'[-100133]: Vượt quá số tiền được phép chuyển khoản tối đa qua kênh giao dịch trực tuyến !','[-100133]: Exceed max amount allowed to transfer online!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100134,'[-100134]: Vượt quá số lần được phép chuyển khoản trong một ngày qua kênh giao dịch trực tuyến !','[-100134]: Exceed number of times transfer online per day!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100135,'[-100135]: Vượt quá số tiền được phép chuyển khoản tối đa qua kênh giao dịch trực tuyến !','[-100135]: Exceed max amount allowed to transfer online!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100136,'[-100136]: Vượt quá số lần được phép chuyển khoản trong một ngày qua kênh giao dịch trực tuyến !','[-100136]: Exceed number of times transfer online per day!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100137,'[-100137]: Số tiền chuyển nhỏ hơn số tiền tối thiểu!','[-100137]: Transferred amount must be greater than minimum amount!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100138,'[-100138]: Số tiền còn lại nhỏ hơn số tiền tối thiểu!','[-100138]: Remain amount is less than minimum amount!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100140,'[-100140]: Lưu ý: Tỷ lệ thực tế nhỏ hơn tỷ lệ bảo lãnh!','[-100140]: Real margin rate less than t0overq rate','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100141,'[-100141]: Tiểu khoản đang ở tình trạng bán xử lý!','[-100141]: Acctno in force sell status','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100142,'[-100142]: Cấp phê duyệt không đủ hạn mức!','[-100142]:Appover not have credit line!','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100143,'[-100143]: Môi giới đang bị treo hạn mức!','[-100143]:User is blocked!','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100144,'[-100144]: Tiểu khoản đang có deal chờ duyệt không thể tạo deal mới!','[-100144]:Pls update all pending deal before create new deal','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100145,'[-100145]: Tiền bảo lãnh phê duyệt không được mua CK Blacklist!','[-100145]:Can not use T0 amt buy blacklist symbol','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100146,'[-100146]: Môi giới chưa ký cam kết!','[-100146]:Broker don''t sign contract','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100147,'[-100147]: Môi giới, người phê duyệt không cùng chi nhánh!','[-100147]:Broker - Approver not have same brid','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100148,'[-100148]: Tài khoản đã được cấp bảo lãnh không được phép rút tiền!','[-100148]:Can not move cash because have t0limit','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100149,'[-100149]: Quá hạn mức bảo lãnh T0 tối đa được cấp cho 1 tiểu khoản trong ngày!','[-100149]:Can not move cash because have t0limit','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100150,'[-100150]: Cấp phê duyệt đã hết hạn mức!','[-100150]:Over t0limit','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100151,'[-100151]: Deal đã dược phê duyệt trên hệ thống!','[-100151]:Already appover deal','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100152,'[-100152]: Dữ liệu đã thay đổi, đề nghị nhập lại thông tin !','[-100152]:Pls, reload information of account!','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100153,'[-100153]: Deal đã được từ chối phê duyệt!','[-100153]:Already disappover deal','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100154,'[-100154]: PP0 < 0. Không được cấp hạn mức tự động !','[-100154]: PP0 < 0. Not granted automatically limit!','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100155,'[-100155]: Hạn mức còn lại của User phải lớn hơn Số tiền cần cấp trên hệ thống !','[-100155]: User quotas remaining amount needs to be larger than the superior system !','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100156,'[-100156]: Chưa ký HĐ bảo lãnh !','[-100156]: Never sign a contract of guarantee!','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100157,'[-100157]: Số tiền cần cấp trên hệ thống phải lớn hơn 0 !','[-100157]: The amount needed on the system level must be greater than 0 !','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100158,'[-100158]: Số tiền sử dụng sau khi cấp BL phải lớn hơn 0 !','[-100158]: Amount used after BL level must be greater than 0 !','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100160,'[-100160]: Tạm thời dừng chức năng đăng ký TK thụ hưởng !','[-100160]: Tạm thời dừng chức năng đăng ký TK thụ hưởng !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100161,'[-100161] Đang có yêu cầu thay đổi chưa xử lý hoàn tất!','[-100161] Have pending request!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100162,'[-100162] Mật khẩu mới tối thiểu 8 ký tự gồm chữ, số, ký tự đặc biệt, hoa thường!','[-100162] Pls input new password!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100163,'[-100163] Không được thay đổi tên đăng nhập!','[-100163] Pls do not change username !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100200,'[-100200]:Khai báo trùng người thụ hưởng có cùng số TK ngân hàng !','[-100200]:Khai báo trùng người thụ hưởng có cùng số TK ngân hàng ','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100201,'[-100201]: Tài khoản có giao dịch đang thực hiện liên quan!','[-100201]: Account transactions are made â€‹â€‹regarding','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100222,'[-100222]: Vẫn còn tiểu khoản trong loại hình này!','[-100222]:ERR_SA_STILL_HAS_AF_INUSE','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100400,'[-100400]: Mã rỗ này đã được sử dụng. Vui lòng nhập mã rổ khác','[-100400]: ERR_SA_BASKETID_DUPLICATED','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100401,'[-100401]: Rổ chứng khoán đã được dùng!','[-100401]: SE Basket is used alredy!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100402,'[-100402]: Mã chứng khoán đã có trong rổ!','[-100402]: SE symbol exists!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100403,'[-100403]: Mã chứng khoán đã có trong rổ!','[-100403]: SE symbol exists!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100404,'[-100404]: Loại hình hợp đồng đã được gán vào rổ!','[-100404]: Contract type is assigned already!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100405,'[-100405]: Loại hình DF đã được gán vào rổ!','[-100405]: DF type is assigned already!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100406,'[-100406]: Mã rổ chưa được khai báo!','[-100406]: ERR_SA_BASKETID_DOESNOT_FOUND','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100407,'[-100407]: Trùng dữ liệu nhập vào, kiểm tra lại dữ liệu nhập vào!','[-100407]: INPUT DUPLICATE, PLS CHECK AGAIN!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100408,'[-100408]: Không tìm thấy thông tin chứng khoán trong rổ !','[-100408]: ERR_SA_DFBASKETID_SYMBOL_DOESNOT_FOUND','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100409,'[-100409]: Mã d?nh danh ph?i là ký t? s?!','[-100409]: Mã d?nh danh ph?i là ký t? s?!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100410,'[-100410]: Tỷ lệ ký quỹ margin không được nhỏ hơn tỷ lệ ký quỹ tối thiểu của UBCK!','[-100410]:The Crediline basket loan rate must be greater than Committee minimum loan rate!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100411,'[-100411]: Loại hình tín dụng đã được gán vào rổ!','[-100411]: Loan type has been added in basket!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100413,'[-100413]: Mã d?nh danh dã t?n t?i!','[-100413]: Mã d?nh danh dã t?n t?i','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100414,'[-100414]: Mã d?nh danh ph?i d? 10 ký t? s?!','[-100414]: Mã d?nh danh ph?i d? 10 ký t? s?!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100420,'[-100420]: Không được khai trùng biểu phí định kỳ cho ngày tương lai','[-100420]: Cannot define feetype forward','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100421,'[-100421]: Trạng thái biểu phí không hợp lệ','[-100421]: Feetype invalid','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100422,'[-100422]: Biểu phí đang sử dụng','[-100422]: Feetype inuse','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100423,'[-100423]: Vượt hạn mức qui định vay của khách hàng','[-100423]: Exceed credit limit of customer','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100424,'[-100424]: Vượt hạn mức qui định cho vay của ngân hàng','[-100424]: Exceed credit limit of bank','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100430,'[-100430]: Số tiền thu phí lưu ký không hợp lệ','[-100430]: ERR_INVALID_AMT_DEPOFEE','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100431,'[-100431]: Trùng số hiệu bảng kê!','[-100431]: ERR_CRBTRFLOG_VERSION_DUPLICATE','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100432,'[-100432]: Trạng thái bảng kê không hợp lệ!','[-100432]: ERR_CRBTRFLOG_INVALID_STATUS','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100433,'[-100433]: Đã tạo bảng kê xử lý','[-100433]: ERR_ALLREADY_SEND2BANK','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100434,'[-100434]: Trạng thái bảng kê không hợp lệ','[-100434]: ERR_INVALID_STATUS_OF_LISTVOUCHER','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100435,'[-100435]: Tỉ lệ vay, giá vay tính sức mua phải bé hơn hoặc bằng tỉ lệ vay, giá vay tính tài sản!','[-100435]: MRRATELOAN, MRPRICELOAN must be less than or equal to MRRATIORATE, MRPRICERATE !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100436,'[-100436]: Mã chứng khoán Import từ excel bị trùng lặp, Kiểm tra lại dữ liệu đầu vào!','[-100436]: Symbol duplicated in excel, check data again!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100500,'[-100500] - Mã loại hình sản phẩm đã được sử dụng!','[-100500] - ERR_SA_PRODUCT_ACTYPE_DUPLICATED','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100501,'ERR_SA_PRODUCT_CCYCD_NOTFOUND','ERR_SA_PRODUCT_CCYCD_NOTFOUND','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100502,'ERR_SA_PRODUCT_GLGRP_NOTEXITS','ERR_SA_PRODUCT_GLGRP_NOTEXITS','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100503,'ERR_SA_PRODUCT_GLBANK_NOTFOUND','ERR_SA_PRODUCT_GLBANK_NOTFOUND','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100504,'Không được xóa loại hình đang được sử dụng hoặc đã được khai báo lãi/phí.','ERR_SA_PRODUCT_HAS_CONSTRAINT','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100505,'ERR_SA_USINGBRANCH_DUPLICATED','ERR_SA_USINGBRANCH_DUPLICATED','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100506,'[-100506]: Khai báo sử dụng dịch vụ bị trùng với một dịch vụ đã khai báo','[-100506]: Service duplicated','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100507,'ERR_SA_ACCTNO_DUPLICATED','ERR_SA_ACCTNO_DUPLICATED','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100508,'ERR_SA_ACCTNO_MASTER_NOTFOUND','ERR_SA_ACCTNO_MASTER_NOTFOUND','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100509,'ERR_SA_ACCTNO_MASTER_INVALID_STATUS','ERR_SA_ACCTNO_MASTER_INVALID_STATUS','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100510,'ERR_SA_PRODUCT_ACTYPE_NOTFOUND','ERR_SA_PRODUCT_ACTYPE_NOTFOUND','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100511,'[-100511]: Trùng khai báo mức ưu tiên thứ tự sử dụng dịch vụ','[-100511]: Priority duplicated','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100515,'ERR_PRTYPE_DUPLICATED: Loại hình Pool/Room đã tồn tại','ERR_PRTYPE_DUPLICATED','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100516,'ERR_PRTYPE_NOT_FOUND: Không tìm thấy loại hình Pool/Room','ERR_PRTYPE_NOT_FOUND','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100517,'ERR_PRDETAIL_DUPLICATED: Loại hình Pool/Room này đã được thiết lập cho chi nhánh','ERR_PRDETAIL_DUPLICATED: Pool/Room already set up!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100518,'ERR_PRDETAIL_NOT_FOUND: Không tìm thấy loại hình Pool/Room tương ứng cho chi nhánh','ERR_PRDETAIL_NOT_FOUND: can not find Pool/Room for branch','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100519,'ERR_PRMASTER_DUPLICATED: Loại hình Pool/Room đã tồn tại','ERR_PRMASTER_DUPLICATED','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100520,'ERR_PRMASTER_NOT_FOUND: Không tìm thấy loại hình Pool/Room','ERR_PRMASTER_NOT_FOUND','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100522,'[-100522]: Vượt quá quy định của nguồn tiền!','[-100522]: Exceed cash limit!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100523,'[-100523]: Vượt quá quy định của nguồn chứng khoán!','[-100523]: Exceed stock limit!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100524,'[-100524]: Vượt quá quy định của nguồn đặc biệt của chứng khoán!','[-100524]: Exceeding the provisions of the special sources of stock!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100609,'[-100609] Hom dong chua tat toan','[-100609] ERR_SA_AF_HAVE_NOT_COMPLETE_PAYMENT','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100700,'[-100700] Hop dong van dang thuoc nhom margin','[-100700] ERR_SA_AF_IN_MARGIN_GROUP','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100701,'[-100701]: Chua thu hoi het han muc margin','[-100701]: ERR_SA_NOT_RETRIEVE_ALL_MARGIN_LIMIT!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100702,'-100702]: Chưa thu hết hạn mức T0','[-100702]: T0 LIMIT STILL REMAIN','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100703,'[-100703]: Chua thu het han muc T0','[-100703]: ERR_SA_T0_LIMIT_STILL_REMAIN','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100705,'[-100705]: Trùng mã ngân hàng!','[-100705]: ERR_SA_DUPLICATE_BANKNAME','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100706,'[-100706]:ERR_SA_CHANGEPASS_OLDPASSINVALID','[-100706]:ERR_SA_CHANGEPASS_OLDPASSINVALID','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100707,'[-100707]:ERR_SA_CHANGEPASS_INPUTINCORRECT','[-100707]:ERR_SA_CHANGEPASS_INPUTINCORRECT','SA',0);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100708,'Ngày backdate không hợp lệ','Backdate is invalid','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100720,'[-100720]: Sai giá trị Từ số tiền hoặc Đến số tiền','[-100720]: ERR_SA_FAMT_TOAMT_CONFLICT!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100721,'[-100721]: Phải xóa từ số tiền cao đến thấp','[-100721]: ERR_SA_CAN_NOT_DELELE!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100722,'[-100722]: Hệ thống còn tồn tại lệnh bán thỏa thuận tổng chưa phân bổ, phải thực hiện phân bổ trước xử lý cuối ngày!','[-100722]: Allocate group put through order exist','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100777,'[-100777]: Giao dịch đã được duyệt, không thể duyệt thêm giao dịch tương tự!','[-100777]: Transaction already approved, can not add same transaction!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100800,'[-100800]: File dữ liệu import đầu vào không hợp lệ!','[-100800]: File import invalid','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100801,'[-100801]: Ngày hết hiệu lực phải lớn hơn hay bằng ngày hiệu lực!','[-100801]: Expired date must be later than or equal to effective date','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100802,'[-100802]: Không được phép khai trùng giao dịch bị chặn!','[-100802]: Duplicate transaction on 1 account!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100803,'[-100803]: Loại hình lệnh đặt không được phép khai báo trùng!','[-100803]: OD type duplicate!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100804,'[-100804]: Loại hình ứng trước không được phép khai báo trùng!','[-100804]: Product type AD is duplicated!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100805,'[-100805]: Loại hình AF này đã có loại hình AD cho phép tự động ứng trước, không được gán thêm AD cho phép tự động ứng trước nữa.!','[-100805]: Auto AD type already assigned. Can not assign!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100806,'[-100806]: Ma chung khoan phai ton tai trong he thong !','[-100806]: Ma chung khoan phai ton tai trong he thong','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100807,'[-100807]: Tiểu khoản đã được gán vào nhóm tính phí !','[-100807]: Account already assign to broker fee group','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100808,'[-100808]: Tiểu khoản đã được gán vào nhóm tính phí theo số lưu ký !','[-100808]: Account already assign to group of calculating depository fee on Custody Code','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100846,'[-100846]: Tham số nguồn hệ thống, không được phép chỉnh sửa, xóa!','[-100846]: System parameters can not change!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100850,'[-100850]: Tiểu khoản đã được gán vào nhóm hạn mức rồi!','[-100850]: AF ALREADY ASSIGNED LIMIT!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100900,'[-100900]: Tiểu khoản đã được gán vào một nhóm hạn mức cùng mã chứng khoán!','[-100900]: Sub-account has been assigned to a group limit the stocks!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100991,'Không được phân quyền mức chi nhánh để sử dụng sản phẩm','The business product is invalid for branch','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100992,'Không được phân quyền mức phòng giao dịch để sử dụng sản phẩm','The business product is invalid for sub-branch','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100993,'Không được phân quyền mức tiểu khoản của khách hàng để sử dụng sản phẩm','The business product is invalid for customer sub-account product type','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100994,'Không được phân quyền mức NSD/nhóm để sử dụng sản phẩm','The business product is invalid for user/group','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100995,'Chi nhánh thực hiện giao dịch không hợp lệ','The invalid branch for transaction','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-100996,'Trùng qui định phân quyền chi nhánh cho giao dịch','Branch rights for transaction duplicated','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-122201,'[-122201]: Giao dịch này đã thực hiện phân bổ!','[-122201]: ERR_ISCI_STATUS_INVALID','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-180064,'[-180064]: DS CK được phép mua phải có giá trị "ALL" !','[-180064]: List symbol must be ALL!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-180065,'[-180065]: Tỷ lệ NAV/(Nợ - Tiền) nhỏ hơn tham số cho phép vẫn để DS CK được phép mua là "ALL" ?','[-180065]: Percentage NAV / (Debt - Cash) allows smaller dimensions, list symbol must be different ALL ?','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-180066,'[-180066]: Có mã chứng khoán không tồn tại hãy kiểm tra lại DS CK cho phép mua !','[-180066]: Symbol do not exist, check the List Symbol','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-180067,'[-180067]: Tỷ lệ NAV/(Nợ - Tiền) nhỏ hơn tham số cho phép. Hãy nhập DS CK cho phép mua khác ALL !','[-180067]: Percentage NAV / (Debt - Cash) allows smaller dimensions, list symbol must be different ALL!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-180068,'[-180068]: Tài khoản đã được khai báo cho mã CK này !','[-180068]: Account double with symbol !','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-200092,'[-200202]: Loại hình chứng khoán chưa được duyệt.','[-200092]: SETYPE not approved','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-200093,'[-200093]: Loại hình tiền chưa được duyệt.','[-200093]: CITYPE not approved','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-200094,'[-200094]: Loại hình credit line chưa được duyệt.','[-200094]: MRTYPE not approved','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-200095,'[-200095]: Loại hình vay chưa được duyệt.','[-200095]: LNTYPE not approved','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-200096,'[-200096]: Loại hình margin chưa được duyệt.','[-200096]: DFTYPE not approved','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-200101,'[-200101]: Loại hình ứng trươc chưa được duyệt.','[-200101]: ADTYPE not approved','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-200201,'[-200201]: Một khách hàng chỉ được có một tiểu khỏan nhận lệnh từ ETS','[-200201]: Duplicate ETS field','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-200202,'[-200202]: Loại hình tiểu khỏan chưa được duyệt.','[-200202]: AFTYPE not approved','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-260167,'[-260167]: Giao dịch không thực hiện được vì đã uttb!','[-260167]: Can not execute transaction, AD already executed!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-300040,'[-300040]: Trùng mã chứng khoán quyền!','[-300040]: CA symbol duplicated!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-300041,'[-300041]: Trái phiếu phải là trái phiếu chuyển đổi!','[-300041]: The symbol must be transferable ','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-400037,'[-400037]: Không thể xóa giao dịch này!','[-400037]: Can not delete this trasaction!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-400045,'[-400045]:Tài khoản đang vay!','[-400045]:Can not change overdraft account!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-400046,'[-400046]: Số chừng từ (Ngân Hàng) đã được thực hiện trong ngày giao dịch hiện tại','[-400046]: ERR_CI_REFNUM_DUPLICATED','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-540103,'[-540103]: Không tìm thấy loại tiền!','[-540103] :ERR_LN_CCYCD_NOTFOUND!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-700025,'[-700025]:Trang thai lenh khong hop le!','[-700025]:Order status invalid!','SA',null);
+INSERT INTO DEFERROR (ERRNUM,ERRDESC,EN_ERRDESC,MODCODE,CONFLVL)
+VALUES (-700061,'[-700061]: Ứng quá số tiền được phép ứng','[-700061]: AD amount exceed permitted amount','SA',null);
+insert into deferror (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100139, '[-100139]: Mã ký đánh giá đã tồn tại!', '[-100139]: NAV id duplicate!', 'SA', null);
+insert into deferror (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100164, '[-100164]: Kỳ đánh giá phải ở trạng thái hoạt động!', '[-100164]: Status invalid!', 'SA', null);
+INSERT into deferror (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100165, '[-100165]: Kỳ đánh giá phải ở trạng thái Có hiệu lực!', '[-100165]: Status invalid!', 'SA', null);
+insert into deferror (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100122, '[-100122]: Vượt quá tổng số tiền được phép chuyển tối đa/ 1 ngày, yêu cầu cần được phê duyệt!', '[-100122]: Approve required!', 'SA', null);
+insert into deferror (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100166, '[-100166]: Mã chi nhánh đã khai báo email', '[-100166]: Mã chi nhánh đã khai báo email!', 'SA', null);
+insert into deferror (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100167, '[-100167]: Vượt quá tổng số tiền được phép chuyển tối đa / 1 ngày!', '[-100167]: Exceed max amount allowed to transfer the day online!', 'SA', null);
+INSERT into deferror (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100036, '[-100036]: Trạng thái chi nhánh không hợp lệ!', '[-100021]: ERR_SA_BDS_OPERATION_ISINACTIVE', 'SA', null);
+insert into deferror (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100999, '[-100999]: Mã User đã khai báo!', '[-100999]: Mã User đã khai báo!', 'SA', null);
+insert into deferror (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100998, '[-100998]: Trạng thái User không hợp lệ!', '[-100998]: Trạng thái User không hợp lệ!', 'SA', null);
+insert into deferror (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100997, '[-100997]: User không thuộc chi nhánh!', '[-100997]: User không thuộc chi nhánh!', 'SA', null);
+insert into deferror (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100990, '[-100990]: Hạn mức tiền ứng nằm trong khoảng đã khai báo!', '[-100990]: Hạn mức tiền ứng nằm trong khoảng đã khai báo!', 'SA', null);
+insert into deferror (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100989, '[-100989]: Hạn mức tổng tiền chuyển nằm trong khoảng đã khai báo!', '[-100989]: Hạn mức tổng tiền chuyển nằm trong khoảng đã khai báo!', 'SA', null);
+insert into deferror(errnum, errdesc, en_errdesc, modcode, conflvl)
+values (-100230,'[-100230]: Vẫn còn tiểu khoản trong nhóm này','[-100230]: ERR_SA_STILL_HAS_AF','SA',null);
+insert into deferror(errnum, errdesc, en_errdesc, modcode, conflvl)
+values (-100231,'[-100231]: Trạng thái nhóm phải là hoạt động','[-100231]: ERR_SA_ACOUNT_IN_DUPLICATE_GRP','SA',null);
+insert into deferror(errnum, errdesc, en_errdesc, modcode, conflvl)
+values (-100901,'[-100901]: Đã tồn tại tiểu khoản trong nhóm','[-100901]: ERR_SA_ACOUNT_IN_DUPLICATE_GRP','SA',null);
+insert into deferror(errnum, errdesc, en_errdesc, modcode, conflvl)
+values (-100902,'[-100902]: Đã tồn tại tiểu khoản trong nhóm khác','[-100902]: ERR_SA_ACOUNT_IN_DUPLICATE_GR','SA',null);
+insert into deferror (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100168, '[-100168]: Vượt quá số tiền chuyển khác chính chủ tối đa/ 1 ngày!', '[-100168]: Exceed max amount allowed to transfer the day online!', 'SA', null);
+insert into DEFERROR (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100277, '[-100277]: Không cho phép gán một chi nhánh vào nhiều khu vực !', '[-100277]: Không cho phép gán một chi nhánh vào nhiều khu vực!', 'SA', null);
+insert into DEFERROR (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100278, '[-100278]: Mã khu vực bị trùng!', '[-100278]: Area code is duplicated!', 'SA', null);
+insert into DEFERROR (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100279, '[-100279]: Không thể xoá khi chi nhánh đang gán với khu vực!', '[-100279]: Không thể xoá khi chi nhánh đang gán với khu vực!', 'SA', null);
+insert into deferror (ERRNUM, ERRDESC, EN_ERRDESC, MODCODE, CONFLVL)
+values (-100437, '[-100437]: Số tiền thu phí ứng trước không hợp lệ', '[-100437]: ERR_INVALID_AMT_ADVFEE', 'SA', null);
+COMMIT;
+/

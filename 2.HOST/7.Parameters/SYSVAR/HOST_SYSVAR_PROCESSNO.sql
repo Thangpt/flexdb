@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'PROCESSNO';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('BANKGW','PROCESSNO','1','So luong record xu ly 1 lan quet','So luong record xu ly 1 lan quet','N');
+COMMIT;
+/

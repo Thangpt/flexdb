@@ -1,0 +1,270 @@
+CREATE OR REPLACE PROCEDURE od0035 (
+   PV_REFCURSOR   IN OUT   PKG_REPORT.REF_CURSOR,
+   OPT            IN       VARCHAR2,
+   BRID           IN       VARCHAR2,
+   F_DATE         IN       VARCHAR2,
+   T_DATE         IN       VARCHAR2,
+   ACCTNO         IN       VARCHAR2
+
+   )
+IS
+--
+-- PURPOSE: BRIEFLY EXPLAIN THE FUNCTIONALITY OF THE PROCEDURE
+-- TONG HOP KET QUA KHOP LENH
+-- MODIFICATION HISTORY
+-- PERSON      DATE    COMMENTS
+-- NAMNT   21-NOV-06  CREATED
+-- ---------   ------  -------------------------------------------
+
+   V_STROPTION          VARCHAR2 (5);            -- A: ALL; B: BRANCH; S: SUB-BRANCH
+   V_STRBRID            VARCHAR2 (4);               -- USED WHEN V_NUMOPTION > 0
+   V_STREXECTYPE        VARCHAR2 (5);
+   V_STRSYMBOL          VARCHAR2 (5);
+   V_STRTRADEPLACE      VARCHAR2 (3);
+   V_STRVOUCHER         VARCHAR2 (3);
+   V_STRTYPEORDER       VARCHAR2 (3);
+
+   V_STRPRICETYPE       VARCHAR2 (10);
+   V_NUMFEEACR          NUMBER;
+   V_NUMFEEACR_BRO      NUMBER;
+   V_NUMFEE_TD          NUMBER;
+   V_STRACCTNO          VARCHAR2 (15);
+   V_STRSDDK            NUMBER(20, 2);
+   V_CRAMT              NUMBER;
+   V_DRAMT              NUMBER;
+
+   V_DATE         DATE;
+   V_D_CUR        DATE;
+   V_NUMSM        NUMBER (20, 2);
+   V_NUMRM        NUMBER (20, 2);
+   V_NUMTD       NUMBER (20, 2);
+   CUR                  PKG_REPORT.REF_CURSOR;
+
+
+-- DECLARE PROGRAM VARIABLES AS SHOWN ABOVE
+BEGIN
+   V_STROPTION := OPT;
+
+   IF (V_STROPTION <> 'A') AND (BRID <> 'ALL')
+   THEN
+      V_STRBRID := BRID;
+   ELSE
+      V_STRBRID := '%%';
+   END IF;
+
+    -- GET REPORT'S PARAMETERS
+
+   --
+    IF (ACCTNO  <> 'ALL')
+   THEN
+      V_STRACCTNO := ACCTNO;
+   ELSE
+      V_STRACCTNO := '%%';
+   END IF;
+
+
+   --xem lai doan nay
+/*   OPEN    CUR
+    FOR
+    SELECT TO_DATE(VARVALUE,'DD/MM/YYYY') FROM SYSVAR  WHERE VARNAME='CURRDATE';
+
+    LOOP
+      FETCH    CUR
+      INTO V_D_CUR ;
+      EXIT WHEN    CUR%NOTFOUND;
+    END LOOP;
+    CLOSE    CUR;
+
+    --NGAY TINH TIEN CHO NHAN VE
+
+    IF  TO_DATE(T_DATE,'DD/MM/YYYY') < V_D_CUR THEN
+
+    OPEN    CUR
+    FOR
+    SELECT A.SBDATE
+    FROM
+    (SELECT ROWNUM DAY,SBDATE
+        FROM
+        (   SELECT  SBDATE FROM SBCLDR
+            WHERE CLDRTYPE='001' AND HOLIDAY='N' AND
+            SBDATE < TO_DATE(T_DATE  ,'DD/MM/YYYY')
+            ORDER BY SBDATE  DESC
+        )SBCLDR
+    )A
+    WHERE A.DAY = 3;
+
+    LOOP
+      FETCH    CUR
+      INTO V_DATE ;
+      EXIT WHEN    CUR%NOTFOUND;
+    END LOOP;
+    CLOSE    CUR;
+
+
+    OPEN    CUR
+        FOR
+
+   SELECT SUM(SM) SM, SUM(RM) RM
+    FROM
+    (
+        SELECT NVL(SUM(STS.AMT),0) SM, 0 RM FROM
+        (
+        SELECT ACCTNO,AMT FROM STSCHD
+        WHERE DUETYPE ='SM' AND  TXDATE < TO_DATE (T_DATE ,'DD/MM/YYYY')
+        AND TXDATE > V_DATE
+        and deltd <>'Y'
+        UNION ALL
+        SELECT ACCTNO,AMT FROM STSCHDHIST
+        WHERE DUETYPE ='SM'  AND TXDATE < TO_DATE (T_DATE ,'DD/MM/YYYY')
+        AND TXDATE >  V_DATE
+        and deltd <>'Y'
+        )STS,
+        (SELECT af.acctno  FROM afmast af, cfmast cf
+         WHERE af.custid = cf.custid
+         AND SUBSTR(AF.ACCTNO,1,4) LIKE V_STRBRID
+        ) AF
+        WHERE STS.ACCTNO = AF.ACCTNO
+        AND SUBSTR(STS.ACCTNO,1,4) LIKE V_STRBRID
+        AND af.acctno LIKE V_STRACCTNO
+        UNION ALL
+        SELECT 0 SM, NVL(SUM(STS.AMT),0) RM FROM
+        (
+        SELECT ACCTNO,AMT FROM STSCHD
+        WHERE DUETYPE ='RM' AND  TXDATE < TO_DATE (T_DATE ,'DD/MM/YYYY')
+        AND TXDATE > V_DATE
+        and deltd <>'Y'
+        UNION ALL
+        SELECT ACCTNO,AMT FROM STSCHDHIST
+        WHERE DUETYPE ='RM'  AND TXDATE < TO_DATE (T_DATE ,'DD/MM/YYYY')
+        AND TXDATE >  V_DATE
+        and deltd <>'Y'
+        )STS,
+        (SELECT af.acctno  FROM afmast af, cfmast cf
+         WHERE af.custid = cf.custid
+         AND SUBSTR(AF.ACCTNO,1,4) LIKE V_STRBRID
+        ) AF
+        WHERE STS.ACCTNO = AF.ACCTNO
+        AND SUBSTR(STS.ACCTNO,1,4) LIKE V_STRBRID
+        AND af.acctno LIKE V_STRACCTNO
+    )
+        ;
+
+
+
+
+    ELSE
+
+    OPEN    CUR
+    FOR
+    SELECT A.SBDATE
+    FROM
+    (  SELECT ROWNUM DAY,SBDATE
+        FROM
+        (   SELECT  SBDATE FROM SBCLDR
+            WHERE CLDRTYPE='001' AND HOLIDAY='N' AND
+            SBDATE < TO_DATE(T_DATE  ,'DD/MM/YYYY')
+            ORDER BY SBDATE  DESC
+        )SBCLDR
+    )A
+    WHERE A.DAY = 4;
+
+
+    LOOP
+      FETCH    CUR
+      INTO V_DATE ;
+      EXIT WHEN    CUR%NOTFOUND;
+    END LOOP;
+    CLOSE    CUR;
+
+
+    OPEN    CUR
+        FOR
+    SELECT SUM(SM) SM, SUM(RM) RM
+    FROM
+    (
+        SELECT NVL(SUM(STS.AMT),0) SM, 0 RM FROM
+        (
+        SELECT ACCTNO,AMT FROM STSCHD
+        WHERE DUETYPE ='SM' AND  TXDATE < TO_DATE (T_DATE ,'DD/MM/YYYY')
+        AND TXDATE > V_DATE
+        and deltd <>'Y'
+        UNION ALL
+        SELECT ACCTNO,AMT FROM STSCHDHIST
+        WHERE DUETYPE ='SM'  AND TXDATE < TO_DATE (T_DATE ,'DD/MM/YYYY')
+        AND TXDATE >  V_DATE
+        and deltd <>'Y'
+        )STS,
+        (SELECT af.acctno  FROM afmast af, cfmast cf
+         WHERE af.custid = cf.custid
+         AND SUBSTR(AF.ACCTNO,1,4) LIKE V_STRBRID
+        ) AF
+        WHERE STS.ACCTNO = AF.ACCTNO
+        AND SUBSTR(STS.ACCTNO,1,4) LIKE V_STRBRID
+        AND af.acctno LIKE V_STRACCTNO
+        UNION ALL
+        SELECT 0 SM, NVL(SUM(STS.AMT),0) RM FROM
+        (
+        SELECT ACCTNO,AMT FROM STSCHD
+        WHERE DUETYPE ='RM' AND  TXDATE < TO_DATE (T_DATE ,'DD/MM/YYYY')
+        AND TXDATE > V_DATE
+        and deltd <>'Y'
+        UNION ALL
+        SELECT ACCTNO,AMT FROM STSCHDHIST
+        WHERE DUETYPE ='RM'  AND TXDATE < TO_DATE (T_DATE ,'DD/MM/YYYY')
+        AND TXDATE >  V_DATE
+        and deltd <>'Y'
+        )STS,
+        (SELECT af.acctno  FROM afmast af, cfmast cf
+         WHERE af.custid = cf.custid
+         AND SUBSTR(AF.ACCTNO,1,4) LIKE V_STRBRID
+        ) AF
+        WHERE STS.ACCTNO = AF.ACCTNO
+        AND SUBSTR(STS.ACCTNO,1,4) LIKE V_STRBRID
+        AND af.acctno LIKE V_STRACCTNO
+    )
+     ;
+
+    END IF;
+
+    LOOP
+          FETCH    CUR
+           INTO V_NUMSM, V_NUMRM    ;
+          EXIT WHEN    CUR%NOTFOUND;
+   END LOOP;
+   CLOSE    CUR;
+*/
+
+
+
+
+
+OPEN PV_REFCURSOR
+   FOR
+
+SELECT   SYMBOL, SUM(OD.ORDERQTTY) ORDERQTTY
+, SUM(OD.ORDERQTTY*OD.QUOTEPRICE)  OD_AMT  , SUM(OD.EXECQTTY) EXECQTTY, SUM(OD.EXECAMT) EXECAMT,
+(CASE WHEN sum(OD.EXECQTTY) > 0 THEN  ROUND(SUM(OD.EXECAMT)/SUM(OD.EXECQTTY)) ELSE 0 END )  AVPRICE,MAX(OD.CIACCTNO) CIACCTNO,MAX(CF.FULLNAME) FULLNAME,
+ MAX(SB.TRADEPLACE) TRADEPLACE,MAX(CF.CUSTODYCD) CUSTODYCD, SUM(NVL(OD.FEEACR,0))  FEEACR,
+( CASE WHEN OD.EXECTYPE ='NB'  THEN 'NB' ELSE  'NS' END ) EXECTYPE,  ( CASE WHEN OD.EXECQTTY >0  THEN 'khop' ELSE  'khong khop' END ) ismatch ,
+(CASE WHEN sum(OD.ORDERQTTY) > 0 THEN  sum(OD.EXECQTTY )* 100/sum(OD.ORDERQTTY)  ELSE 0 END ) ratio
+FROM
+(SELECT * FROM ODMAST WHERE DELTD<>'Y' UNION ALL SELECT * FROM  ODMASTHIST WHERE DELTD<>'Y')OD, SBSECURITIES SB,AFMAST AF ,CFMAST CF
+    WHERE OD.CIACCTNO=AF.ACCTNO
+    AND AF.ACCTNO like V_STRACCTNO
+    AND AF.CUSTID=CF.CUSTID
+    AND OD.CODEID=SB.CODEID
+    AND OD.EXECTYPE IN('NB','NS','MS')
+    AND OD.TXDATE >= TO_DATE (F_DATE  , 'DD/MM/YYYY')
+    AND OD.TXDATE <= TO_DATE (T_DATE  , 'DD/MM/YYYY')
+GROUP BY SYMBOL,( CASE WHEN OD.EXECTYPE ='NB'  THEN 'NB' ELSE  'NS' END ) , ( CASE WHEN OD.EXECQTTY >0  THEN 'khop' ELSE  'khong khop' END )
+ORDER BY ( CASE WHEN sum(OD.EXECQTTY) >0  THEN 'khop' ELSE  'khong khop' END ),SB.SYMBOL
+,( CASE WHEN OD.EXECTYPE ='NB'  THEN 'NB' ELSE  'NS' END )
+;
+
+EXCEPTION
+   WHEN OTHERS
+   THEN
+      RETURN;
+END;                                                              -- PROCEDURE
+/
+

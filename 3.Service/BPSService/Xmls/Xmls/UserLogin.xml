@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <TableInfo>
+    <QueryKey>GETSHAUSERINFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT PASSWORD, SALT FROM SHAUSERLOGIN
+      WHERE USERNAME=UPPER(:USERNAME) AND ISCHECK='N'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETUSERLOGIN</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT U.USERNAME,HANDPHONE,LOGINPWD,TRADINGPWD,AUTHTYPE,U.STATUS,LOGINSTATUS,LASTCHANGED,NUMBEROFDAY,LASTLOGIN,
+        CASE WHEN u.expdate <= getcurrdate THEN 'Y' ELSE u.isreset END ISRESET,
+        ISMASTER,TOKENID,U.EXPDATE,
+        CF.CUSTID,CF.FULLNAME,CF.CUSTODYCD,CF.EMAIL, CF.ISBANKING, CF.CUSTATCOM ISLOCAL, TOKENID FROM USERLOGIN U,CFMAST CF
+      WHERE U.USERNAME=CF.USERNAME /*AND CF.STATUS='A'*/ AND U.STATUS = 'A'
+      AND U.USERNAME=UPPER(:SUSERNAME) AND U.LOGINPWD=LOWER(:SPASSWORD)     
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <!-- QuangVD sua 03/08/12: tach kiem phan kiem tra trang thai de hien thong bao -->
+  <TableInfo>
+    <QueryKey>GETUSERLOGIN2</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT U.USERNAME,HANDPHONE,LOGINPWD,TRADINGPWD,AUTHTYPE,U.STATUS,LOGINSTATUS,LASTCHANGED,NUMBEROFDAY,LASTLOGIN,
+        CASE WHEN u.expdate <= getcurrdate THEN 'Y' ELSE u.isreset END ISRESET,
+        ISMASTER,TOKENID,U.EXPDATE,
+        CF.CUSTID,CF.FULLNAME,CF.CUSTODYCD,CF.EMAIL, CF.ISBANKING, CF.CUSTATCOM ISLOCAL, TOKENID, 
+      CF.STATUS CFMASTSTATUS, U.STATUS USERLOGINSTATUS
+      FROM USERLOGIN U,CFMAST CF
+      WHERE U.USERNAME=CF.USERNAME AND U.USERNAME=UPPER(:SUSERNAME) AND U.LOGINPWD=LOWER(:SPASSWORD)        
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETUSERLOGINSHA1</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT U.*,CF.CUSTID,CF.FULLNAME,CF.CUSTODYCD,CF.EMAIL, CF.ISBANKING, CF.CUSTATCOM ISLOCAL, TOKENID, 
+      CF.STATUS CFMASTSTATUS, U.STATUS USERLOGINSTATUS
+      FROM SHAUSERLOGIN SHAU,CFMAST CF, USERLOGIN U
+      WHERE SHAU.USERNAME=U.USERNAME AND U.USERNAME=CF.USERNAME AND U.USERNAME=UPPER(:SUSERNAME)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>UPDATEISCHECKSHA</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      update shauserlogin
+      set ischeck='Y'
+      where username=UPPER(:SUSERNAME)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHECKUSEREXIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT USERNAME FROM USERLOGIN
+      WHERE USERNAME=UPPER(:SUSERNAME)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_USERLOGIN_FOR_SUPPORT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+     SELECT U.USERNAME,HANDPHONE,LOGINPWD,TRADINGPWD,AUTHTYPE,U.STATUS,LOGINSTATUS,LASTCHANGED,NUMBEROFDAY,LASTLOGIN,
+        CASE WHEN u.expdate <= getcurrdate THEN 'Y' ELSE u.isreset END ISRESET,
+        ISMASTER,TOKENID,U.EXPDATE,
+        CF.CUSTID,CF.FULLNAME,CF.CUSTODYCD,CF.EMAIL, CF.ISBANKING, CF.CUSTATCOM ISLOCAL, '' TOKENID, 
+      CF.STATUS CFMASTSTATUS, U.STATUS USERLOGINSTATUS
+      FROM USERLOGIN U,CFMAST CF
+      WHERE U.USERNAME=CF.USERNAME AND U.USERNAME=UPPER(:SUSERNAME)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GET_MODULE_PERMISSION</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT D.*
+      FROM OTRIGHT O, OTRIGHTDTL D, ALLCODE A, SYSVAR S
+      WHERE O.AUTHCUSTID = D.AUTHCUSTID
+      AND O.AFACCTNO = D.AFACCTNO
+      AND D.DElTD = 'N'
+      AND O.DElTD = 'N'
+      AND O.AUTHCUSTID = :CUSTID
+      AND A.CDVAL = D.OTMNCODE
+      AND A.CDNAME = 'OTFUNC'
+      AND S.VARNAME = 'CURRDATE' AND S.GRNAME ='SYSTEM'
+      AND TO_DATE(S.VARVALUE, 'DD/MM/RRRR') <= O.EXPDATE
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHECKLOGINPASS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM USERLOGIN WHERE USERNAME=UPPER(:SUSERNAME) AND LOGINPWD=LOWER(:SPASSWORD)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHECKLOGINPASSISNOTTRADINGPASS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM USERLOGIN WHERE USERNAME=UPPER(:SUSERNAME) AND TRADINGPWD!=LOWER(:SPASSWORD)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <!--      SELECT * FROM USERLOGIN WHERE USERNAME=UPPER('SUSERNAME') AND TRADINGPWD=UPPER('STRADINGPASSWORD')-->
+  <TableInfo>
+    <QueryKey>CHECKTRADINGPASS</QueryKey>
+    <QueryValue>
+      <![CDATA[      SELECT CF.CUSTID FROM USERLOGIN U, CFMAST CF
+      WHERE U.USERNAME=CF.USERNAME /*AND CF.STATUS='A'*/
+      AND U.USERNAME=UPPER(:SUSERNAME) AND U.TRADINGPWD=LOWER(:STRADINGPASSWORD)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETCUSTID</QueryKey>
+    <QueryValue>
+      <![CDATA[      SELECT CF.CUSTID FROM USERLOGIN U, CFMAST CF
+      WHERE U.USERNAME=CF.USERNAME --AND CF.STATUS='A'
+      AND U.USERNAME=UPPER(:SUSERNAME)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHECKTRADINGANDLOGINPASS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM USERLOGIN WHERE USERNAME=UPPER(:SUSERNAME) AND TRADINGPWD=LOWER(:STRADINGPASSWORD)
+      AND LOGINPWD=LOWER(:SPASSWORD)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHECKTRADINGPASSISNOTLOGINPASS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM USERLOGIN WHERE USERNAME=UPPER(:SUSERNAME) AND LOGINPWD!=LOWER(:STRADINGPASSWORD)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>UPDATELOGINPASSWORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      UPDATE USERLOGIN SET LOGINPWD=(:SNEWPASSWORD),
+      LASTCHANGED=sysdate
+      WHERE USERNAME=UPPER(:SUSERNAME)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>UPDATEMD5PASSWORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      UPDATE USERLOGIN SET LOGINPWD=LOWER(:SNEWLOGINPWD), TRADINGPWD=LOWER(:SNEWTRADINGPWD), 
+      LASTCHANGED=sysdate, isreset='N'
+      WHERE USERNAME=UPPER(:SUSERNAME)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>UPDATETRADINGPASSWORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      UPDATE USERLOGIN SET TRADINGPWD=LOWER(:SNEWPASSWORD),
+      LASTCHANGED=sysdate
+      WHERE USERNAME=UPPER(:SUSERNAME)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>UPDATELOGINANDTRADINGPASSWORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      UPDATE USERLOGIN SET LOGINPWD=LOWER(:SNEWLOGINPASSWORD),
+      TRADINGPWD=LOWER(:SNEWTRADINGPASSWORD),
+      ISRESET='N',
+      LASTCHANGED=sysdate
+      WHERE USERNAME=UPPER(:SUSERNAME)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <!-- 20120212 Loc sua GETCONTRACTLIST su dung OTRIGHT, CO KIEM TRA EXPIRE DATE  -->
+  <TableInfo>
+    <QueryKey>GETCONTRACTLIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT 1 OWNER,AF.ACCTNO,AF.Fax1,AF.Email,CF.CUSTODYCD,AF.CUSTID,CF.FULLNAME,'YYYYYYYYYY' LINKAUTH,AF.BANKACCTNO, 
+              AF.BANKNAME,CI.COREBANK,AF.STATUS,'' TYPENAME, AFT.TYPENAME AFTYPE, 
+              (CASE WHEN R.EXPDATE < TO_DATE(:TXDATE, 'DD/MM/RRRR') THEN 'Y' ELSE 'N' END) EXPIRED, AF.TRADEONLINE
+                FROM OTRIGHT R, AFMAST AF,CFMAST CF,CIMAST CI, AFTYPE AFT
+                WHERE AF.CUSTID=CF.CUSTID
+                AND AF.ACCTNO=CI.AFACCTNO 
+                AND AF.ACTYPE=AFT.ACTYPE                
+                AND R.AFACCTNO = AF.ACCTNO
+                AND R.AUTHCUSTID = CF.CUSTID
+                AND R.DELTD = 'N'
+                AND AF.CUSTID=:SCUSTID
+                --AND AF.TRADEONLINE = 'Y'
+                --AND TO_DATE(:TXDATE, 'DD/MM/RRRR') <= R.EXPDATE
+        UNION ALL
+         SELECT 0 OWNER,R.AFACCTNO,AF.Fax1,AF.Email,CF.CUSTODYCD,CF.CUSTID,CF.FULLNAME,'NNNNNNNNNN' LINKAUTH,AF.BANKACCTNO, 
+                AF.BANKNAME,CI.COREBANK,AF.STATUS, '' TYPENAME, AFT.TYPENAME AFTYPE,
+                (CASE WHEN R.EXPDATE < TO_DATE(:TXDATE, 'DD/MM/RRRR') THEN 'Y' ELSE 'N' END) EXPIRED, AF.TRADEONLINE
+                FROM OTRIGHT R, AFMAST AF, CFMAST CF, CIMAST CI, AFTYPE AFT
+                WHERE AF.CUSTID=CF.CUSTID
+                AND AF.ACCTNO=CI.AFACCTNO 
+                AND AF.ACTYPE=AFT.ACTYPE
+                AND R.AFACCTNO = AF.ACCTNO
+                AND R.AUTHCUSTID <> CF.CUSTID
+                AND R.DELTD = 'N'
+                AND R.AUTHCUSTID = :SCUSTID
+                --AND AF.TRADEONLINE = 'Y'
+                --AND TO_DATE(:TXDATE, 'DD/MM/RRRR') <= R.EXPDATE
+          ORDER BY OWNER DESC
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETCOREBANKINFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT 1 OWNER,AF.ACCTNO,AF.CUSTID,CF.FULLNAME,'YYYYYYYYYY' LINKAUTH,AF.BANKACCTNO,CI.COREBANK,AF.STATUS, AFT.TYPENAME
+      FROM AFMAST AF,CFMAST CF,CIMAST CI, aftype aft
+      WHERE AF.CUSTID=CF.CUSTID AND AF.STATUS='A'
+      AND AF.ACCTNO=CI.AFACCTNO 
+      AND AF.ACTYPE=aft.ACTYPE
+      AND AF.CUSTID=:CUSTID
+      UNION ALL
+      SELECT 0 OWNER,L.ACCTNO,L.CUSTID,CF.FULLNAME,L.LINKAUTH,AF.BANKACCTNO,CI.COREBANK,AF.STATUS, AFT.TYPENAME
+      FROM CFLINK L,AFMAST AF,CFMAST CF,CIMAST CI, aftype aft
+      WHERE L.ACCTNO=AF.ACCTNO AND AF.CUSTID=CF.CUSTID AND CF.STATUS='A'
+      AND AF.ACCTNO=CI.AFACCTNO 
+      AND AF.ACTYPE=aft.ACTYPE
+      AND L.CUSTID=:CUSTID
+      AND L.LINKTYPE='000'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>RESETPASS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_resetpassonline
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>UPDATEPASS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_updatepassonline
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>ROLECOUNT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      select COUNT(rolecd) ROLECOUNT
+      from cfmast cf, afmast af, issuer_member im, issuers iss, allcode ac
+      where cf.custid=af.custid
+      and af.acctno=:AFACCTNO
+      and im.custid=cf.custid
+      and im.issuerid=iss.issuerid
+      and iss.shortname=:SYMBOL
+      and ac.cdname='ROLECD' AND AC.CDTYPE='SA' AND AC.CDVAL=IM.ROLECD
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHANGE_PASS_PIN</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_updatepasspinonline
+      ]]>
+    </QueryValue>
+  </TableInfo>
+</root>

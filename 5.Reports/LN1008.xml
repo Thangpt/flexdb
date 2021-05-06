@@ -1,0 +1,78 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="RptData" msprop:REFCursorName="REFCursor">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="CUSTODYCD" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="AFACCTNO" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="FULLNAME" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="LNACCTNO" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="RLSDATE" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="LOANRATE" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="CUST_LOANRATE" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="P_LOANRATE" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="BE_ORGLNAMT" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="ORGPAIDAMT" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="INTPAIDAMT" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="P_INTPAIDAMT" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="FEEPAIDAMT" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="INTCTOB" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="INTFEEAMT" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="CUSTBANK" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="BANKNAME" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="BANKSHORTNAME" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="SIGNER" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <RptData>
+    <CUSTODYCD>091C001018</CUSTODYCD>
+    <AFACCTNO>0001002368</AFACCTNO>
+    <FULLNAME>qaaaaa</FULLNAME>
+    <LNACCTNO>8138</LNACCTNO>
+    <RLSDATE>03/09/2014</RLSDATE>
+    <LOANRATE>17</LOANRATE>
+    <CUST_LOANRATE>0</CUST_LOANRATE>
+    <P_LOANRATE>17</P_LOANRATE>
+    <BE_ORGLNAMT>248992200</BE_ORGLNAMT>
+    <ORGPAIDAMT>105806181</ORGPAIDAMT>
+    <INTPAIDAMT>0</INTPAIDAMT>
+    <P_INTPAIDAMT>235159</P_INTPAIDAMT>
+    <FEEPAIDAMT>0</FEEPAIDAMT>
+    <INTCTOB>235159.30</INTCTOB>
+    <INTFEEAMT>338078.1005</INTFEEAMT>
+    <CUSTBANK>MSBS</CUSTBANK>
+    <BANKNAME>MSBS</BANKNAME>
+    <BANKSHORTNAME>MSBS</BANKSHORTNAME>
+    <SIGNER>TGD</SIGNER>
+  </RptData>
+  <RptData>
+    <CUSTODYCD>091C001018</CUSTODYCD>
+    <AFACCTNO>0001002368</AFACCTNO>
+    <FULLNAME>qaaaaa</FULLNAME>
+    <LNACCTNO>8139</LNACCTNO>
+    <RLSDATE>03/09/2014</RLSDATE>
+    <LOANRATE>17</LOANRATE>
+    <CUST_LOANRATE>0</CUST_LOANRATE>
+    <P_LOANRATE>17</P_LOANRATE>
+    <BE_ORGLNAMT>10693838</BE_ORGLNAMT>
+    <ORGPAIDAMT>10693838</ORGPAIDAMT>
+    <INTPAIDAMT>0</INTPAIDAMT>
+    <P_INTPAIDAMT>10100</P_INTPAIDAMT>
+    <FEEPAIDAMT>0</FEEPAIDAMT>
+    <INTCTOB>10099.7358</INTCTOB>
+    <INTFEEAMT>0</INTFEEAMT>
+    <CUSTBANK>0001001634</CUSTBANK>
+    <BANKNAME>Ngân hàng MSB</BANKNAME>
+    <BANKSHORTNAME>MSB</BANKSHORTNAME>
+    <SIGNER>TGD</SIGNER>
+  </RptData>
+</NewDataSet>

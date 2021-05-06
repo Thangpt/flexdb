@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'SYSMAILSERVER';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('SYSTEM','SYSMAILSERVER','webmail3.vndirect.com.vn','Địa chỉ mail server','mail server address','N');
+COMMIT;
+/

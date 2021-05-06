@@ -1,0 +1,69 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="RptData" msprop:REFCursorName="REFCursor">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="_x003A_B4" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="_x003A_B3" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="FULLNAME" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="TEN_NHOM" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="MA_NHOM" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="TYPENAME" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="REROLE" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="ACCTNO" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="MG_GTGD" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="MG_PHIGD" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="MG_PHITRASO" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="MG_PHITHUAN" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="DSF_PHITHUAN" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="DSF_MATCHAMT" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="DSF_FEEACR" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="DSF_RFMATCHAMT" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <RptData>
+    <_x003A_B4>0001922219</_x003A_B4>
+    <_x003A_B3>%</_x003A_B3>
+    <FULLNAME>Vũ Thị Loan</FULLNAME>
+    <TEN_NHOM>TT KHCC số 1</TEN_NHOM>
+    <MA_NHOM>101</MA_NHOM>
+    <TYPENAME>BR2 Test 50%-55%</TYPENAME>
+    <REROLE>BM</REROLE>
+    <ACCTNO>00019222190010</ACCTNO>
+    <MG_GTGD>20828980000</MG_GTGD>
+    <MG_PHIGD>27077674</MG_PHIGD>
+    <MG_PHITRASO>6248694</MG_PHITRASO>
+    <MG_PHITHUAN>20828980</MG_PHITHUAN>
+    <DSF_PHITHUAN>11321736</DSF_PHITHUAN>
+    <DSF_MATCHAMT>9434780000</DSF_MATCHAMT>
+    <DSF_FEEACR>14152170</DSF_FEEACR>
+    <DSF_RFMATCHAMT>2830434</DSF_RFMATCHAMT>
+  </RptData>
+  <RptData>
+    <_x003A_B4>0001922219</_x003A_B4>
+    <_x003A_B3>%</_x003A_B3>
+    <FULLNAME>Vũ Thị Loan</FULLNAME>
+    <TEN_NHOM>TT KHCC số 1</TEN_NHOM>
+    <MA_NHOM>101</MA_NHOM>
+    <TYPENAME>BR chăm sóc KH của DSF tự phát triển, fix 10%</TYPENAME>
+    <REROLE>BM</REROLE>
+    <ACCTNO>00019222190008</ACCTNO>
+    <MG_GTGD>10905840000</MG_GTGD>
+    <MG_PHIGD>14177592</MG_PHIGD>
+    <MG_PHITRASO>3271752</MG_PHITRASO>
+    <MG_PHITHUAN>10905840</MG_PHITHUAN>
+    <DSF_PHITHUAN>12738528</DSF_PHITHUAN>
+    <DSF_MATCHAMT>10615440000</DSF_MATCHAMT>
+    <DSF_FEEACR>15923160</DSF_FEEACR>
+    <DSF_RFMATCHAMT>3184632</DSF_RFMATCHAMT>
+  </RptData>
+</NewDataSet>

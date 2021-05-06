@@ -1,0 +1,1 @@
+P/S giam TK [custodycode] ngay [txdate] [txdesc] CK [symbol] KL [amount] CP. So du [trade] CP

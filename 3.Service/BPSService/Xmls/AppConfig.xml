@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ROOT>
+  <PriceType>
+    <TradePlace>001</TradePlace>
+    <TypeList>LO</TypeList>
+    <PriceDef>B</PriceDef>
+    <AllowModify>Y</AllowModify>
+  </PriceType>
+  <PriceType>
+    <TradePlace>001</TradePlace>
+    <TypeList>ATO</TypeList>
+    <PriceDef>CF</PriceDef>
+    <AllowModify>N</AllowModify>
+  </PriceType>
+  <PriceType>
+    <TradePlace>001</TradePlace>
+    <TypeList>ATC</TypeList>
+    <PriceDef>CF</PriceDef>
+    <AllowModify>N</AllowModify>
+  </PriceType>
+  <PriceType>
+    <TradePlace>001</TradePlace>
+    <TypeList>MP</TypeList>
+    <PriceDef>CF</PriceDef>
+    <AllowModify>N</AllowModify>
+  </PriceType>
+   <PriceType>
+    <TradePlace>002</TradePlace>
+    <TypeList>LO</TypeList>
+    <PriceDef>B</PriceDef>
+    <AllowModify>Y</AllowModify>
+  </PriceType>
+  <PriceType>
+    <TradePlace>005</TradePlace>
+    <TypeList>LO</TypeList>
+    <PriceDef>B</PriceDef>
+    <AllowModify>Y</AllowModify>
+  </PriceType>
+</ROOT>

@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'RCVMDAY';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('SYSTEM','RCVMDAY','3','Chu ky ttoan cua cac lenh ttoan tien ban dau ngay ttoan',null,'N');
+COMMIT;
+/

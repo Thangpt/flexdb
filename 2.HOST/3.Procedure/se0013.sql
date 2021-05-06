@@ -1,0 +1,755 @@
+CREATE OR REPLACE PROCEDURE se0013(
+   PV_REFCURSOR     IN OUT   PKG_REPORT.REF_CURSOR,
+   OPT              IN       VARCHAR2,
+   BRID             IN       VARCHAR2,
+   TYPEDATE         IN       VARCHAR2,
+   F_DATE           IN       VARCHAR2,
+   T_DATE           IN       VARCHAR2,
+   CUSTODYCD        IN       VARCHAR2,
+   AFACCTNO         IN       VARCHAR2,
+   TLTXCD           IN       VARCHAR2,
+   SYMBOL           IN       VARCHAR2,
+   MAKER            IN       VARCHAR2,
+   CHECKER          IN       VARCHAR2
+        )
+   IS
+--
+-- To modify this template, edit file PROC.TXT in TEMPLATE
+-- directory of SQL Navigator
+-- BAO CAO DANH SACH GIAO DICH LUU KY
+-- Purpose: Briefly explain the functionality of the procedure
+-- DANH SACH GIAO DICH LUU KY
+-- MODIFICATION HISTORY
+-- Person      Date    Comments
+-- DUNGNH   14-SEP-09  MODIFIED
+-- ---------   ------  -------------------------------------------
+
+    V_STROPTION    VARCHAR2 (5);            -- A: ALL; B: BRANCH; S: SUB-BRANCH
+    V_STRBRID      VARCHAR2 (4);            -- USED WHEN V_NUMOPTION > 0
+    V_STRTLTXCD         VARCHAR (900);
+    V_STRTMPTLTXCD_1      VARCHAR (900);
+    V_STRTMPTLTXCD_2      VARCHAR (900);
+    V_STRTMPTLTXCD_3      VARCHAR (900);
+    V_STRTMPTLTXCD_4      VARCHAR (900);
+    V_STRSYMBOL         VARCHAR (20);
+    V_STRTYPEDATE       VARCHAR(5);
+    V_STRCHECKER        VARCHAR(20);
+    V_STRMAKER          VARCHAR(20);
+    V_STRCUSTODYCD          VARCHAR(20);
+    V_STRAFACCTNO          VARCHAR(20);
+
+   -- Declare program variables as shown above
+BEGIN
+    -- GET REPORT'S PARAMETERS
+   V_STROPTION := OPT;
+
+    V_STROPTION := OPT;
+    IF V_STROPTION = 'A' then
+        V_STRBRID := '%';
+    ELSIF V_STROPTION = 'B' then
+        V_STRBRID := substr(BRID,1,2) || '__' ;
+    else
+        V_STRBRID:=BRID;
+    END IF;
+
+   IF  (SYMBOL <> 'ALL')
+   THEN
+      V_STRSYMBOL := replace(SYMBOL,' ','_');
+   ELSE
+      V_STRSYMBOL := '%%';
+   END IF;
+   --V_STRSYMBOL := Replace(V_STRSYMBOL,'_','');
+   --V_STRSYMBOL := Trim(V_STRSYMBOL);
+
+   --V_STRTLTXCD := TLTXCD;
+   IF (TLTXCD <> 'ALL')
+   THEN
+        --V_STRTLTXCD := TLTXCD;
+        if instr('2253 2233 2232 2251 2200 2201 2202 2203 2240 2241 2243 2244 2245 2246 2250 2252 2273 2274 8878 8879 2247 2248 2254 2255 2265 2266', tltxcd) > 0 then
+              V_STRTLTXCD:= TLTXCD;
+              V_STRTMPTLTXCD_1:='';
+              V_STRTMPTLTXCD_2:='';
+              V_STRTMPTLTXCD_3:='';
+              V_STRTMPTLTXCD_4:='';
+        elsif instr('2230 2231 2263 2293 2652 2649 2673 3341 3353 3382 3383 3385 3392 3351 3355 3356 8868 8867',tltxcd ) >0 then
+              V_STRTLTXCD:= '';
+              V_STRTMPTLTXCD_1:=TLTXCD;
+              V_STRTMPTLTXCD_2:='';
+              V_STRTMPTLTXCD_3:='';
+              V_STRTMPTLTXCD_4:='';
+        elsif instr('2292 2294',TLTXCD) > 0 THEN
+              V_STRTLTXCD:= '';
+              V_STRTMPTLTXCD_1:='';
+              V_STRTMPTLTXCD_2:=TLTXCD;
+              V_STRTMPTLTXCD_3:='';
+              V_STRTMPTLTXCD_4:='';
+        elsif instr('2249 2650 8815, 8816, 8817', TLTXCD) > 0 THEN
+              V_STRTLTXCD:= '';
+              V_STRTMPTLTXCD_1:='';
+              V_STRTMPTLTXCD_2:='';
+              V_STRTMPTLTXCD_3:=TLTXCD;
+              V_STRTMPTLTXCD_4:='';
+        ELSif instr('2688', TLTXCD) > 0 THEN
+              V_STRTLTXCD:= '';
+              V_STRTMPTLTXCD_1:='';
+              V_STRTMPTLTXCD_2:='';
+              V_STRTMPTLTXCD_3:='';
+              V_STRTMPTLTXCD_4:=TLTXCD;
+        ELSE
+              V_STRTLTXCD:= '';
+              V_STRTMPTLTXCD_1:='';
+              V_STRTMPTLTXCD_2:='';
+              V_STRTMPTLTXCD_3:='';
+              V_STRTMPTLTXCD_4:='';
+        end if;
+
+   ELSE
+        V_STRTLTXCD := '2253 2233 2232 2251 2200 2201 2202 2203 2240 2241 2243 2244 2245 2246 2250 2252 2273 2274 8878 8879 2247 2248  2254 2255 2265 2266';
+        -- V_STRTLTXCD := V_STRTLTXCD || ' 2230 2231 2249 2263 2292 2293 2294 2295 2296 2650 2652 2654 2676 2688 3341 3353 3382 3383 3385 3392 3351';
+        V_STRTMPTLTXCD_1:= '2230 2231 2263 2293 2652 2673 2649 3341 3353 3382 3383 3385 3392 3351 3355 3356 8868 8867';
+        V_STRTMPTLTXCD_2:= '2292 2294';
+        V_STRTMPTLTXCD_3:= '2249 2650 8815, 8816, 8817';
+        V_STRTMPTLTXCD_4:= '2688';
+
+   END IF;
+
+   IF(TYPEDATE <> 'ALL') THEN
+        V_STRTYPEDATE := TYPEDATE;
+   ELSE
+        V_STRTYPEDATE := '003';
+   END IF;
+
+   IF(CHECKER <> 'ALL')
+   THEN
+        V_STRCHECKER := CHECKER;
+   ELSE
+        V_STRCHECKER := '%%';
+   END IF;
+
+   IF(MAKER <> 'ALL')
+   THEN
+        V_STRMAKER  := MAKER;
+   ELSE
+        V_STRMAKER  := '%%';
+   END IF;
+
+   IF(CUSTODYCD <> 'ALL')
+   THEN
+        V_STRCUSTODYCD  := CUSTODYCD;
+   ELSE
+        V_STRCUSTODYCD  := '%%';
+   END IF;
+
+   IF(AFACCTNO <> 'ALL')
+   THEN
+        V_STRAFACCTNO  := AFACCTNO;
+   ELSE
+        V_STRAFACCTNO  := '%%';
+   END IF;
+
+
+
+ IF V_STRTYPEDATE <> '003' THEN
+ OPEN PV_REFCURSOR
+    FOR
+SELECT A.*, B.TXDESC TXDESC_TLTX FROM (
+
+select CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        NVL(TLG.OFFID,' ') OFFID, TLG.BUSDATE, TLG.TXDESC, SB.SYMBOL, TLG.TXDATE, a.NAMT MSGAMT,
+        TLP.TLNAME MAKER , TLP1.TLNAME CHECKER, '' ACCTNO_DU, '' CUSTODYCD_DU
+from vw_dftran_all a, apptx b, vw_dfmast_all df , afmast af, cfmast cf, securities_info sb, vw_tllog_all TLG, TLPROFILES TLP, TLPROFILES TLP1
+where
+    TLG.TLID = TLP.TLID(+)
+    AND TLG.OFFID = TLP1.TLID (+)
+    AND TLG.tlid LIKE V_STRMAKER
+    AND INSTR(V_STRTMPTLTXCD_4, TLG.TLTXCD)>0 and length(V_STRTMPTLTXCD_4)>=4
+    AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+    AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+    AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+    and a.txcd=b.txcd and b.apptype='DF' and a.namt>0
+and a.acctno = df.acctno and df.afacctno = af.acctno and af.custid = cf.custid and df.codeid = sb.codeid
+and a.txnum = tlg.txnum and a.txdate=tlg.txdate and B.FIELD IN ('BLOCKQTTY','CARCVQTTY','RCVQTTY','DFQTTY','CACASHQTTY')
+
+UNION ALL
+
+SELECT DISTINCT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        NVL(TLG.OFFID,' ') OFFID, TLG.BUSDATE, TLG.TXDESC, SB.SYMBOL, TLG.TXDATE,
+        SE.NAMT MSGAMT,
+        TLP.TLNAME MAKER , TLP1.TLNAME CHECKER, '' ACCTNO_DU, '' CUSTODYCD_DU
+FROM
+    vw_tllog_all TLG, AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1,
+    SBSECURITIES SB, vw_setran_gen se
+WHERE AF.CUSTID = CF.CUSTID AND SE.CUSTID=CF.CUSTID and af.acctno = se.afacctno
+    AND TLG.TLTXCD = TL.TLTXCD
+    AND TLG.txnum = SE.txnum
+    AND TLG.txdate = SE.txdate
+    AND SE.CODEID=SB.CODEID
+    AND TLG.TLID = TLP.TLID(+)
+    AND TLG.OFFID = TLP1.TLID (+)
+    AND TLG.tlid LIKE V_STRMAKER
+    AND SE.FIELD IN ('DEPOSIT','TRADE','BLOCKED')
+    AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+    AND INSTR(V_STRTMPTLTXCD_1, TLG.TLTXCD)>0 and length(V_STRTMPTLTXCD_1)>=4
+    AND SB.SYMBOL NOT LIKE '%_WFT%'
+    AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+    AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+    AND TLG.deltd <> 'Y'
+    AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+
+union all
+
+SELECT DISTINCT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        NVL(TLG.OFFID,' ') OFFID, TLG.BUSDATE, TLG.TXDESC,nvl( sb.SYMBOL,'') SYMBOL, TLG.TXDATE,
+        tlg.MSGAMT,
+        nvl(TLP.TLNAME,'') MAKER , nvl(TLP1.TLNAME,'') CHECKER, '' ACCTNO_DU, '' CUSTODYCD_DU
+FROM
+    vw_tllog_all TLG, AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1, securities_info sb
+WHERE AF.CUSTID = CF.CUSTID
+    AND TLG.TLTXCD = TL.TLTXCD
+    and substr(tlg.msgacct,1,10) = af.acctno
+    and substr(tlg.msgacct,11,6) = sb.codeid(+)
+    AND TLG.TLID = TLP.TLID(+)
+    AND TLG.OFFID = TLP1.TLID (+)
+    AND nvl( TLG.tlid,'-') LIKE V_STRMAKER
+    AND ( nvl(TLG.offid,'-') LIKE V_STRCHECKER or V_STRCHECKER='%%')
+    AND INSTR(V_STRTMPTLTXCD_3, TLG.TLTXCD)>0 and length(V_STRTMPTLTXCD_3)>=4
+    AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+    AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+    AND TLG.deltd <> 'Y'
+    AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+
+union all
+
+SELECT DISTINCT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        NVL(TLG.OFFID,' ') OFFID, TLG.BUSDATE, TLG.TXDESC, tlgd1.CVALUE SYMBOL, TLG.TXDATE,
+        tlg.MSGAMT,
+        TLP.TLNAME MAKER , TLP1.TLNAME CHECKER, '' ACCTNO_DU, '' CUSTODYCD_DU
+FROM
+    vw_tllog_all TLG, AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1, (select * from vw_tllogfld_all where fldcd = '02') tlgd
+    , (select * from vw_tllogfld_all where fldcd = '04') tlgd1
+WHERE AF.CUSTID = CF.CUSTID
+    and tlg.txnum = tlgd.txnum
+    and tlg.txdate = tlgd.txdate
+    and tlg.txnum = tlgd1.txnum
+    and tlg.txdate = tlgd1.txdate
+    and tlgd.cvalue = af.acctno
+    AND TLG.TLTXCD = TL.TLTXCD
+    AND TLG.TLID = TLP.TLID(+)
+    AND TLG.OFFID = TLP1.TLID (+)
+    AND TLG.tlid LIKE V_STRMAKER
+    AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+    AND INSTR(V_STRTMPTLTXCD_2, TLG.TLTXCD)>0 and length(V_STRTMPTLTXCD_2)>=4
+    AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+    AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+    AND TLG.deltd <> 'Y'
+    AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+union all
+ SELECT distinct CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD,
+        TLG.TLID, NVL(TLG.OFFID,' ') OFFID, TLG.BUSDATE, TLG.TXDESC,
+        SB.SYMBOL, TLG.TXDATE, (CASE WHEN TLG.TLTXCD IN('8878','8879') then SE.namt ELSE TLG.msgamt END) MSGAMT,TLP.TLNAME MAKER , NVL(TLP1.TLNAME,' ') CHECKER, ' ' ACCTNO_DU,
+        ' ' CUSTODYCD_DU
+ FROM  TLLOG TLG,AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1,SBSECURITIES SB, SETRAN SE
+                       WHERE SUBSTR(TLG.MSGACCT,1,10) =AF.ACCTNO
+                        AND AF.CUSTID = CF.CUSTID
+                        AND TLG.TLTXCD = TL.TLTXCD
+                        AND TLG.txnum = SE.txnum
+                        AND TLG.txdate = SE.txdate
+                        AND TLG.TLID = TLP.TLID(+)
+                        AND TLG.OFFID = TLP1.TLID (+)
+                        AND 100 > (CASE WHEN TLG.TLTXCD IN('8878','8879') then SE.namt ELSE 0 END)
+                        AND TLG.tlid LIKE V_STRMAKER
+                        AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+                        AND SUBSTR(TLG.MSGACCT,11,6)  = SB.CODEID
+                        AND INSTR(V_STRTLTXCD, TLG.TLTXCD)>0 and length(V_STRTLTXCD)>=4
+                        AND TLG.tltxcd <> '2242'
+                        AND SB.SYMBOL LIKE V_STRSYMBOL
+                        AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+                        AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+                        AND TLG.deltd <> 'Y'
+                        AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+UNION ALL
+ SELECT DISTINCT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        NVL(TLG.OFFID,' ') OFFID, TLG.BUSDATE, TLG.TXDESC, SB.SYMBOL, TLG.TXDATE, (CASE WHEN TLG.TLTXCD IN('8878','8879') then SE.namt ELSE TLG.msgamt END) MSGAMT,
+        TLP.TLNAME MAKER , TLP1.TLNAME CHECKER, '' ACCTNO_DU, '' CUSTODYCD_DU
+ FROM  TLLOGALL TLG,AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1,SBSECURITIES SB, SETRANA SE
+                       WHERE SUBSTR(TLG.MSGACCT,1,10) =AF.ACCTNO
+                        AND AF.CUSTID = CF.CUSTID
+                        AND TLG.TLTXCD = TL.TLTXCD
+                        AND TLG.txnum = SE.txnum
+                        AND TLG.txdate = SE.txdate
+                        AND TLG.TLID = TLP.TLID(+)
+                        AND TLG.OFFID = TLP1.TLID (+)
+                        AND 100 > (CASE WHEN TLG.TLTXCD IN('8878','8879') then SE.namt ELSE 0 END)
+                        AND TLG.tlid LIKE V_STRMAKER
+                        AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+                        AND SUBSTR(TLG.MSGACCT,11,6)  = SB.CODEID
+                        AND INSTR(V_STRTLTXCD, TLG.TLTXCD)>0 and length(V_STRTLTXCD)>=4
+                        AND TLG.tltxcd <> '2242'
+                        AND SB.SYMBOL LIKE V_STRSYMBOL
+                        AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+                        AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+                        AND TLG.deltd <> 'Y'
+                        AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+UNION ALL
+
+SELECT A.FULLNAME, A.ACCTNO, A.CUSTODYCD, A.TXNUM, A.TLTXCD, A.TLID,
+        NVL(A.OFFID,' ') OFFID, A.BUSDATE, A.TXDESC, A.SYMBOL, A.TXDATE, A.MSGAMT,
+        A.MAKER , A.CHECKER , B.ACCTNO ACCTNO_DU, B.CUSTODYCD CUSTODYCD_DU
+FROM
+--TKGIAM
+(
+SELECT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        TLG.OFFID, TLG.BUSDATE, TLG.TXDESC, SB.SYMBOL, TLG.TXDATE, TLG.MSGAMT MSGAMT,
+        TLP.TLNAME MAKER , TLP1.TLNAME CHECKER
+FROM  TLLOG TLG, AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1,SBSECURITIES SB, SETRAN SE
+WHERE SUBSTR(SE.ACCTNO,1,10) =AF.ACCTNO
+AND AF.CUSTID = CF.CUSTID
+AND TLG.TLTXCD = TL.TLTXCD
+AND TLG.TLID = TLP.TLID(+)
+AND TLG.OFFID = TLP1.TLID (+)
+AND TLG.tlid LIKE V_STRMAKER
+AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+AND TLG.txnum = SE.txnum
+AND TLG.txdate = SE.txdate
+AND SE.txcd IN ('0040')
+AND TLG.deltd <> 'Y'
+AND TLG.TLTXCD = '2242'
+--AND (CASE WHEN length(V_STRTLTXCD) > 10 THEN TLG.TLTXCD END ) LIKE '%%'
+--AND TLG.tltxcd like (CASE WHEN length(V_STRTLTXCD) > 10 THEN '%%' ELSE '2242' END)
+--AND INSTR((CASE WHEN length(V_STRTLTXCD) > 10 THEN '2242' ELSE V_STRTLTXCD END), TLG.TLTXCD)>0 and length(V_STRTLTXCD)>=4
+AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+--AND TLG.TLTXCD  LIKE V_STRTLTXCD
+AND SUBSTR(TLG.MSGACCT,11,6)  = SB.CODEID
+AND SB.SYMBOL LIKE '%%'
+AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+
+) A Left JOIN
+--TKTANG
+(
+SELECT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        TLG.OFFID, TLG.BUSDATE, TLG.TXDESC, SB.SYMBOL, TLG.TXDATE, TLG.MSGAMT MSGAMT,
+        TLP.TLNAME MAKER , TLP1.TLNAME CHECKER
+FROM  TLLOG TLG, AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1,SBSECURITIES SB, SETRAN SE
+WHERE SUBSTR(SE.ACCTNO,1,10) =AF.ACCTNO
+AND AF.CUSTID = CF.CUSTID
+AND TLG.TLTXCD = TL.TLTXCD
+AND TLG.TLID = TLP.TLID(+)
+AND TLG.OFFID = TLP1.TLID (+)
+AND TLG.tlid LIKE V_STRMAKER
+AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+AND TLG.txnum = SE.txnum
+AND TLG.txdate = SE.txdate
+AND SE.txcd IN ('0045')
+AND TLG.deltd <> 'Y'
+AND TLG.TLTXCD = '2242'
+--AND (CASE WHEN length(V_STRTLTXCD) > 10 THEN TLG.TLTXCD END ) LIKE '%%'
+--AND TLG.tltxcd like (CASE WHEN length(V_STRTLTXCD) > 10 THEN '%%' ELSE '2242' END)
+--AND INSTR((CASE WHEN length(V_STRTLTXCD) > 10 THEN '2242' ELSE V_STRTLTXCD END), TLG.TLTXCD)>0 and length(V_STRTLTXCD)>=4
+AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+AND SUBSTR(TLG.MSGACCT,11,6)  = SB.CODEID
+AND SB.SYMBOL LIKE '%%'
+AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+
+) B
+ON (A.txnum = B.txnum AND A.txdate = B.txdate )
+
+UNION ALL
+SELECT A.FULLNAME, A.ACCTNO, A.CUSTODYCD, A.TXNUM, A.TLTXCD, A.TLID,
+        A.OFFID, A.BUSDATE, A.TXDESC, A.SYMBOL, A.TXDATE, A.MSGAMT,
+        A.MAKER , A.CHECKER , B.ACCTNO ACCTNO_DU, B.CUSTODYCD CUSTODYCD_DU
+FROM
+--TKGIAM
+(
+SELECT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        TLG.OFFID, TLG.BUSDATE, TLG.TXDESC, SB.SYMBOL, TLG.TXDATE, TLG.MSGAMT MSGAMT,
+        TLP.TLNAME MAKER , TLP1.TLNAME CHECKER
+FROM  TLLOGALL TLG, AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1,SBSECURITIES SB, SETRANA SE
+WHERE SUBSTR(SE.ACCTNO,1,10) =AF.ACCTNO
+AND AF.CUSTID = CF.CUSTID
+AND TLG.TLTXCD = TL.TLTXCD
+AND TLG.TLID = TLP.TLID(+)
+AND TLG.OFFID = TLP1.TLID (+)
+AND TLG.tlid LIKE V_STRMAKER
+AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+AND TLG.txnum = SE.txnum
+AND TLG.txdate = SE.txdate
+AND SE.txcd IN ('0040')
+AND TLG.deltd <> 'Y'
+AND TLG.TLTXCD = '2242'
+--AND (CASE WHEN length(V_STRTLTXCD) > 10 THEN TLG.TLTXCD END ) LIKE '%%'
+--AND TLG.tltxcd like (CASE WHEN length(V_STRTLTXCD) > 10 THEN '%%' ELSE '2242' END)
+--AND INSTR((CASE WHEN length(V_STRTLTXCD) > 10 THEN '2242' ELSE V_STRTLTXCD END), TLG.TLTXCD)>0 and length(V_STRTLTXCD)>=4
+AND SUBSTR(TLG.MSGACCT,11,6)  = SB.CODEID
+AND SB.SYMBOL LIKE V_STRSYMBOL
+AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+) A Left JOIN
+--TKTANG
+(
+SELECT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        TLG.OFFID, TLG.BUSDATE, TLG.TXDESC, SB.SYMBOL, TLG.TXDATE, TLG.MSGAMT MSGAMT,
+        TLP.TLNAME MAKER , TLP1.TLNAME CHECKER
+FROM  TLLOGALL TLG, AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1,SBSECURITIES SB, SETRANA SE
+WHERE SUBSTR(SE.ACCTNO,1,10) =AF.ACCTNO
+AND AF.CUSTID = CF.CUSTID
+AND TLG.TLTXCD = TL.TLTXCD
+AND TLG.TLID = TLP.TLID(+)
+AND TLG.OFFID = TLP1.TLID (+)
+AND TLG.tlid LIKE V_STRMAKER
+AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+AND TLG.txnum = SE.txnum
+AND TLG.txdate = SE.txdate
+AND SE.txcd IN ('0045')
+AND TLG.deltd <> 'Y'
+AND TLG.TLTXCD = '2242'
+--AND (CASE WHEN length(V_STRTLTXCD) > 10 THEN TLG.TLTXCD END ) LIKE '%%'
+--AND TLG.tltxcd like (CASE WHEN length(V_STRTLTXCD) > 10 THEN '%%' ELSE '2242' END)
+--AND INSTR((CASE WHEN length(V_STRTLTXCD) > 10 THEN '2242' ELSE V_STRTLTXCD END), TLG.TLTXCD)>0 and length(V_STRTLTXCD)>=4
+AND SUBSTR(TLG.MSGACCT,11,6)  = SB.CODEID
+AND SB.SYMBOL LIKE V_STRSYMBOL
+AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+) B
+ON (A.txnum = B.txnum AND A.txdate = B.txdate ) ) A, TLTX B WHERE A.TLTXCD= B.TLTXCD AND SUBSTR(A.ACCTNO,1,4) LIKE  V_STRBRID and
+   NVL( a.symbol,'-') like V_STRSYMBOL and a.tlid LIKE V_STRMAKER AND A.CUSTODYCD LIKE V_STRCUSTODYCD AND A.ACCTNO LIKE V_STRAFACCTNO
+                        ;
+ELSE
+
+OPEN PV_REFCURSOR
+    FOR
+SELECT A.*, B.TXDESC TXDESC_TLTX FROM (
+
+select CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        NVL(TLG.OFFID,' ') OFFID, TLG.BUSDATE, TLG.TXDESC, SB.SYMBOL, TLG.TXDATE, a.NAMT MSGAMT,
+        TLP.TLNAME MAKER , TLP1.TLNAME CHECKER, '' ACCTNO_DU, '' CUSTODYCD_DU
+from vw_dftran_all a, apptx b, vw_dfmast_all df , afmast af, cfmast cf, securities_info sb, vw_tllog_all TLG, TLPROFILES TLP, TLPROFILES TLP1
+where
+    TLG.TLID = TLP.TLID(+)
+    AND TLG.OFFID = TLP1.TLID (+)
+    AND TLG.tlid LIKE V_STRMAKER
+    AND INSTR(V_STRTMPTLTXCD_4, TLG.TLTXCD)>0 and length(V_STRTMPTLTXCD_4)>=4
+    AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+    AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+    AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+    and a.txcd=b.txcd and b.apptype='DF' and a.namt>0
+and a.acctno = df.acctno and df.afacctno = af.acctno and af.custid = cf.custid and df.codeid = sb.codeid
+and a.txnum = tlg.txnum and a.txdate=tlg.txdate and B.FIELD IN ('BLOCKQTTY','CARCVQTTY','RCVQTTY','DFQTTY','CACASHQTTY')
+
+UNION ALL
+
+SELECT DISTINCT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        NVL(TLG.OFFID,' ') OFFID, TLG.BUSDATE, TLG.TXDESC, SB.SYMBOL, TLG.TXDATE,
+        SE.NAMT MSGAMT,
+        TLP.TLNAME MAKER , TLP1.TLNAME CHECKER, '' ACCTNO_DU, '' CUSTODYCD_DU
+FROM
+    vw_tllog_all TLG, AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1,
+    SBSECURITIES SB, vw_setran_gen se
+WHERE AF.CUSTID = CF.CUSTID AND SE.CUSTID=CF.CUSTID and af.acctno = se.afacctno
+    AND TLG.TLTXCD = TL.TLTXCD
+    AND TLG.txnum = SE.txnum
+    AND TLG.txdate = SE.txdate
+    AND SE.CODEID=SB.CODEID
+    AND TLG.TLID = TLP.TLID(+)
+    AND TLG.OFFID = TLP1.TLID (+)
+    AND TLG.tlid LIKE V_STRMAKER
+    AND SE.FIELD IN ('DEPOSIT','TRADE','BLOCKED')
+    AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+    AND INSTR(V_STRTMPTLTXCD_1, TLG.TLTXCD)>0 and length(V_STRTMPTLTXCD_1)>=4
+    AND SB.SYMBOL NOT LIKE '%_WFT%'
+    AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+    AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+    AND TLG.deltd <> 'Y'
+    AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+
+union all
+
+SELECT DISTINCT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        NVL(TLG.OFFID,' ') OFFID, TLG.BUSDATE, TLG.TXDESC, sb.SYMBOL, TLG.TXDATE,
+        tlg.MSGAMT,
+        TLP.TLNAME MAKER , TLP1.TLNAME CHECKER, '' ACCTNO_DU, '' CUSTODYCD_DU
+FROM
+    vw_tllog_all TLG, AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1, securities_info sb
+WHERE AF.CUSTID = CF.CUSTID
+    AND TLG.TLTXCD = TL.TLTXCD
+    and substr(tlg.msgacct,1,10) = af.acctno
+    and substr(tlg.msgacct,11,6) = sb.codeid(+)
+    AND TLG.TLID = TLP.TLID(+)
+    AND TLG.OFFID = TLP1.TLID (+)
+    AND TLG.tlid LIKE V_STRMAKER
+    AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+    AND INSTR(V_STRTMPTLTXCD_3, TLG.TLTXCD)>0 and length(V_STRTMPTLTXCD_3)>=4
+    AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+    AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+    AND TLG.deltd <> 'Y'
+    AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+
+union all
+
+SELECT DISTINCT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        NVL(TLG.OFFID,' ') OFFID, TLG.BUSDATE, TLG.TXDESC, tlgd1.CVALUE SYMBOL, TLG.TXDATE,
+        tlg.MSGAMT,
+        TLP.TLNAME MAKER , TLP1.TLNAME CHECKER, '' ACCTNO_DU, '' CUSTODYCD_DU
+FROM
+    vw_tllog_all TLG, AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1, (select * from vw_tllogfld_all where fldcd = '02') tlgd
+    , (select * from vw_tllogfld_all where fldcd = '04') tlgd1
+WHERE AF.CUSTID = CF.CUSTID
+    and tlg.txnum = tlgd.txnum
+    and tlg.txdate = tlgd.txdate
+    and tlg.txnum = tlgd1.txnum
+    and tlg.txdate = tlgd1.txdate
+    and tlgd.cvalue = af.acctno
+    AND TLG.TLTXCD = TL.TLTXCD
+    AND TLG.TLID = TLP.TLID(+)
+    AND TLG.OFFID = TLP1.TLID (+)
+    AND TLG.tlid LIKE V_STRMAKER
+    AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+    AND INSTR(V_STRTMPTLTXCD_2, TLG.TLTXCD)>0 and length(V_STRTMPTLTXCD_2)>=4
+    AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) >= TO_DATE (F_DATE  ,'DD/MM/YYYY')
+    AND (CASE WHEN V_STRTYPEDATE = '002' THEN TLG.busdate ELSE Tlg.txdate END) <= TO_DATE (T_DATE  ,'DD/MM/YYYY')
+    AND TLG.deltd <> 'Y'
+    AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+union all
+
+ SELECT distinct CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD,
+        TLG.TLID, NVL(TLG.OFFID,' ') OFFID, TLG.BUSDATE, TLG.TXDESC,
+        SB.SYMBOL, TLG.TXDATE, (CASE WHEN TLG.TLTXCD IN('8878','8879') then SE.namt ELSE TLG.msgamt END) MSGAMT,TLP.TLNAME MAKER , nvl(TLP1.TLNAME,' ') CHECKER, '' ACCTNO_DU,
+        '' CUSTODYCD_DU
+ FROM  TLLOG TLG,AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1,SBSECURITIES SB, SETRAN, SETRAN SE
+                       WHERE SUBSTR(TLG.MSGACCT,1,10) =AF.ACCTNO
+                        AND AF.CUSTID = CF.CUSTID
+                        AND TLG.TLTXCD = TL.TLTXCD
+                        AND TLG.txnum = SE.txnum
+                        AND TLG.txdate = SE.txdate
+                        AND TLG.TLID = TLP.TLID(+)
+                        AND TLG.OFFID = TLP1.TLID (+)
+                        AND 100 > (CASE WHEN TLG.TLTXCD IN('8878','8879') then SE.namt ELSE 0 END)
+                        AND TLG.tlid LIKE V_STRMAKER
+                        AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+--                        AND SUBSTR(TL.TLTXCD,1,2) LIKE '22%'
+                        AND SUBSTR(TLG.MSGACCT,11,6)  = SB.CODEID
+                        AND INSTR(V_STRTLTXCD, TLG.TLTXCD)>0 and length(V_STRTLTXCD)>=4
+                        AND TLG.tltxcd <> '2242'
+                        AND SB.SYMBOL LIKE V_STRSYMBOL
+                        AND
+                        (       (   TLG.busdate  >= TO_DATE (F_DATE,'DD/MM/YYYY')
+                                    AND
+                                    TLG.busdate  <= TO_DATE (T_DATE ,'DD/MM/YYYY')
+                                )
+                            OR
+                                (  tlg.txdate  >= TO_DATE (F_DATE,'DD/MM/YYYY')
+                                    AND
+                                    tlg.txdate  <= TO_DATE (T_DATE,'DD/MM/YYYY')
+                                )
+                        )
+                        AND TLG.deltd <> 'Y'
+                        AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+UNION ALL
+ SELECT distinct CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        nvl(TLG.OFFID,' ') OFFID, TLG.BUSDATE, TLG.TXDESC, SB.SYMBOL, TLG.TXDATE,
+        (CASE WHEN TLG.TLTXCD IN('8878','8879') then SE.namt ELSE TLG.msgamt END) MSGAMT,
+        TLP.TLNAME MAKER , nvl(TLP1.TLNAME,' ') CHECKER, '' ACCTNO_DU, '' CUSTODYCD_DU
+ FROM  TLLOGALL TLG,AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1,SBSECURITIES SB, SETRANA SE
+                       WHERE SUBSTR(TLG.MSGACCT,1,10) =AF.ACCTNO
+                        AND AF.CUSTID = CF.CUSTID
+                        AND TLG.TLTXCD = TL.TLTXCD
+                        AND TLG.txnum = SE.txnum
+                        AND TLG.txdate = SE.txdate
+                        AND TLG.TLID = TLP.TLID(+)
+                        AND TLG.OFFID = TLP1.TLID (+)
+                        AND 100 >= (CASE WHEN TLG.TLTXCD IN('8878','8879') then SE.namt ELSE 0 END)
+                        AND TLG.tlid LIKE V_STRMAKER
+                        AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+--                        AND SUBSTR(TL.TLTXCD,1,2) LIKE '22%'
+                        AND SUBSTR(TLG.MSGACCT,11,6)  = SB.CODEID
+                        AND INSTR(V_STRTLTXCD, TLG.TLTXCD)>0  and length(V_STRTLTXCD)>=4
+                        AND TLG.tltxcd <> '2242'
+                        AND SB.SYMBOL LIKE V_STRSYMBOL
+                       AND
+                        (       (   TLG.busdate  >= TO_DATE (F_DATE,'DD/MM/YYYY')
+                                    AND
+                                    TLG.busdate  <= TO_DATE (T_DATE ,'DD/MM/YYYY')
+                                )
+                            OR
+                                (  tlg.txdate  >= TO_DATE (F_DATE,'DD/MM/YYYY')
+                                    AND
+                                    tlg.txdate  <= TO_DATE (T_DATE,'DD/MM/YYYY')
+                                )
+                        )
+                        AND TLG.deltd <> 'Y'
+                        AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+UNION ALL
+SELECT A.FULLNAME, A.ACCTNO, A.CUSTODYCD, A.TXNUM, A.TLTXCD, A.TLID,
+        A.OFFID, A.BUSDATE, A.TXDESC, A.SYMBOL, A.TXDATE, A.MSGAMT,
+        A.MAKER , A.CHECKER , B.ACCTNO ACCTNO_DU, B.CUSTODYCD CUSTODYCD_DU
+FROM
+--TKGIAM
+(
+SELECT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        TLG.OFFID, TLG.BUSDATE, TLG.TXDESC, SB.SYMBOL, TLG.TXDATE, TLG.MSGAMT MSGAMT,
+        TLP.TLNAME MAKER , TLP1.TLNAME CHECKER
+FROM  TLLOG TLG, AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1,SBSECURITIES SB, SETRAN SE
+WHERE SUBSTR(SE.ACCTNO,1,10) =AF.ACCTNO
+AND AF.CUSTID = CF.CUSTID
+AND TLG.TLTXCD = TL.TLTXCD
+AND TLG.TLID = TLP.TLID(+)
+AND TLG.OFFID = TLP1.TLID (+)
+AND TLG.tlid LIKE V_STRMAKER
+AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+AND TLG.txnum = SE.txnum
+AND TLG.txdate = SE.txdate
+AND SE.txcd IN ('0040')
+AND TLG.deltd <> 'Y'
+AND TLG.TLTXCD = '2242'
+AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+--AND (CASE WHEN length(V_STRTLTXCD) > 10 THEN TLG.TLTXCD END ) LIKE '%%'
+--AND TLG.tltxcd like (CASE WHEN length(V_STRTLTXCD) > 10 THEN '%%' ELSE '2242' END)
+--AND INSTR((CASE WHEN length(V_STRTLTXCD) > 10 THEN '2242' ELSE V_STRTLTXCD END), TLG.TLTXCD)>0  and length(V_STRTLTXCD)>=4
+AND SUBSTR(TLG.MSGACCT,11,6)  = SB.CODEID
+AND SB.SYMBOL LIKE '%%'
+AND
+(       (   TLG.busdate  >= TO_DATE (F_DATE,'DD/MM/YYYY')
+            AND
+            TLG.busdate  <= TO_DATE (T_DATE ,'DD/MM/YYYY')
+        )
+    OR
+        (  tlg.txdate  >= TO_DATE (F_DATE,'DD/MM/YYYY')
+            AND
+            tlg.txdate  <= TO_DATE (T_DATE,'DD/MM/YYYY')
+        )
+)
+) A Left JOIN
+--TKTANG
+(
+SELECT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        TLG.OFFID, TLG.BUSDATE, TLG.TXDESC, SB.SYMBOL, TLG.TXDATE, TLG.MSGAMT MSGAMT,
+        TLP.TLNAME MAKER , TLP1.TLNAME CHECKER
+FROM  TLLOG TLG, AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1,SBSECURITIES SB, SETRAN SE
+WHERE SUBSTR(SE.ACCTNO,1,10) =AF.ACCTNO
+AND AF.CUSTID = CF.CUSTID
+AND TLG.TLTXCD = TL.TLTXCD
+AND TLG.TLID = TLP.TLID(+)
+AND TLG.OFFID = TLP1.TLID (+)
+AND TLG.tlid LIKE V_STRMAKER
+AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+AND TLG.txnum = SE.txnum
+AND TLG.txdate = SE.txdate
+AND SE.txcd IN ('0045')
+AND TLG.deltd <> 'Y'
+AND TLG.TLTXCD = '2242'
+--AND (CASE WHEN length(V_STRTLTXCD) > 10 THEN TLG.TLTXCD END ) LIKE '%%'
+--AND TLG.tltxcd like (CASE WHEN length(V_STRTLTXCD) > 10 THEN '%%' ELSE '2242' END)
+--AND INSTR((CASE WHEN length(V_STRTLTXCD) > 10 THEN '2242' ELSE V_STRTLTXCD END), TLG.TLTXCD)>0  and length(V_STRTLTXCD)>=4
+AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+AND SUBSTR(TLG.MSGACCT,11,6)  = SB.CODEID
+AND SB.SYMBOL LIKE '%%'
+AND
+(       (   TLG.busdate  >= TO_DATE (F_DATE,'DD/MM/YYYY')
+            AND
+            TLG.busdate  <= TO_DATE (T_DATE ,'DD/MM/YYYY')
+        )
+    OR
+        (  tlg.txdate  >= TO_DATE (F_DATE,'DD/MM/YYYY')
+            AND
+            tlg.txdate  <= TO_DATE (T_DATE,'DD/MM/YYYY')
+        )
+)
+) B
+ON (A.txnum = B.txnum AND A.txdate = B.txdate )
+
+UNION ALL
+SELECT A.FULLNAME, A.ACCTNO, A.CUSTODYCD, A.TXNUM, A.TLTXCD, A.TLID,
+        A.OFFID, A.BUSDATE, A.TXDESC, A.SYMBOL, A.TXDATE, A.MSGAMT,
+        A.MAKER , A.CHECKER , B.ACCTNO ACCTNO_DU, B.CUSTODYCD CUSTODYCD_DU
+FROM
+--TKGIAM
+(
+SELECT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        TLG.OFFID, TLG.BUSDATE, TLG.TXDESC, SB.SYMBOL, TLG.TXDATE, TLG.MSGAMT MSGAMT,
+        TLP.TLNAME MAKER , TLP1.TLNAME CHECKER
+FROM  TLLOGALL TLG, AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1,SBSECURITIES SB, SETRANA SE
+WHERE SUBSTR(SE.ACCTNO,1,10) =AF.ACCTNO
+AND AF.CUSTID = CF.CUSTID
+AND TLG.TLTXCD = TL.TLTXCD
+AND TLG.TLID = TLP.TLID(+)
+AND TLG.OFFID = TLP1.TLID (+)
+AND TLG.tlid LIKE V_STRMAKER
+AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+AND TLG.txnum = SE.txnum
+AND TLG.txdate = SE.txdate
+AND SE.txcd IN ('0040')
+AND TLG.deltd <> 'Y'
+AND TLG.TLTXCD = '2242'
+--AND (CASE WHEN length(V_STRTLTXCD) > 10 THEN TLG.TLTXCD END ) LIKE '%%'
+--AND TLG.tltxcd like (CASE WHEN length(V_STRTLTXCD) > 10 THEN '%%' ELSE '2242' END)
+--AND INSTR((CASE WHEN length(V_STRTLTXCD) > 10 THEN '2242' ELSE V_STRTLTXCD END), TLG.TLTXCD)>0  and length(V_STRTLTXCD)>=4
+AND SUBSTR(TLG.MSGACCT,11,6)  = SB.CODEID
+AND SB.SYMBOL LIKE V_STRSYMBOL
+AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+AND
+(       (   TLG.busdate  >= TO_DATE (F_DATE,'DD/MM/YYYY')
+            AND
+            TLG.busdate  <= TO_DATE (T_DATE ,'DD/MM/YYYY')
+        )
+    OR
+        (  tlg.txdate  >= TO_DATE (F_DATE,'DD/MM/YYYY')
+            AND
+            tlg.txdate  <= TO_DATE (T_DATE,'DD/MM/YYYY')
+        )
+)
+) A Left JOIN
+--TKTANG
+(
+SELECT CF.FULLNAME, AF.ACCTNO, CF.CUSTODYCD, TLG.TXNUM, TLG.TLTXCD, TLG.TLID,
+        TLG.OFFID, TLG.BUSDATE, TLG.TXDESC, SB.SYMBOL, TLG.TXDATE, TLG.MSGAMT MSGAMT,
+        TLP.TLNAME MAKER , TLP1.TLNAME CHECKER
+FROM  TLLOGALL TLG, AFMAST AF, CFMAST CF, TLTX TL, TLPROFILES TLP,TLPROFILES TLP1,SBSECURITIES SB, SETRANA SE
+WHERE SUBSTR(SE.ACCTNO,1,10) =AF.ACCTNO
+AND AF.CUSTID = CF.CUSTID
+AND TLG.TLTXCD = TL.TLTXCD
+AND TLG.TLID = TLP.TLID(+)
+AND TLG.OFFID = TLP1.TLID (+)
+AND TLG.tlid LIKE V_STRMAKER
+AND (TLG.offid LIKE V_STRCHECKER or V_STRCHECKER='%%')
+AND TLG.txnum = SE.txnum
+AND TLG.txdate = SE.txdate
+AND SE.txcd IN ('0045')
+AND TLG.deltd <> 'Y'
+AND TLG.TLTXCD = '2242'
+--AND (CASE WHEN length(V_STRTLTXCD) > 10 THEN TLG.TLTXCD END ) LIKE '%%'
+--AND TLG.tltxcd like (CASE WHEN length(V_STRTLTXCD) > 10 THEN '%%' ELSE '2242' END)
+--AND INSTR((CASE WHEN length(V_STRTLTXCD) > 10 THEN '2242' ELSE V_STRTLTXCD END), TLG.TLTXCD)>0  and length(V_STRTLTXCD)>=4
+AND SUBSTR(TLG.MSGACCT,11,6)  = SB.CODEID
+AND SB.SYMBOL LIKE V_STRSYMBOL
+AND substr(TLG.msgacct,1, 4) LIKE V_STRBRID
+AND
+(       (   TLG.busdate  >= TO_DATE (F_DATE,'DD/MM/YYYY')
+            AND
+            TLG.busdate  <= TO_DATE (T_DATE ,'DD/MM/YYYY')
+        )
+    OR
+        (  tlg.txdate  >= TO_DATE (F_DATE,'DD/MM/YYYY')
+            AND
+            tlg.txdate  <= TO_DATE (T_DATE,'DD/MM/YYYY')
+        )
+)
+) B
+ON (A.txnum = B.txnum AND A.txdate = B.txdate ) ) A, TLTX B WHERE A.TLTXCD= B.TLTXCD  AND SUBSTR(A.ACCTNO,1,4) LIKE  V_STRBRID
+    and   NVL( a.symbol,'-') like V_STRSYMBOL and a.tlid LIKE V_STRMAKER AND A.CUSTODYCD LIKE V_STRCUSTODYCD AND A.ACCTNO LIKE V_STRAFACCTNO
+
+
+;
+
+END IF;
+
+
+EXCEPTION
+    WHEN OTHERS
+   THEN
+      RETURN;
+END; -- Procedure
+/
+

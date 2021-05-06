@@ -1,0 +1,56 @@
+--create table
+create table comparelist_hist
+(
+id                          number,
+transactiontype             varchar2(5),
+RecordType                  varchar2(10),
+RefNum                      varchar2(50),
+BankId                      varchar2(20),
+TransferType                varchar2(5),
+DebitAccount                varchar2(20),
+BenAccount                  varchar2(20),
+BenName                     varchar2(100),
+BenBankName                 varchar2(100),
+BenBankCode                 varchar2(20),
+Amount                      varchar2(20),
+BankTime                    varchar2(14),
+Checksum                    varchar2(200),
+ResultEnd                   varchar2(5),
+RevertTime                  varchar2(14),
+CustomerStatus              varchar2(5),
+VPBStatus                   varchar2(5),
+ResultCollate               varchar2(5),
+TranFee                     varchar2(20),
+Status                      varchar2(5) default 'P',
+txdate                      date,
+Create_time                 timestamp default sysdate,
+fileName                    varchar2(100),
+verify                      varchar2(5)
+);
+
+create table NEWBANKGW_LOG_HIST
+(
+  autoid        number,
+  transactionid VARCHAR2(100),
+  batchid       VARCHAR2(100),
+  messageid     VARCHAR2(100),
+  txdate        DATE,
+  txnum         VARCHAR2(20),
+  trftype       VARCHAR2(1),
+  acctnosum     VARCHAR2(50),
+  account       VARCHAR2(50),
+  benefcustname VARCHAR2(200),
+  amount        NUMBER,
+  ccycd         VARCHAR2(20),
+  remark        VARCHAR2(500),
+  bankname      VARCHAR2(100),
+  bankcode      VARCHAR2(50),
+  bankid        varchar2(100),
+  banktime      varchar2(100),
+  status        VARCHAR2(5) default 'P',
+  errcode       VARCHAR2(20),
+  errmsg        VARCHAR2(200),
+  sendnum       number default 0,
+  createdt      TIMESTAMP(6) default systimestamp,
+  bankdate      date
+);

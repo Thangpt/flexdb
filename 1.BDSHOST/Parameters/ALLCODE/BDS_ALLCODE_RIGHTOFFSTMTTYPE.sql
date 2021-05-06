@@ -1,0 +1,18 @@
+﻿--
+--
+/
+DELETE ALLCODE WHERE CDNAME = 'RIGHTOFFSTMTTYPE';
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('OA','RIGHTOFFSTMTTYPE','receive','Nhận chuyển nhượng quyền mua',2,'Y','Receive right off');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('OA','RIGHTOFFSTMTTYPE','transfer','Chuyển nhượng quyền mua ra ngoài',3,'Y','Transfer right off');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('OA','RIGHTOFFSTMTTYPE','cancelRegist','Hủy đăng ký quyền mua',4,'Y','Cancel regist right off');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('OA','RIGHTOFFSTMTTYPE','registNci','Đăng ký mua CP phát hành thêm không cắt tiền CI',5,'Y','Regist right off without cut CI');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('OA','RIGHTOFFSTMTTYPE','regist','Đăng ký quyền mua',1,'Y','Regist right off');
+INSERT INTO ALLCODE (CDTYPE,CDNAME,CDVAL,CDCONTENT,LSTODR,CDUSER,EN_CDCONTENT)
+VALUES ('OA','RIGHTOFFSTMTTYPE','cancelRegistNci','Hủy đăng ký mua CP phát hành thêm không cắt tiền CI',5,'Y','Cancel regist right off without cut CI');
+COMMIT;
+/

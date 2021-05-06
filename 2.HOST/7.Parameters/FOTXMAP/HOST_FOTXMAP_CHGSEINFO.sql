@@ -1,0 +1,8 @@
+--
+--
+/
+DELETE FOTXMAP WHERE TLTXCD = 'CHGSEINFO';
+insert into fotxmap (TLTXCD, TXCODE, ACCTNO, AMOUNT, EXTRA, QTTY, CODEID, DOC, SYMBOL, ACTION, RUNMOD, TXTYPE)
+values ('CHGSEINFO', 'tx5125', null, NULL, null, null, null, NULL, null, 'A', 'DB', NULL);
+COMMIT;
+/

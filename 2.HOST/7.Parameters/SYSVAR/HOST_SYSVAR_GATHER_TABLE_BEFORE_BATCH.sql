@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'GATHER_TABLE_BEFORE_BATCH';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('SYSTEM','GATHER_TABLE_BEFORE_BATCH','Y','Tham so co chay statistic truoc khi batch','Tham so co chay statistic truoc khi batch','Y');
+COMMIT;
+/

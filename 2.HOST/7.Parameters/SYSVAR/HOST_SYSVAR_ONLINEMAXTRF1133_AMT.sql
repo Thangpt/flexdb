@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'ONLINEMAXTRF1133_AMT';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('SYSTEM','ONLINEMAXTRF1133_AMT','1000000000','So tien chuyen khoan bang chung minh thu toi da','So tien chuyen khoan bang chung minh thu toi da','Y');
+COMMIT;
+/

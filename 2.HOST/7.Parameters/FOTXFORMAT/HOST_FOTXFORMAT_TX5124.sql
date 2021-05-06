@@ -1,0 +1,8 @@
+--
+--
+/
+DELETE FOTXFORMAT WHERE TXCODE = 'tx5124';
+INSERT INTO FOTXFORMAT (TXCODE, MSGFORMAT, STATUS)
+VALUES ('tx5124', '{"msgtype" : "<$MSGTYPE>", "key" : "<$VARNAME>", "value" : "<$VARVALUE>"}', 'Y');
+COMMIT;
+/

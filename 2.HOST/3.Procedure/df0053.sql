@@ -1,0 +1,78 @@
+CREATE OR REPLACE PROCEDURE df0053 (
+   PV_REFCURSOR     IN OUT   PKG_REPORT.REF_CURSOR,
+   OPT              IN       VARCHAR2,
+   BRID             IN       VARCHAR2,
+   I_DATE           IN      VARCHAR2,
+   CUSTBANK         IN      VARCHAR2,
+   SERVICETYPE      IN       VARCHAR2
+       )
+IS
+
+--
+-- PURPOSE: BAO CAO QUAN LY HAN MUC CK NHAN LAM TSDB
+-- MODIFICATION HISTORY
+-- PERSON       DATE        COMMENTS
+-- THENN        20-MAR-2012 CREATED
+-- ---------    ------      -------------------------------------------
+
+    V_STROPTION         VARCHAR2  (5);
+    V_STRBRID           VARCHAR2  (4);
+    V_CUSTBANK          varchar2(10);
+    V_SVTYPE            VARCHAR2(5);
+    V_IN_DATE           VARCHAR2(15);
+
+BEGIN
+    -- GET REPORT'S PARAMETERS
+    V_STROPTION := OPT;
+
+    IF (V_STROPTION <> 'A') AND (BRID <> 'ALL')
+    THEN
+        V_STRBRID := BRID;
+    ELSE
+        V_STRBRID := '%%';
+    END IF;
+
+    V_IN_DATE := I_DATE;
+
+    IF CUSTBANK = 'ALL' OR CUSTBANK IS NULL THEN
+        V_CUSTBANK := '%%';
+    ELSE
+        V_CUSTBANK := CUSTBANK;
+    END IF;
+
+    IF SERVICETYPE = 'ALL' OR SERVICETYPE IS NULL THEN
+        V_SVTYPE := '%%';
+    ELSE
+        V_SVTYPE := SERVICETYPE;
+    END IF;
+
+    OPEN PV_REFCURSOR FOR
+        SELECT LN.*, NVL(CFL.LMAMTMAX,0) LIMITAMT, NVL(CF.FULLNAME,'BVSC') BANKNAME, V_IN_DATE IN_DATE
+        FROM
+        (
+            SELECT NVL(LN.CUSTBANK,'BVSC') CUSTBANK, LN.RRTYPE, LN.FTYPE,
+                SUM(LN.RLSAMT - LN.PRINPAID) RLSAMT, LN.ACTYPE
+            FROM LNMAST LN
+            GROUP BY LN.CUSTBANK, LN.RRTYPE, LN.FTYPE, LN.ACTYPE
+            UNION ALL
+            SELECT NVL(AD.CUSTBANK,'BVSC') CUSTBANK, AD.RRTYPE, 'AD' FTYPE,
+                SUM(AD.AMT + AD.FEEAMT - AD.PAIDAMT - AD.PAIDFEE) RLSAMT, AD.ADTYPE ACTYPE
+            FROM ADSCHD AD
+            WHERE AD.RRTYPE IN ('B','C')
+            GROUP BY AD.CUSTBANK, AD.RRTYPE, AD.ADTYPE
+        ) LN, CFLIMIT CFL, CFMAST CF
+        WHERE LN.RLSAMT > 0
+            AND LN.CUSTBANK = CFL.BANKID (+)
+            AND CASE WHEN LN.CUSTBANK = 'BVSC' THEN '--' ELSE DECODE(LN.FTYPE,'AD','ADV','DFMR') END = CFL.LMSUBTYPE (+)
+            AND LN.CUSTBANK = CF.CUSTID (+)
+            AND LN.CUSTBANK LIKE V_CUSTBANK
+            AND LN.FTYPE LIKE V_SVTYPE
+        ORDER BY LN.CUSTBANK, LN.FTYPE, LN.ACTYPE
+        ;
+EXCEPTION
+   WHEN OTHERS
+   THEN
+      RETURN;
+END;
+/
+

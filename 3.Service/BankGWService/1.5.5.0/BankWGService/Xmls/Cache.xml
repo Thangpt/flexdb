@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <QueryConfig>
+    <QueryKey>GETACCTNOBANKMAP</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT AF.ACCTNO,CF.FULLNAME CUSTNAME,AF.BANKACCTNO,
+      BI.BANKCODE,BI.BANKNAME,BI.USERIDKEY,BI.ACCESSKEY,BI.PRIVATEKEY
+      FROM AFMAST AF,CFMAST CF,CRBDEFBANK BI
+      WHERE AF.CUSTID=CF.CUSTID AND AF.BANKNAME=BI.BANKCODE
+      ]]>
+    </QueryValue>
+  </QueryConfig>
+  <QueryConfig>
+    <QueryKey>GETBANKLIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+       SELECT BANKCODE,ROOTCODE,BANKNAME,USERIDKEY,
+       ACCESSKEY,PRIVATEKEY,PFXKEYNAME,PFXKEYPASS,
+       SIGNER,SIGNERPASS,RECEIVER,MINAMOUNTI,MINAMOUNTG,STATUS
+       FROM CRBDEFBANK ORDER BY BANKCODE
+      ]]>
+    </QueryValue>
+  </QueryConfig>
+  <QueryConfig>
+    <QueryKey>GETTRFCODELIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT REFBANK BANKCODE,TRFCODE,REFDORC DORC,REFUNHOLD UNHOLD,REFACCTNO,REFACCTNAME,MSGID
+        FROM CRBDEFACCT ORDER BY REFBANK,TRFCODE
+      ]]>
+    </QueryValue>
+  </QueryConfig>
+</root>

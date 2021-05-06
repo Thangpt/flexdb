@@ -1,0 +1,670 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+BPSService
+</name>
+</assembly>
+<members>
+<member name="M:BPSService.UtilsObject.RenderTableToXmlMsg(System.Int32,System.Data.DataTable,System.String)">
+	<summary>
+ Build msg tra ve client bao gom ma loi + du lieu dataset
+ 20120229 Loctx add
+ </summary>
+	<param name="pv_intErrCode"></param>
+	<param name="pv_dt"></param>
+	<param name="pv_strTableName"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.UtilsObject.RenderTableToXml(System.Data.DataTable,System.String)">
+	<summary>
+ 20120209 Loctx add check more datatype: double, interger, decimal
+ </summary>
+	<param name="pv_dt"></param>
+	<param name="pv_strTableName"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.IOnlineTradingWcf.GetStockList(System.String)">
+	<summary>
+ KhanhND: lay danh sach chung khoan
+ </summary>
+	<param name="pv_strAcctNo"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.IOnlineTradingWcf.CreateDeal(System.String,System.String,System.String,System.String,System.Int32,System.Double,System.String,System.String,System.String)">
+ KhanhND: Ham thuc hien tao Deal DF
+ <param name="pv_strAfacctno">Tieu khoan</param>
+	<param name="pv_strCodeid">Chung khoan</param>
+	<param name="pv_strRefpricetype">OP/MP/BP: Other Price, Market price, Basic pric
+ Doi voi chung khoan giao dich, CK quyen cho ve, CK phong toa thi lay BP
+ CK cho ve lay MP</param>
+	<param name="pv_strDftype">Loai hinh san pham</param>
+	<param name="pv_intQtty">Khoi luong</param>
+	<param name="pv_dblRefprice">Tu RefPriceType se xac dinh duoc gia</param>
+	<param name="pv_strRefnum">Neu la CK Giao dich thi refnum la null</param>
+	<param name="pv_strUserName"></param>
+	<param name="pv_strTradingPass"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.IOnlineTradingWcf.CreateWithdrawTermDeposit(System.String,System.Int32,System.String,System.String)">
+	<summary>
+ Ham thuc hien giao dich rut tiet kiem
+ </summary>
+	<param name="pv_strTdacctno">So tai khoan TD</param>
+	<param name="pv_intAmount">So tien rut</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.IOnlineTradingWcf.CreateTermDeposit(System.String,System.String,System.Int32,System.String,System.String)">
+	<summary>
+ Tao giao dich gui tiet kiem
+ </summary>
+	<param name="pv_strAfacctno">Tieu khoan AF</param>
+	<param name="pv_strTdtype">San pham tiet kiem</param>
+	<param name="pv_intAmount">So tien gui</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.IOnlineTradingWcf.GetTDMastList(System.String)">
+	<summary>
+ Ham lay danh sach giao dich tiet kiem
+ </summary>
+	<param name="pv_strCustodycd"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.IOnlineTradingWcf.GetTDType">
+	<summary>
+ KhanhND: Lay TDTYPE
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.IOnlineTradingWcf.GetDFType">
+	<summary>
+ KhanhND: Lay DFTYPE
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.IOnlineTradingWcf.GetDealDFAcctNo(System.String)">
+	<summary>
+ KhanhND: ham thuc hien lay danh sach tieu khoan DF
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.IOnlineTradingWcf.CreateDealPayment(System.String,System.String,System.Double,System.String,System.String,System.String)">
+	<summary>
+ KhanhND: Ham thuc hien giao dich 2642 - Tra no
+ 2012027 Loc sua theo format ham payment moi
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.IOnlineTradingWcf.GetPaymentDetail(System.String)">
+	<summary>
+ KhanhND: Ham thuc hien lay thong tin chi tiet ve hop dong vay de thuc hien tra no, tuong ung voi giao dich 2642
+ </summary>
+	<param name="pv_strDFAcctNo">Tieu khoan DF</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.IOnlineTradingWcf.GetDFGroupInfo(System.String)">
+	<summary>
+	</summary>
+	<param name="pv_strAFACCTNO"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.IOnlineTradingWcf.GetRightOffList(System.String)">
+	<summary>
+ Ham thuc hien lay danh sach dot quyen mua chung khoan
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:BPSService.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:BPSService.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:BPSService.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="M:BPSService.OnlineTradingWcf.getDataFromBO(System.String,System.String,System.String[],System.Object[])">
+	<summary>
+ DuongLH
+ Get Data from BO Database
+ </summary>
+	<param name="pv_funcname"></param>
+	<param name="pv_modulename"></param>
+	<param name="pv_keyfields"></param>
+	<param name="pv_keyvalues"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.ExecBOFunction(System.String,System.String,System.String[],System.Object[],System.String[],System.String[])">
+	<summary>
+ DuongLH
+ Thuc hien 1 ham trong BO, tra ve Hashtable cac bien output
+ Key return la PROCRESULT
+ </summary>
+	<param name="pv_funcname"></param>
+	<param name="pv_modulename"></param>
+	<param name="pv_keyfields"></param>
+	<param name="pv_keyvalues"></param>
+	<param name="pv_keyTypes"></param>
+	<param name="pv_direction"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetTxDate">
+	<summary>
+ DuongLH
+ Get Current Trading Date
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.RegAlertFile(System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ Toannds thiet lap header canh bao thong minh
+ </summary>
+	<param name="pv_strCustid">Ma khach hang</param>
+	<param name="pv_strFullName">ten canh bao</param>
+	<param name="pv_strAlertType">Loai canh bao</param>
+	<param name="pv_strSymbol">Chung khoan</param>
+	<param name="pv_strSmsnotify">dang ky nhan bang SMS</param>
+	<param name="pv_strEmailnotify">dang ky nhan bang Email</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.CashTransferInternal(System.String,System.String,System.Double,System.String)">
+	<summary>
+ Binhpt Chuyen khoan noi bo
+ </summary>
+	<param name="pv_strAccount">Tieu khoan chuyen tien</param>
+	<param name="pv_strToAccount">Tieu khoan nhan tien</param>
+	<param name="pv_Amount">so tien</param>
+	<param name="pv_strDesc">Dien giai</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.CashTransferExternal(System.String,System.String,System.String,System.String,System.String,System.String,System.Double,System.Double,System.Double,System.String)">
+	<summary>
+ Binhpt Chuyen khoan ra ben ngoai
+ </summary>
+	<param name="pv_strAccount">Tieu khoan chuyen</param>
+	<param name="pv_strBankid">Cusid Ma ngan hang thu huong</param>
+	<param name="pv_strBenefbank">Tên ngan hang tha huong</param>
+	<param name="pv_strBenefacct">So tai khoan thu huong</param>
+	<param name="pv_strBenefCustname">Ten khach hang thu huong</param>
+	<param name="pv_strbeneflicense">So giay to khach hang thu huong</param>
+	<param name="pv_strAmount">So tien chuyen</param>
+	<param name="pv_strFeeAmt">So phi chuyen</param>
+	<param name="pv_strVatAmt">So thue chuyen</param>
+	<param name="pv_strDesc">Dien giai</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.CashTransferExternalWithIDcard(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Double,System.String)">
+	<summary>
+ Binhpt Chuyen khoan ra ben ngoai voi CMT
+ </summary>
+	<param name="p_afacctno"></param>
+	<param name="p_BENEFCUSTNAME"></param>
+	<param name="p_RECEIVLICENSE"></param>
+	<param name="p_RECEIVIDDATE"></param>
+	<param name="p_RECEIVIDPLACE"></param>
+	<param name="p_BANKNAME"></param>
+	<param name="p_CITYBANK"></param>
+	<param name="p_CITYEF"></param>
+	<param name="p_AMT"></param>
+	<param name="p_desc"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.Login4Trading(System.String,System.String)">
+	<summary>
+     Thuc hien login
+     Tra ve customerID va danh sach cac tai khoan chinh chu va uy quyen + cac quyen xem va dat lenh    
+ </summary>
+	<param name="pv_strUserName"></param>
+	<param name="pv_strPassword"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.Login4Support(System.String,System.String)">
+	<summary>
+     Thuc hien login
+     Tra ve customerID va danh sach cac tai khoan chinh chu va uy quyen + cac quyen xem va dat lenh   
+      20120209 Loc sua, them phan mastersupport vao
+ </summary>
+	<param name="pv_strUserName"></param>
+	<param name="pv_strPassword"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.Login4Support_bk(System.String,System.String)">
+	<summary>
+     Thuc hien login
+     Tra ve customerID va danh sach cac tai khoan chinh chu va uy quyen + cac quyen xem va dat lenh   
+      20120209 Loc sua, them phan mastersupport vao
+ </summary>
+	<param name="pv_strUserName"></param>
+	<param name="pv_strPassword"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.ChangePassAndPin(System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ Binhpt thay doi mat khau dang nhap va giao dich cho lan dau dang nhap
+ </summary>
+	<param name="pv_strUserName"></param>
+	<param name="pv_strOldPassword"></param>
+	<param name="pv_strNewPassword"></param>
+	<param name="pv_strOldPin"></param>
+	<param name="pv_strNewPin"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetMarketStatus">
+	<summary>
+ 'Lay trang thai thi truong
+ LocTX
+ DuongLH: 20120223: Cache thong tin nay de han che request xuong db
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.PlaceMS(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ QuangVD: sua lai theo HNX Change 07/12/2012
+ </summary>
+	<param name="pv_functionname"></param>
+	<param name="pv_username"></param>
+	<param name="pv_acctno"></param>
+	<param name="pv_afacctno"></param>
+	<param name="pv_exectype"></param>
+	<param name="pv_symbol"></param>
+	<param name="pv_quantity"></param>
+	<param name="pv_quoteprice"></param>
+	<param name="pv_pricetype"></param>
+	<param name="pv_timetype"></param>
+	<param name="pv_book"></param>
+	<param name="pv_via"></param>
+	<param name="pv_dealid"></param>
+	<param name="pv_direct"></param>
+	<param name="pv_effdate"></param>
+	<param name="pv_expdate"></param>
+	<param name="pv_pin"></param>
+	<param name="pv_err_code"></param>
+	<param name="pv_err_message"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetStockList(System.String)">
+	<summary>
+ KhanhND: lay danh sach chung khoan
+ </summary>
+	<param name="pv_strAcctNo"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.CreateRightOff(System.String,System.Int32,System.String,System.String)">
+	<summary>
+ Binhpt Dang ky quyen mua
+ </summary>
+	<param name="pv_afacctno">So tieu khoan</param>
+	<param name="pv_qtty">So luong</param>
+	<param name="pv_camastid">Ma quyen mua</param>
+	<param name="pv_desc">dian giai</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.CreateCashInAdvance(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ Binhpt Ung truoc tien ban
+ </summary>
+	<param name="pv_afacctno"></param>
+	<param name="pv_txdate"></param>
+	<param name="pv_duedate"></param>
+	<param name="pv_advamt"></param>
+	<param name="p_feeamt"></param>
+	<param name="p_advdays"></param>
+	<param name="p_maxamt"></param>
+	<param name="p_desc"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.CreateDeal(System.String,System.String,System.String,System.String,System.Int32,System.Double,System.String,System.String,System.String)">
+ KhanhND: Ham thuc hien tao Deal DF
+ <param name="pv_strAfacctno">Tieu khoan</param>
+	<param name="pv_strCodeid">Chung khoan</param>
+	<param name="pv_strRefpricetype">OP/MP/BP: Other Price, Market price, Basic pric
+ Doi voi chung khoan giao dich, CK quyen cho ve, CK phong toa thi lay BP
+ CK cho ve lay MP</param>
+	<param name="pv_strDftype">Loai hinh san pham</param>
+	<param name="pv_intQtty">Khoi luong</param>
+	<param name="pv_dblRefprice">Tu RefPriceType se xac dinh duoc gia</param>
+	<param name="pv_strRefnum">Neu la CK Giao dich thi refnum la null</param>
+	<param name="pv_strUserName"></param>
+	<param name="pv_strTradingPass"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.CreateWithdrawTermDeposit(System.String,System.Int32,System.String,System.String)">
+	<summary>
+ Ham thuc hien giao dich rut tiet kiem
+ </summary>
+	<param name="pv_strTdacctno">So tai khoan TD</param>
+	<param name="pv_intAmount">So tien rut</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.CreateTermDeposit(System.String,System.String,System.Int32,System.String,System.String)">
+	<summary>
+ Tao giao dich gui tiet kiem
+ </summary>
+	<param name="pv_strAfacctno">Tieu khoan AF</param>
+	<param name="pv_strTdtype">San pham tiet kiem</param>
+	<param name="pv_intAmount">So tien gui</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetTDType">
+	<summary>
+ KhanhND: Lay TDTYPE
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetDFType">
+	<summary>
+ KhanhND: Lay DFTYPE
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetDealDFAcctNo(System.String)">
+	<summary>
+ KhanhND: ham thuc hien lay danh sach tieu khoan DF
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.CreateDealPayment(System.String,System.String,System.Double,System.String,System.String,System.String)">
+	<summary>
+ KhanhND: Ham thuc hien giao dich 2642 - Tra no
+ 20120207 Loctx sua theo format ham moi
+ Hien dung token de check, bo qua password
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetPaymentDetail(System.String)">
+	<summary>
+ KhanhND: Ham thuc hien lay thong tin chi tiet ve hop dong vay de thuc hien tra no, tuong ung voi giao dich 2642
+ </summary>
+	<param name="pv_strDFAcctNo">Tieu khoan DF</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetLN4Payment1(System.String)">
+	<summary>
+	</summary>
+	<param name="pv_strAFACCTNO"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetOpenPorfolio(System.String)">
+	<summary>
+ QuangVD: lay thong tin danh muc dau tu - cac co phieu dang nam giu
+ </summary>
+	<param name="pv_strAfAcctno"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetRightOffList(System.String)">
+	<summary>
+ Ham thuc hien lay danh sach dot quyen mua chung khoan
+ </summary>
+	<param name="pv_Afacctno">Tieu khoan</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetCashStatement(System.String,System.String,System.String)">
+	<summary>
+ Ham lay sao ke tien
+ </summary>
+	<param name="pv_AFAcctno">Tieu khoan</param>
+	<param name="pv_FromDate">Tu ngay</param>
+	<param name="pv_ToDate">Den ngay</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetSecuritiesStatement(System.String,System.String,System.String,System.String)">
+	<summary>
+ Lay du lieu sao ke chung khoan
+ </summary>
+	<param name="pv_AFAcctno">So tieu khoan</param>
+	<param name="pv_FromDate">Tu ngay</param>
+	<param name="pv_ToDate">Den ngay</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetCashInAdvanceInfo(System.String)">
+	<summary>
+ Ham lay du lieu ung truoc
+ </summary>
+	<param name="pv_AFAcctno">Tieu khoan</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetPortfolio(System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ QuangVD: lay thong tin danh muc dau tu
+ </summary>
+	<param name="pv_custodycd"></param>
+	<param name="pv_afacctno"></param>
+	<param name="pv_fdate"></param>
+	<param name="pv_tdate"></param>
+	<param name="pv_symbol"></param>
+	<param name="pv_gettype"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetOrdersRecord(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ QuangVD: lay thong tin tra cuu lenh giao dich
+ </summary>
+	<param name="pv_custodycd"></param>
+	<param name="pv_afacctno"></param>
+	<param name="pv_fdate"></param>
+	<param name="pv_tdate"></param>
+	<param name="pv_symbol"></param>
+	<param name="pv_exectype"></param>
+	<param name="pv_status"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetCondOrderHist(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ QuangVD: lay thong tin tra cuu lenh dieu kien
+ 20120226: Loctx doi ten ham
+ </summary>
+	<param name="pv_custodycd"></param>
+	<param name="pv_afacctno"></param>
+	<param name="pv_fdate"></param>
+	<param name="pv_tdate"></param>
+	<param name="pv_symbol"></param>
+	<param name="pv_exectype"></param>
+	<param name="pv_status"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetCondOrderRootHist(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ Lay thong tin lenh dieu kien goc
+ 20120226 Loctx add
+ </summary>
+	<param name="pv_custId"></param>
+	<param name="pv_afacctno"></param>
+	<param name="pv_fdate"></param>
+	<param name="pv_tdate"></param>
+	<param name="pv_symbol"></param>
+	<param name="pv_exectype"></param>
+	<param name="pv_status"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetDealRecord(System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ QuangVD: lay thong tin lenh khop
+ </summary>
+	<param name="pv_custodycd"></param>
+	<param name="pv_afacctno"></param>
+	<param name="pv_fdate"></param>
+	<param name="pv_tdate"></param>
+	<param name="pv_symbol"></param>
+	<param name="pv_exectype"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetTransferRecord(System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ QuangVD: lay thong tin chuyen khoan
+ </summary>
+	<param name="pv_custodycd"></param>
+	<param name="pv_afacctno"></param>
+	<param name="pv_fdate"></param>
+	<param name="pv_tdate"></param>
+	<param name="pv_status"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetIssueRecord(System.String,System.String,System.String,System.String)">
+	<summary>
+ QuangVD: lay thong tin dang ky quyen mua
+ </summary>
+	<param name="pv_custodycd"></param>
+	<param name="pv_afacctno"></param>
+	<param name="pv_fdate"></param>
+	<param name="pv_tdate"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetAdvanceRecord(System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ QuangVD: lay thong tin tra cuu ung truoc
+ </summary>
+	<param name="pv_afacctno"></param>
+	<param name="pv_fdate"></param>
+	<param name="pv_tdate"></param>
+	<param name="pv_status"></param>
+	<param name="pv_advplace"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetTradeDiary(System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ QuangVD: lay thong tin danh muc dau tu - nhat ky giao dich
+ </summary>
+	<param name="pv_custodycd"></param>
+	<param name="pv_afacctno"></param>
+	<param name="pv_fdate"></param>
+	<param name="pv_tdate"></param>
+	<param name="pv_symbol"></param>
+	<param name="pv_gettype"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetFeeOrder(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ QuangVD: lay phi dat lenh
+ </summary>
+	<param name="pv_strAfAcctno"></param>
+	<param name="pv_strSymbol"></param>
+	<param name="pv_strExecType"></param>
+	<param name="pv_strPriceType"></param>
+	<param name="pv_strTimeType"></param>
+	<param name="pv_strQuotePrice"></param>
+	<param name="pv_strQtty"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.PlaceOrder(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ QuangVD: dat lenh theo HNX change 05/12/2012
+ </summary>
+	<param name="pv_functionname"></param>
+	<param name="pv_username"></param>
+	<param name="pv_acctno"></param>
+	<param name="pv_afacctno"></param>
+	<param name="pv_exectype"></param>
+	<param name="pv_symbol"></param>
+	<param name="pv_quantity"></param>
+	<param name="pv_quoteprice"></param>
+	<param name="pv_pricetype"></param>
+	<param name="pv_timetype"></param>
+	<param name="pv_book"></param>
+	<param name="pv_via"></param>
+	<param name="pv_dealid"></param>
+	<param name="pv_direct"></param>
+	<param name="pv_effdate"></param>
+	<param name="pv_expdate"></param>
+	<param name="pv_pin"></param>
+	<param name="pv_err_code"></param>
+	<param name="pv_err_message"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.AdjustCostPrice(System.String,System.String,System.String,System.String)">
+	<summary>
+ QuangVD: cap nhat gia von
+ </summary>
+	<param name="pv_acctno"></param>
+	<param name="pv_symbol"></param>
+	<param name="pv_newcostprice"></param>
+	<param name="pv_desc"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.CancelOrder(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ QuangVD: huy lenh nang cao
+ </summary>
+	<param name="pv_functionname"></param>
+	<param name="pv_username"></param>
+	<param name="pv_orderID"></param>
+	<param name="pv_book"></param>
+	<param name="pv_via"></param>
+	<param name="pv_direct"></param>
+	<param name="pv_pin"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.GetBankBalanceByAccount(System.String,System.String)">
+	<summary>
+ Get bank balance by account and custody code
+ </summary>
+	<param name="pv_strAfAcctno"></param>
+	<param name="pv_strCustodyCd"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.updatecfmast(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ Binhpt Ham update du lieu : Quan ly tai khoan/Thay doi thong tin lien lac
+ </summary>
+	<param name="p_custodycd">so lu ky</param>
+	<param name="p_custid">ma khach hang</param>
+	<param name="p_address">dia chi nha rieng</param>
+	<param name="p_phone">so dien thoai nha rieng</param>
+	<param name="p_coaddress">dia chi cong ty</param>
+	<param name="p_cophone">so dien thoai cong ty</param>
+	<param name="p_email">dia chi email</param>
+	<param name="p_desc">dien giai</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:BPSService.OnlineTradingWcf.doValidatePass(System.String,System.String)">
+	<summary>
+ QuangVD: kiem tra mat khau giao dich
+ </summary>
+	<param name="pv_username"></param>
+	<param name="pv_pin"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:BPSService.tokenProfile.availableChannels">
+	<remarks/>
+</member><member name="P:BPSService.tokenProfile.defaultChannel">
+	<remarks/>
+</member><member name="P:BPSService.tokenProfile.expires">
+	<remarks/>
+</member><member name="P:BPSService.tokenProfile.tokenID">
+	<remarks/>
+</member><member name="T:BPSService.tokenProfile">
+	<remarks/>
+</member><member name="P:BPSService.validationChannel.channel">
+	<remarks/>
+</member><member name="P:BPSService.validationChannel.priority">
+	<remarks/>
+</member><member name="T:BPSService.validationChannel">
+	<remarks/>
+</member><member name="P:BPSService.validationChallenge.assignedTransaction">
+	<remarks/>
+</member><member name="P:BPSService.validationChallenge.challengeNotes">
+	<remarks/>
+</member><member name="P:BPSService.validationChallenge.challengeQuestion">
+	<remarks/>
+</member><member name="P:BPSService.validationChallenge.challengeQuestionType">
+	<remarks/>
+</member><member name="P:BPSService.validationChallenge.channel">
+	<remarks/>
+</member><member name="P:BPSService.validationChallenge.timestamp">
+	<remarks/>
+</member><member name="T:BPSService.validationChallenge">
+	<remarks/>
+</member><member name="F:BPSService.validationResult.VALIDATION_OK">
+	<remarks/>
+</member><member name="F:BPSService.validationResult.NEXT_TOKEN_REQUIRED">
+	<remarks/>
+</member><member name="F:BPSService.validationResult.INCORRECT_ANSWER">
+	<remarks/>
+</member><member name="T:BPSService.validationResult">
+	<remarks/>
+</member>
+</members>
+</doc>

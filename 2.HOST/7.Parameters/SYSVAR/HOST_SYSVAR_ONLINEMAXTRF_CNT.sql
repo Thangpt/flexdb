@@ -1,0 +1,8 @@
+--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'ONLINEMAXTRF_CNT';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('SYSTEM','ONLINEMAXTRF_CNT','0','Số tiền chuyển khoản tối đa/ 1 ngày','Số tiền chuyển khoản tối đa/ 1 ngày','Y');
+COMMIT;
+/

@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'DEFAULTBANKID';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('BANKGW','DEFAULTBANKID','100','Bank ID dung cho gateway banks transfer','Bank ID dung cho gateway banks transfer','N');
+COMMIT;
+/

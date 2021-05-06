@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <TableInfo>
+    <QueryKey>GETOPENPORFOLIO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT V.*,SEC.currprice,SEC.CURRPRICE-V.COSTPRICE CHANGEPRICE,
+       CASE WHEN V.COSTPRICE>0 THEN ROUND((SEC.CURRPRICE-V.COSTPRICE)*100/V.COSTPRICE,2) ELSE 0 END CHANGEPERCENT,
+       V.COSTPRICE*(V.TRADE_QTTY+V.BLOCKED+V.SECURITIES_RECEIVING+V.CPQUYENVE) TOTALVALUE,
+       SEC.CURRPRICE*(V.TRADE_QTTY+V.BLOCKED+V.SECURITIES_RECEIVING+V.CPQUYENVE+V.CPTHUONG) CURRVALUE,
+       SEC.CURRPRICE*(V.TRADE_QTTY+V.BLOCKED+V.SECURITIES_RECEIVING+V.CPQUYENVE+V.CPTHUONG) -
+       V.COSTPRICE*(V.TRADE_QTTY+V.BLOCKED+V.SECURITIES_RECEIVING+V.CPQUYENVE) CHANGEVALUE,
+       CASE WHEN V.COSTPRICE*(V.TRADE_QTTY+V.BLOCKED+V.SECURITIES_RECEIVING+V.CPQUYENVE)>0 THEN
+          round((SEC.CURRPRICE*(V.TRADE_QTTY+V.BLOCKED+V.SECURITIES_RECEIVING+V.CPQUYENVE+V.CPTHUONG) -
+           V.COSTPRICE*(V.TRADE_QTTY+V.BLOCKED+V.SECURITIES_RECEIVING+V.CPQUYENVE))*100/
+           (V.COSTPRICE*(V.TRADE_QTTY+V.BLOCKED+V.SECURITIES_RECEIVING+V.CPQUYENVE)),2)
+       ELSE 0 END CHANGEVALP
+       from OL_ACCOUNT_SE V,SECURITIES_INFO SEC
+       WHERE V.SYMBOL=SEC.SYMBOL AND V.AFACCTNO=:SAFACCTNO AND V.SYMBOL LIKE :SSYMBOL
+       ORDER BY V.SYMBOL ASC
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETPP0</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT PP FROM BUF_CI_ACCOUNT
+      WHERE AFACCTNO=:SAFACCTNO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETMARGININFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT   mr.mrtype,
+             mr.isppused,
+             NVL (rsk.mrratioloan, 0) mrratioloan,
+             NVL (mrpriceloan, 0) mrpriceloan
+      FROM   afmast mst,
+             aftype af,
+             mrtype mr,
+             (SELECT   *
+                FROM   afserisk r, sbsecurities sb
+               WHERE   r.codeid = sb.codeid AND sb.symbol = 'SSYMBOL')
+             rsk
+     WHERE       mst.acctno = 'SAFACCTNO'
+             AND mst.actype = af.actype
+             AND af.mrtype = mr.actype
+             AND af.actype = rsk.actype(+)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETBALANCEINFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT CI.*, (CASH_RECEIVING_T0+CASH_RECEIVING_T1+CASH_RECEIVING_T2+CASH_RECEIVING_T3) CASH_RECEIVING
+      FROM BUF_CI_ACCOUNT CI
+      WHERE CI.AFACCTNO ='SAFACCTNO'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETTRFACCTLIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT CI.AFACCTNO,CF.FULLNAME,CI.BALDEFOVD
+      FROM OL_ACCOUNT_CI CI,CFMAST CF,AFMAST AF
+      WHERE CI.AFACCTNO=AF.ACCTNO
+      AND AF.CUSTID=CF.CUSTID
+      AND CI.AFACCTNO IN (SELECT DISTINCT AFACCTNO FROM VW_STRADE_MT_ACCOUNTS)
+      AND CI.AFACCTNO IN(SAFACCTNOLIST)
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETDESTTRFACCTLIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM VW_STRADE_MT_ACCOUNTS
+      WHERE AFACCTNO='SAFACCTNO'
+      AND TYPE=1 AND SUBSTR(BANKID,1,3)<>'302'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETCFOTHERBANKLIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM VW_STRADE_MT_ACCOUNTS
+      WHERE AFACCTNO=:ACCTNO
+      AND TYPE=1
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETMSBTRANSFERLIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT * FROM VW_STRADE_MT_ACCOUNTS
+      WHERE AFACCTNO=:ACCTNO
+      AND TYPE=1 AND SUBSTR(BANKID,1,3)='302'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETTRFHIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT L.AFACCTNO,V.*,L.TYPE,L.REG_ACCTNO,L.REG_BENEFICARY_NAME,L.REG_BENEFICARY_INFO
+      FROM  VW_STRADE_LISTOF_MONEYTRANSFER V, VW_STRADE_MT_ACCOUNTS L
+      WHERE V.REFID=L.REFID AND L.AFACCTNO LIKE '%SAFACCTNO%' ORDER BY V.TXDATE DESC
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETHLDUHDLIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT GWH.*,BI.BANKNAME FROM GWHOLDUNHOLDLOG GWH,AFMAST AF,BANKINFO BI
+      WHERE GWH.SECACCOUNT=AF.ACCTNO AND GWH.BANKACCOUNT = AF.BANKACCTNO AND AF.BANKNAME=BI.BANKCODE
+      AND GWH.SECACCOUNT='SAFACCTNO' AND GWH.TXDATE>=TO_DATE('SFROMDATE','DD/MM/RRRR')
+      AND GWH.TXDATE<=TO_DATE('STODATE','DD/MM/RRRR') ORDER BY GWH.TXDATE DESC,GWH.AUTOID DESC
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>EXECINTERNALTRANSFER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_InternalTransfer
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>EXECEXTERNALTRANSFER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_ExternalTransfer
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <!--
+  Loc add 201203315
+  Get cash avaiable (so tien toi da co the rut duoc)
+  Binhpt sua baldefovd thanh AVLWITHDRAW 20 03 2012
+  -->
+  <TableInfo>
+    <QueryKey>GET_CASH_AVAILABLE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+        SELECT CASE WHEN ROUND(AVLWITHDRAW) > fn_getfowithdraw(:afacctno) THEN fn_getfowithdraw(:afacctno) ELSE ROUND(AVLWITHDRAW) END AVLWITHDRAW
+        FROM buf_ci_account
+        WHERE afacctno LIKE :afacctno
+      ]]>
+    </QueryValue>
+  </TableInfo>
+
+  <TableInfo>
+    <QueryKey>GETCIACCOUNT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_get_ciacount
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CREATERIGHTOFF</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_RightoffRegiter
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>EXECEXTERNALTRANSFERWITHIDCARD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_CashTransferWithIDCode
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETCASHINADVANCE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_GetInfor4AdvancePayment
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETCASHSTATEMENT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_GetCashStatement
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CREATECASHINADVANCE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_AdvancePayment
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETADVANCERECORD</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_GetAdvancedPayment
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETADVANCESTATUS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      select CDVAL, CDCONTENT from allcode where CDTYPE='AD' AND CDNAME='ADSTATUS'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETTRANSFERSTATUS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      select CDVAL, CDCONTENT from allcode where CDTYPE='CI' AND CDNAME='RMSTATUS'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETTRANSFERSTATUS</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      select CDVAL, CDCONTENT from allcode where CDTYPE='CI' AND CDNAME='RMSTATUS'
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CHECKCASHTRANSFER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_CheckCashTransfer
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>CASHTRANSFERREGISTER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_regtranferacc
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>EDITTRANSFER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_EditTranferacc
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>REMOVETRANSFER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_RemoveTranferacc
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETACCOUNTSUMMARY</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_get_ciacount_short
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETBLSM</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_getEXT0AMT
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETADDVND</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_get_ADDVND
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETMRRATIOLOAN</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_Getmrratioloan
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETMONEYDEPOSIT</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_MoneyTransDetail
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETBANKTRANSFERFEE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      select fopks_api.fn_getExTransferMoneyFee(:AMOUNT, :BANKID) result from dual;      
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETINTERNALTRANSFERFEE</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      select fopks_api.fn_getInTransferMoneyFee(:FROMACCTNO, :TOACCTNO, :AMOUNT) result from dual;
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETCFOTHERACC</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      select ciname,ciaccount,cf.custodycd
+      from cfotheracc, cfmast cf, afmast af
+      where af.custid = cf.custid
+      and cfotheracc.ciaccount=af.acctno
+      and cfotheracc.afacctno=:ACCTNO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETBANKINFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      select BANK_NO, FULL_NAME
+      from BANK_INFO
+      order by full_name
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETBRANCHINFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      select sb_branch_code, FULL_NAME,org_no
+      from bank_branch_info
+      WHERE BANK_NO=:BANK_NO
+      order by full_name
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETCASHTRANSFERINFO</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT  ci.ACCTNO so_tieu_khoan,ci.balance - nvl(b.secureamt,0) - nvl(b.advamt,0) tien_mat, DECODE(sy.varvalue,'Y',0, nvl(avl.maxavlamt,0)) tien_ung_truoc
+    , DECODE(sy.varvalue,'Y',0, nvl(GREATEST(avl.MAXAVLAMT-ROUND(avl.DEALPAID,0),0),0) - nvl(aaa.advamt,0)) phi_ung_du_tinh
+    --, round(nvl(buf.avlwithdraw,0),0)
+    , CASE WHEN round(nvl(buf.avlwithdraw,0),0) > fn_getfowithdraw(:ACCTNO) THEN  fn_getfowithdraw(:ACCTNO) ELSE round(nvl(buf.avlwithdraw,0),0) END avlwithdraw
+      FROM (
+          SELECT  VW.ACCTNO, sum(VW.MAXAVLAMT) MAXAVLAMT,
+          sum((CASE WHEN VW.TXDATE =TO_DATE(SYS.VARVALUE,'DD/MM/RRRR') AND ISVSD='N' THEN fn_getdealgrppaid(VW.ACCTNO) ELSE 0 END)/
+          (1-ADT.ADVRATE/100/360*VW.days)) DEALPAID
+          FROM VW_ADVANCESCHEDULE VW, SYSVAR SYS,AFMAST AF, AFTYPE AFT ,ADTYPE ADT
+          WHERE SYS.GRNAME='SYSTEM' AND SYS.VARNAME ='CURRDATE'
+          AND VW.ACCTNO = AF.ACCTNo AND AF.ACTYPE=AFT.ACTYPE AND AFT.ADTYPE=ADT.ACTYPE
+          group by VW.ACCTNO
+       ) avl, cimast ci, v_getAccountAvlAdvance aaa , v_getbuyorderinfo b, v_getdealpaidbyaccount pd, buf_ci_account buf, sysvar sy
+      WHERE  ci.acctno = avl.acctno(+) and ci.acctno = aaa.afacctno(+) and ci.acctno = buf.afacctno (+)
+          and ci.acctno = b.afacctno (+) and ci.acctno = pd.afacctno (+)
+          and sy.GRNAME='MARGIN' AND SY.VARNAME='ISSTOPADV'
+          and ci.acctno=:ACCTNO
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETALLCODE_VI-VN</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT CDVAL, CDCONTENT FROM ALLCODE WHERE (CDNAME != 'ORSTATUS' AND CDTYPE=:CDTYPE AND CDNAME=:CDNAME AND CDUSER='Y')
+      UNION ALL
+      SELECT CDVAL, CDCONTENT FROM ALLCODE WHERE (CDNAME = 'ORSTATUS' AND CDTYPE=:CDTYPE AND CDNAME=:CDNAME AND CDUSER='Y'
+        AND CDVAL IN ('C','A','3','8','7','5','2','4','10','12'))
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETALLCODE_EN</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT CDVAL, EN_CDCONTENT CDCONTENT FROM ALLCODE WHERE (CDNAME != 'ORSTATUS' AND CDTYPE=:CDTYPE AND CDNAME=:CDNAME AND CDUSER='Y')
+      UNION ALL
+      SELECT CDVAL, EN_CDCONTENT FROM ALLCODE WHERE (CDNAME = 'ORSTATUS' AND CDTYPE=:CDTYPE AND CDNAME=:CDNAME AND CDUSER='Y'
+        AND CDVAL IN ('C','A','3','8','7','5','2','4','10','12'))
+        ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETALLCODE_JA-JP</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      SELECT CDVAL, EN_CDCONTENT CDCONTENT FROM ALLCODE WHERE (CDNAME != 'ORSTATUS' AND CDTYPE=:CDTYPE AND CDNAME=:CDNAME AND CDUSER='Y')
+      UNION ALL
+      SELECT CDVAL, EN_CDCONTENT FROM ALLCODE WHERE (CDNAME = 'ORSTATUS' AND CDTYPE=:CDTYPE AND CDNAME=:CDNAME AND CDUSER='Y'
+        AND CDVAL IN ('C','A','3','8','7','5','2','4','10','12'))
+        ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>EXECBIDVCASHTRANSFER</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_api.pr_Depoacc2Transfer
+      ]]>
+    </QueryValue>
+  </TableInfo>
+  <TableInfo>
+    <QueryKey>GETTRANSFERACCOUNTLIST</QueryKey>
+    <QueryValue>
+      <![CDATA[
+      fopks_Api.pr_GetTransferAccountlist
+      ]]>
+    </QueryValue>
+  </TableInfo>
+</root>

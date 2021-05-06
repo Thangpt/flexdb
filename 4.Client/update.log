@@ -1,0 +1,480 @@
+20/01/2018 11:48:02 AM -- UPDATE TIME:20/01/2018 11:48:02 AM
+20/01/2018 11:48:02 AM -- Starting Online-Update  version 1.0.0.1
+20/01/2018 11:48:02 AM -- OS:      Microsoft Windows NT 6.1.7601 Service Pack 1
+20/01/2018 11:48:02 AM -- Machine: KBSV-O-CUONGPV.KBSV-O-CUONGPV
+20/01/2018 11:48:02 AM -- User:    Administrator
+20/01/2018 11:48:02 AM -- Waiting for Parent-Application to exit ( 1sec )...
+20/01/2018 11:48:03 AM -- Killing Process after waiting
+20/01/2018 11:48:03 AM -- Begin clearAttributes
+20/01/2018 11:48:03 AM -- Begin clearAttributes with path: D:\FLEX_CLIENT\Flexcutodian_HO
+20/01/2018 11:48:03 AM -- Begin remove FileAttributes.ReadOnly
+20/01/2018 11:48:03 AM -- Running...
+20/01/2018 11:48:03 AM -- End remove FileAttributes.ReadOnly
+20/01/2018 11:48:03 AM -- Begin Add Full Permission
+20/01/2018 11:48:04 AM -- End Add Full Permission
+20/01/2018 11:48:04 AM -- Downloading... 
+20/01/2018 11:48:04 AM -- Update Path: http://10.100.20.21/Deployment/Report/reports.1.0.0.0001.0070.zip
+20/01/2018 11:48:05 AM -- done in 1.014 seconds
+
+20/01/2018 11:48:05 AM -- unpacking ...
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/
+20/01/2018 11:48:05 AM -- Create temp directory: C:\Users\Administrator\AppData\Local\Temp\dir148150077\Reports
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CA0004.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CA0004.rpt
+20/01/2018 11:48:05 AM -- Stream: CA0004.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CA0010.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CA0010.rpt
+20/01/2018 11:48:05 AM -- Stream: CA0010.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CA0011.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CA0011.rpt
+20/01/2018 11:48:05 AM -- Stream: CA0011.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CA0018.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CA0018.rpt
+20/01/2018 11:48:05 AM -- Stream: CA0018.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CA0019.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CA0019.rpt
+20/01/2018 11:48:05 AM -- Stream: CA0019.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CA0025.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CA0025.rpt
+20/01/2018 11:48:05 AM -- Stream: CA0025.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CA0030.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CA0030.rpt
+20/01/2018 11:48:05 AM -- Stream: CA0030.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CA1018.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CA1018.rpt
+20/01/2018 11:48:05 AM -- Stream: CA1018.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CF0019.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CF0019.rpt
+20/01/2018 11:48:05 AM -- Stream: CF0019.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CF0023.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CF0023.rpt
+20/01/2018 11:48:05 AM -- Stream: CF0023.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CF0090.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CF0090.rpt
+20/01/2018 11:48:05 AM -- Stream: CF0090.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CF1002.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CF1002.rpt
+20/01/2018 11:48:05 AM -- Stream: CF1002.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CF1007.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CF1007.rpt
+20/01/2018 11:48:05 AM -- Stream: CF1007.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CF1008.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CF1008.rpt
+20/01/2018 11:48:05 AM -- Stream: CF1008.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CF1011.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CF1011.rpt
+20/01/2018 11:48:05 AM -- Stream: CF1011.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CF1022.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CF1022.rpt
+20/01/2018 11:48:05 AM -- Stream: CF1022.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CF1108.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CF1108.rpt
+20/01/2018 11:48:05 AM -- Stream: CF1108.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CF2000.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CF2000.rpt
+20/01/2018 11:48:05 AM -- Stream: CF2000.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CI0054.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CI0054.rpt
+20/01/2018 11:48:05 AM -- Stream: CI0054.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CI1018_1.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CI1018_1.rpt
+20/01/2018 11:48:05 AM -- Stream: CI1018_1.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CI1018_T.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CI1018_T.rpt
+20/01/2018 11:48:05 AM -- Stream: CI1018_T.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/CI1107.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:CI1107.rpt
+20/01/2018 11:48:05 AM -- Stream: CI1107.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/LN0006.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:LN0006.rpt
+20/01/2018 11:48:05 AM -- Stream: LN0006.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/LN0007.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:LN0007.rpt
+20/01/2018 11:48:05 AM -- Stream: LN0007.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/LN0020.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:LN0020.rpt
+20/01/2018 11:48:05 AM -- Stream: LN0020.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/LN0021.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:LN0021.rpt
+20/01/2018 11:48:05 AM -- Stream: LN0021.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/LN0022.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:LN0022.rpt
+20/01/2018 11:48:05 AM -- Stream: LN0022.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/LN0023.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:LN0023.rpt
+20/01/2018 11:48:05 AM -- Stream: LN0023.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/LN0025.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:LN0025.rpt
+20/01/2018 11:48:05 AM -- Stream: LN0025.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/LN1006.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:LN1006.rpt
+20/01/2018 11:48:05 AM -- Stream: LN1006.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/LN1006_2.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:LN1006_2.rpt
+20/01/2018 11:48:05 AM -- Stream: LN1006_2.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/LN1006_3.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:LN1006_3.rpt
+20/01/2018 11:48:05 AM -- Stream: LN1006_3.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/LN1007_2.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:LN1007_2.rpt
+20/01/2018 11:48:05 AM -- Stream: LN1007_2.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/LN1007_3.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:LN1007_3.rpt
+20/01/2018 11:48:05 AM -- Stream: LN1007_3.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/LN9001.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:LN9001.rpt
+20/01/2018 11:48:05 AM -- Stream: LN9001.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/MR0009.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:MR0009.rpt
+20/01/2018 11:48:05 AM -- Stream: MR0009.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/MR0012.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:MR0012.rpt
+20/01/2018 11:48:05 AM -- Stream: MR0012.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/MR0013.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:MR0013.rpt
+20/01/2018 11:48:05 AM -- Stream: MR0013.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/MR0014.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:MR0014.rpt
+20/01/2018 11:48:05 AM -- Stream: MR0014.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/MR0015.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:MR0015.rpt
+20/01/2018 11:48:05 AM -- Stream: MR0015.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/MR0016.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:MR0016.rpt
+20/01/2018 11:48:05 AM -- Stream: MR0016.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/MR3002.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:MR3002.rpt
+20/01/2018 11:48:05 AM -- Stream: MR3002.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/MR3003.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:MR3003.rpt
+20/01/2018 11:48:05 AM -- Stream: MR3003.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/MR3007.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:MR3007.rpt
+20/01/2018 11:48:05 AM -- Stream: MR3007.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/MR3008.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:MR3008.rpt
+20/01/2018 11:48:05 AM -- Stream: MR3008.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/MR3017.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:MR3017.rpt
+20/01/2018 11:48:05 AM -- Stream: MR3017.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/MR3017_1.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:MR3017_1.rpt
+20/01/2018 11:48:05 AM -- Stream: MR3017_1.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/MR5005.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:MR5005.rpt
+20/01/2018 11:48:05 AM -- Stream: MR5005.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/MR5005_1.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:MR5005_1.rpt
+20/01/2018 11:48:05 AM -- Stream: MR5005_1.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/OD0001.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:OD0001.rpt
+20/01/2018 11:48:05 AM -- Stream: OD0001.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/OD0017.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:OD0017.rpt
+20/01/2018 11:48:05 AM -- Stream: OD0017.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/OD0019.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:OD0019.rpt
+20/01/2018 11:48:05 AM -- Stream: OD0019.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/OD0040.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:OD0040.rpt
+20/01/2018 11:48:05 AM -- Stream: OD0040.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/OD9001.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:OD9001.rpt
+20/01/2018 11:48:05 AM -- Stream: OD9001.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/OD9002.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:OD9002.rpt
+20/01/2018 11:48:05 AM -- Stream: OD9002.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/OD9003.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:OD9003.rpt
+20/01/2018 11:48:05 AM -- Stream: OD9003.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/RE0070.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:RE0070.rpt
+20/01/2018 11:48:05 AM -- Stream: RE0070.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/RE0070EX.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:RE0070EX.rpt
+20/01/2018 11:48:05 AM -- Stream: RE0070EX.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/RE0072.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:RE0072.rpt
+20/01/2018 11:48:05 AM -- Stream: RE0072.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/RE0080.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:RE0080.rpt
+20/01/2018 11:48:05 AM -- Stream: RE0080.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/RE0080EX.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:RE0080EX.rpt
+20/01/2018 11:48:05 AM -- Stream: RE0080EX.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/RE0087.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:RE0087.rpt
+20/01/2018 11:48:05 AM -- Stream: RE0087.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/RE0087_1.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:RE0087_1.rpt
+20/01/2018 11:48:05 AM -- Stream: RE0087_1.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/RE0088.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:RE0088.rpt
+20/01/2018 11:48:05 AM -- Stream: RE0088.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/RE0088_1.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:RE0088_1.rpt
+20/01/2018 11:48:05 AM -- Stream: RE0088_1.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/RE0089.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:RE0089.rpt
+20/01/2018 11:48:05 AM -- Stream: RE0089.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/RE0090.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:RE0090.rpt
+20/01/2018 11:48:05 AM -- Stream: RE0090.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/RE0090_1.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:RE0090_1.rpt
+20/01/2018 11:48:05 AM -- Stream: RE0090_1.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SA0008.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SA0008.rpt
+20/01/2018 11:48:05 AM -- Stream: SA0008.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0008.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0008.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0008.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0009.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0009.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0009.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0024.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0024.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0024.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0026.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0026.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0026.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0027.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0027.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0027.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0030.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0030.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0030.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0031.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0031.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0031.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0035.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0035.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0035.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0037.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0037.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0037.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0038.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0038.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0038.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0039.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0039.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0039.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0040.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0040.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0040.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0045.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0045.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0045.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0046.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0046.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0046.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0047.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0047.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0047.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0048.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0048.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0048.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE0058.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE0058.rpt
+20/01/2018 11:48:05 AM -- Stream: SE0058.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE08ALK.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE08ALK.rpt
+20/01/2018 11:48:05 AM -- Stream: SE08ALK.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE08BLK.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE08BLK.rpt
+20/01/2018 11:48:05 AM -- Stream: SE08BLK.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:Reports/SE2000.rpt
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:1
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:SE2000.rpt
+20/01/2018 11:48:05 AM -- Stream: SE2000.rpt
+20/01/2018 11:48:05 AM -- unpacking ... x.Name:reports.1.0.0.0001.0070.dat
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:0
+20/01/2018 11:48:05 AM -- unpacking ... Copy file:reports.1.0.0.0001.0070.dat
+20/01/2018 11:48:05 AM -- Stream: reports.1.0.0.0001.0070.dat
+Unpacked.20/01/2018 11:48:05 AM -- unpacked to C:\Users\Administrator\AppData\Local\Temp\dir148150077
+20/01/2018 11:48:05 AM -- copying files ...
+20/01/2018 11:48:05 AM -- Update report:
+20/01/2018 11:48:05 AM -- Update Report Directory
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CA0004.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CA0010.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CA0011.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CA0018.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CA0019.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CA0025.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CA0030.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CA1018.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CF0019.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CF0023.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CF0090.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CF1002.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CF1007.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CF1008.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CF1011.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CF1022.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CF1108.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CF2000.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CI0054.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CI1018_1.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CI1018_T.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: CI1107.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: LN0006.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: LN0007.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: LN0020.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: LN0021.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: LN0022.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: LN0023.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: LN0025.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: LN1006.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: LN1006_2.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: LN1006_3.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: LN1007_2.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: LN1007_3.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: LN9001.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: MR0009.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: MR0012.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: MR0013.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: MR0014.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: MR0015.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: MR0016.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: MR3002.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: MR3003.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: MR3007.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: MR3008.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: MR3017.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: MR3017_1.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: MR5005.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: MR5005_1.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: OD0001.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: OD0017.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: OD0019.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: OD0040.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: OD9001.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: OD9002.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: OD9003.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: RE0070.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: RE0070EX.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: RE0072.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: RE0080.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: RE0080EX.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: RE0087.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: RE0087_1.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: RE0088.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: RE0088_1.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: RE0089.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: RE0090.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: RE0090_1.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SA0008.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0008.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0009.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0024.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0026.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0027.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0030.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0031.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0035.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0037.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0038.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0039.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0040.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0045.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0046.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0047.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0048.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE0058.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE08ALK.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE08BLK.rpt
+20/01/2018 11:48:05 AM -- List File in folder D:\FLEX_CLIENT\Flexcutodian_HO\Reports Update: SE2000.rpt
+20/01/2018 11:48:05 AM -- copied!
+20/01/2018 11:48:05 AM -- temp-files deleted
+Starting programme... started
+20/01/2018 11:48:06 AM -- Update successful and finished. Exiting Update-Process now.

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+DataAccessLayer
+</name>
+</assembly>
+<members>
+<member name="M:DataAccessLayer.OracleHelper.ExecuteDatasetWithPaging(System.String,System.Data.CommandType,System.String,System.Int64@,Oracle.DataAccess.Client.OracleParameter[])">
+	<summary>
+ Get dataset + tra ve tong so record thoa man
+ 20120229 Loctx add
+ </summary>
+	<param name="ConnectionString"></param>
+	<param name="CommandType"></param>
+	<param name="CommandText"></param>
+	<param name="CommandParameters"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:DataAccessLayer.OracleHelper.ExecuteDatasetWithCount(Oracle.DataAccess.Client.OracleConnection,System.Data.CommandType,System.String,System.Int64@,Oracle.DataAccess.Client.OracleParameter[])">
+	<summary>
+ Tra ve du lieu + tong so record
+ 20120229 Loctx add
+ </summary>
+	<param name="Connection"></param>
+	<param name="CommandType"></param>
+	<param name="CommandText"></param>
+	<param name="CommandParameters"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:DataAccessLayer.DataAccess.ExecuteStoredReturnDatasetWithPaging(System.String,CommonLibrary.ReportParameters[],System.Int32@,System.Int32,System.Int32)">
+	<summary>
+ Load du lieu + tinh tong so record thoa man dieu kien select
+ Neu pv_nRowCount = 0 thi store se tra ve tong so record thoa man dieu kien
+ Neu pv_nRouwCount &gt; 0 thi store ko can tinh toan tong so record
+ 2012029 Loctx add
+ </summary>
+	<param name="pv_strStoredName"></param>
+	<param name="pv_rptParameters"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member>
+</members>
+</doc>

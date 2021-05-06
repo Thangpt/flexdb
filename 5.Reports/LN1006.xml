@@ -1,0 +1,66 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="RptData" msprop:REFCursorName="REFCursor">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="HS_CHINHANH" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="CUSTODYCD" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="IDCODE" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="IDDATE" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="IDPLACE" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="AFACCTNO" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="FULLNAME" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="CONTRACTNO" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="BANKACCTNO" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="LNAMT" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="LNPRIN" msprop:OraDbType="107" type="xs:decimal" minOccurs="0" />
+                <xs:element name="OVERDUEDATE" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="RLSDATE" msprop:OraDbType="106" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="BRID" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+                <xs:element name="NGUON_GN" msprop:OraDbType="126" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <RptData>
+    <HS_CHINHANH>0001</HS_CHINHANH>
+    <CUSTODYCD>091C122258</CUSTODYCD>
+    <IDCODE>013365416</IDCODE>
+    <IDDATE>30/10/2010</IDDATE>
+    <IDPLACE>Hà Nộichcmhnm</IDPLACE>
+    <AFACCTNO>0001002296</AFACCTNO>
+    <FULLNAME>Đỗ Ngọc Linh</FULLNAME>
+    <CONTRACTNO>TPB122345</CONTRACTNO>
+    <BANKACCTNO>12345678</BANKACCTNO>
+    <LNAMT>8540000</LNAMT>
+    <LNPRIN>8540000</LNPRIN>
+    <OVERDUEDATE>17/07/2014</OVERDUEDATE>
+    <RLSDATE>2014-04-18T00:00:00+07:00</RLSDATE>
+    <BRID>0001</BRID>
+    <NGUON_GN>ALL</NGUON_GN>
+  </RptData>
+  <RptData>
+    <HS_CHINHANH>0001</HS_CHINHANH>
+    <CUSTODYCD>091C122258</CUSTODYCD>
+    <IDCODE>013365416</IDCODE>
+    <IDDATE>30/10/2010</IDDATE>
+    <IDPLACE>Hà Nộichcmhnm</IDPLACE>
+    <AFACCTNO>0001002296</AFACCTNO>
+    <FULLNAME>Đỗ Ngọc Linh</FULLNAME>
+    <CONTRACTNO>TPB122345</CONTRACTNO>
+    <BANKACCTNO>12345678</BANKACCTNO>
+    <LNAMT>352000000</LNAMT>
+    <LNPRIN>352000000</LNPRIN>
+    <OVERDUEDATE>15/10/2014</OVERDUEDATE>
+    <RLSDATE>2014-04-18T00:00:00+07:00</RLSDATE>
+    <BRID>0001</BRID>
+    <NGUON_GN>ALL</NGUON_GN>
+  </RptData>
+</NewDataSet>

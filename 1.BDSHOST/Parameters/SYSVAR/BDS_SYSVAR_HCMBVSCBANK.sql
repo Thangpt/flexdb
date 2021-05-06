@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'HCMBVSCBANK';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('DEFINED','HCMBVSCBANK','Ngân hàng Đầu tư và Phát triển Việt Nam – CN Nam Kỳ Khởi Nghĩa','Giấy ủy quyền của BVSC',null,'N');
+COMMIT;
+/

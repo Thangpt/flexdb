@@ -1,0 +1,1 @@
+alter table REREVDGALL add tradeplace CHAR(3);

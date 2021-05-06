@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE hft_mapper WHERE BPS_FUNCTION = 'MAKE_BL_ORDER';
+insert into hft_mapper (BPS_FUNCTION, BPS_KEY_FIELD, FO_FIELD, FO_FIELD_TYPE, RETURN_ID, FO_URL, REQUEST_TYPE, FO_IDX_TABLE, BPS_ACCOUNT_TYPE, BPS_ACCOUNT)
+values ('MAKE_BL_ORDER', null, 'MSGTYPE', 'VARCHAR', 'fe7005', null, null, null, '', '');
+COMMIT;
+/

@@ -1,0 +1,14 @@
+ALTER TABLE log_sa0015 ADD  careby VARCHAR2 (10);
+ALTER TABLE log_sa0015 ADD  reid VARCHAR2 (20);
+ALTER TABLE log_sa0015 ADD  refullname VARCHAR2 (1000);
+ALTER TABLE log_sa0015 ADD  aftype VARCHAR2 (10);
+ALTER TABLE log_sa0015 ADD  odexecamt NUMBER DEFAULT 0;
+ALTER TABLE log_sa0015 ADD  odfeeamt NUMBER DEFAULT 0;
+ALTER TABLE log_sa0015 ADD  afgrpid VARCHAR2 (10);
+ALTER TABLE log_sa0015 ADD  navamt NUMBER DEFAULT 0;
+ALTER TABLE log_sa0015 ADD  t0amt_bank  NUMBER(30,4) default 0;
+ALTER TABLE log_sa0015 ADD  t0int_bank  NUMBER(30,4) default 0;
+ALTER TABLE log_sa0015 ADD  date_count  NUMBER default 0;
+ALTER TABLE log_sa0015 ADD mrint_beday NUMBER(30,4) default 0;
+ALTER TABLE log_sa0015 ADD mrinttopup_beday NUMBER(30,4) default 0;
+ALTER TABLE log_sa0015 ADD  (grpid VARCHAR2(20),grpname  VARCHAR2(1000));

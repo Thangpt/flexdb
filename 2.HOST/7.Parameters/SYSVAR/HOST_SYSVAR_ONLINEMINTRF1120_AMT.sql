@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'ONLINEMINTRF1120_AMT';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('SYSTEM','ONLINEMINTRF1120_AMT','1','So tien chuyen khoan noi bo toi thieu','So tien chuyen khoan noi bo toi thieu','Y');
+COMMIT;
+/

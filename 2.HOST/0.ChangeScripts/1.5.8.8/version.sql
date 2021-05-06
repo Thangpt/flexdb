@@ -1,0 +1,4 @@
+DELETE VERSION WHERE UPDATEDATE = getcurrdate; 
+insert into VERSION (UPDATEDATE, REPORTVERSION, ACTUALVERSION)
+values (getcurrdate, 'reports.1.0.0.0001.0086', '1000068');
+COMMIT;

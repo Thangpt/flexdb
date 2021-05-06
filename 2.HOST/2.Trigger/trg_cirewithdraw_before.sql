@@ -1,0 +1,11 @@
+CREATE OR REPLACE TRIGGER trg_cirewithdraw_before
+ BEFORE
+  INSERT OR UPDATE
+ ON cirewithdraw
+REFERENCING NEW AS NEWVAL OLD AS OLDVAL
+ FOR EACH ROW
+begin
+:newval.last_change:= SYSTIMESTAMP;
+END;
+/
+

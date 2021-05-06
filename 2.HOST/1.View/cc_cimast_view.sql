@@ -1,0 +1,5 @@
+CREATE OR REPLACE FORCE VIEW CC_CIMAST_VIEW AS
+SELECT c.acctno,c.balance, A.COREBANK
+From cimast c, AFMAST A
+WHERE C.acctno=A.acctno;
+

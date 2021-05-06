@@ -1,0 +1,561 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+    <!--RE0072_1-->
+    <TableInfo>
+        <QueryKey>RE0072_1</QueryKey>
+        <QueryValue>
+            <![CDATA[
+          RE0072_1
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>RE0072_1.FREEORAMOUNT</QueryKey>
+        <QueryValue>
+            <![CDATA[
+          SELECT '0' VALUECD, 'Tổng GT tài khoản' DISPLAY FROM DUAL
+          UNION ALL
+          SELECT '1' VALUECD, 'Cổ phiếu' DISPLAY FROM DUAL
+          UNION ALL
+          SELECT '2' VALUECD, 'Tiền mặt' DISPLAY FROM DUAL
+          ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <!--RE0088_1-->
+    <TableInfo>
+        <QueryKey>RE0088_1</QueryKey>
+        <QueryValue>
+            <![CDATA[
+          RE0088_1
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>RE0088_1.REROLE</QueryKey>
+        <QueryValue>
+            <![CDATA[
+          select cdval valuecd, cdcontent display, cdval value from allcode where cdname='REROLE'
+          union all
+          select 'ALL' valuecd, 'ALL' display, 'ALL' value from DUAL
+          ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>RE0088_1.RDREROLE</QueryKey>
+        <QueryValue>
+            <![CDATA[
+          select 'ALL' valuecd, 'ALL' display, 'ALL' value from DUAL
+          union all
+          select cdval valuecd, cdcontent display, cdval value from allcode where cdname='REROLE'
+          ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <!--RE0089_1-->
+    <TableInfo>
+        <QueryKey>RE0089_1</QueryKey>
+        <QueryValue>
+            <![CDATA[
+          RE0089_1
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>RE0089_1.REROLE</QueryKey>
+        <QueryValue>
+            <![CDATA[
+          select * from (
+            select cdval value, cdcontent display, lstodr from allcode where cdname='REROLE'
+            union all
+            select 'ALL' value, 'ALL' display, -1 lstodr from DUAL ) 
+            ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <!--RE0090_1-->
+    <TableInfo>
+        <QueryKey>RE0090_1</QueryKey>
+        <QueryValue>
+            <![CDATA[
+          RE0090_1
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <!--OD0040-->
+    <TableInfo>
+        <QueryKey>OD0040</QueryKey>
+        <QueryValue>
+            <![CDATA[
+          OD0040
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>OD0040.PV_TRADEPLACE</QueryKey>
+        <QueryValue>
+            <![CDATA[
+      SELECT CDVAL VALUE, CDCONTENT DISPLAY, CDVAL VALUECD, CDCONTENT EN_DISPLAY, CDCONTENT DESCRIPTION, CDCONTENT EN_DESCRIPTION
+      FROM (SELECT CDVAL, CDCONTENT, LSTODR FROM ALLCODE WHERE CDTYPE = 'OD' AND CDNAME = 'TRADEPLACE' AND CDVAL IN ('001','002','005')
+          UNION SELECT '999' CDVAL, 'HOSE + HNX' CDCONTENT, 0 LSTODR FROM DUAL
+          UNION SELECT '888' CDVAL, 'HNX + UPCOM' CDCONTENT, 0 LSTODR FROM DUAL
+          UNION SELECT 'ALL' CDVAL, 'ALL' CDCONTENT, -1 LSTODR FROM DUAL)
+      ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>OD0040.SECTYPE</QueryKey>
+        <QueryValue>
+            <![CDATA[
+      SELECT 'ALL' VALUECD, 'ALL' DISPLAY, 'ALL' VALUE FROM DUAL
+      UNION SELECT 'TP' VALUECD, 'Trái phiếu' DISPLAY, 'TP' VALUE FROM DUAL
+      UNION SELECT 'CP' VALUECD, 'Cổ phiếu' DISPLAY, 'CP' VALUE FROM DUAL
+      UNION SELECT 'CCQ' VALUECD, 'Chứng chỉ quỹ' DISPLAY, 'CCQ' VALUE FROM DUAL
+      ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>OD0040.PV_CUSTOTYPE</QueryKey>
+        <QueryValue>
+            <![CDATA[
+      SELECT 'ALL' VALUECD, 'ALL' DISPLAY, 'ALL' VALUE FROM DUAL
+      UNION ALL
+      SELECT '001' VALUECD, 'Thông thường' DISPLAY, '001' VALUE FROM DUAL
+      UNION ALL
+      SELECT '002' VALUECD, 'Tự doanh' DISPLAY, '002' VALUE FROM DUAL
+      ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>OD0040.PV_ACCTYPE</QueryKey>
+        <QueryValue>
+            <![CDATA[
+      SELECT 'ALL' VALUECD, 'ALL' DISPLAY, 'ALL' VALUE FROM DUAL
+      UNION ALL
+      SELECT 'IC' VALUECD, 'Cá nhân trong nước' DISPLAY, 'IC' VALUE FROM DUAL
+      UNION ALL
+      SELECT 'BC' VALUECD, 'Tổ chức trong nước' DISPLAY, 'BC' VALUE FROM DUAL
+      UNION ALL
+      SELECT 'IF' VALUECD, 'Cá nhân nước ngoài' DISPLAY, 'IF' VALUE FROM DUAL
+      UNION ALL
+      SELECT 'BF' VALUECD, 'Tổ chức nước ngoài' DISPLAY, 'BF' VALUE FROM DUAL
+      ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>OD0040.PV_CUSTODYPLACE</QueryKey>
+        <QueryValue>
+            <![CDATA[
+      SELECT 'ALL' VALUECD, 'ALL' DISPLAY, 'ALL' VALUE FROM DUAL
+      UNION ALL
+      SELECT '001' VALUECD, 'Tại MSBS' DISPLAY, '001' VALUE FROM DUAL
+      UNION ALL
+      SELECT '002' VALUECD, 'Lưu ký nơi khác' DISPLAY, '002' VALUE FROM DUAL
+      ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>OD0040.PV_EXECTYPE</QueryKey>
+        <QueryValue>
+            <![CDATA[
+      SELECT 'ALL' VALUECD, 'ALL' DISPLAY, 'ALL' VALUE FROM DUAL
+      UNION ALL
+      SELECT 'NB' VALUECD, 'Mua' DISPLAY, 'NB' VALUE FROM DUAL
+      UNION ALL
+      SELECT 'NS' VALUECD, 'Bán' DISPLAY, 'NS' VALUE FROM DUAL
+      UNION ALL
+      SELECT 'MS' VALUECD, 'Bán cầm cố' DISPLAY, 'MS' VALUE FROM DUAL
+      ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>OD0040.PV_MATCHTYPE</QueryKey>
+        <QueryValue>
+            <![CDATA[
+      SELECT CDVAL VALUE, CDCONTENT DISPLAY, CDVAL VALUECD, CDCONTENT EN_DISPLAY, CDCONTENT DESCRIPTION, CDCONTENT EN_DESCRIPTION
+      FROM (SELECT CDVAL, CDCONTENT, LSTODR FROM ALLCODE WHERE CDTYPE = 'OD' AND CDNAME = 'MATCHTYPE'
+            UNION
+            SELECT 'ALL' CDVAL, 'ALL' CDCONTENT, -1 LSTODR FROM DUAL)
+      ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>OD0040.CASHPLACE</QueryKey>
+        <QueryValue>
+            <![CDATA[
+      SELECT CDVAL VALUE, CDCONTENT DISPLAY,CDVAL VALUECD, CDCONTENT EN_DISPLAY, CDCONTENT DESCRIPTION
+      FROM (SELECT CDVAL, CDCONTENT, LSTODR FROM ALLCODE WHERE CDTYPE = 'CF' AND CDNAME = 'BANKNAME'
+      UNION SELECT '000' CDVAL, 'Cty chứng khoán' CDCONTENT, 0 LSTODR FROM DUAL
+      UNION SELECT 'ALL' CDVAL, 'Tất cả' CDCONTENT, -1 LSTODR FROM DUAL
+      UNION SELECT '111' CDVAL, 'Kết nối ngân hàng' CDCONTENT, -1 LSTODR FROM DUAL
+      ) ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>OD0040.BRGID</QueryKey>
+        <QueryValue>
+            <![CDATA[
+      SELECT BRID VALUE, BRNAME DISPLAY, BRID VALUECD, BRNAME EN_DISPLAY, BRNAME DESCRIPTION
+      FROM (SELECT BRID, BRNAME ,1 LSTODR FROM BRGRP UNION ALL SELECT 'ALL' BRID ,'ALL' BRNAME ,-3 LSTODR FROM DUAL
+      UNION ALL select 'GROUP1' BRID , (brname_0002 || ' , ' || brname_0001 || ' , ' || brname_0003) BRNAME, -2 LSTODR
+      from(select max(case when brid = '0002' then brname else '' end) brname_0002,
+      max(case when brid = '0001' then brname else '' end) brname_0001,
+      max(case when brid = '0003' then brname else '' end) brname_0003
+      from BRGRP where brid in ('0002','0001','0003'))
+      UNION ALL
+      select 'GROUP2' BRID , (brname_0101 || ' , ' || brname_0102 || ' , ' || brname_0103) BRNAME,-1 LSTODR
+      from(
+      select max(case when brid = '0101' then brname else '' end) brname_0101,
+      max(case when brid = '0102' then brname else '' end) brname_0102,
+      max(case when brid = '0103' then brname else '' end) brname_0103
+      from BRGRP where brid in ('0101','0102','0103')
+      ))ORDER BY DISPLAY 
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>OD0040.CAREBY</QueryKey>
+        <QueryValue>
+            <![CDATA[
+      SELECT GRPID VALUE, GRPNAME DISPLAY,GRPID VALUEcd, GRPNAME EN_DISPLAY,GRPNAME DESCRIPTION 
+      FROM (SELECT GRPID, GRPNAME,1 LSTODR FROM TLGROUPS WHERE GRPTYPE ='2' 
+        UNION SELECT'ALL' TLID, 'ALL' TLFULLNAME, -1 LSTODR FROM DUAL) 
+        ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <!--OD0019-->
+    <TableInfo>
+        <QueryKey>OD0019</QueryKey>
+        <QueryValue>
+            <![CDATA[
+          OD0019
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>OD0019.PV_CONFIRMED</QueryKey>
+        <QueryValue>
+            <![CDATA[
+        SELECT CDVAL VALUECD, CDCONTENT DISPLAY, CDCONTENT EN_DISPLAY, CDCONTENT DESCRIPTION 
+        FROM (SELECT CDVAL, CDCONTENT, LSTODR FROM ALLCODE WHERE CDTYPE = 'SY' AND CDNAME = 'YESNO' 
+          UNION SELECT 'ALL' CDVAL, 'ALL' CDCONTENT, -1 LSTODR FROM DUAL) 
+        ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>OD0019.PV_VIA</QueryKey>
+        <QueryValue>
+            <![CDATA[
+         SELECT CDVAL VALUE, CDCONTENT DISPLAY,CDVAL VALUECD, CDCONTENT EN_DISPLAY, CDCONTENT DESCRIPTION 
+         FROM (SELECT CDVAL, CDCONTENT, LSTODR FROM ALLCODE WHERE CDTYPE = 'OD' AND CDNAME = 'VIA' AND CDVAL !='A'
+         UNION SELECT 'ALL' CDVAL, 'ALL' CDCONTENT, -1 LSTODR FROM DUAL) ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>OD0019.PV_VIACONFIRM</QueryKey>
+        <QueryValue>
+            <![CDATA[          
+      SELECT CDVAL VALUE, CDCONTENT DISPLAY, CDVAL VALUECD, CDCONTENT EN_DISPLAY, CDCONTENT DESCRIPTION, CDCONTENT EN_DESCRIPTION
+      FROM (SELECT CDVAL, CDCONTENT, LSTODR FROM ALLCODE WHERE CDTYPE='OD' AND CDNAME='VIA' AND CDVAL IN ('T','F','O')
+      UNION SELECT 'ALL' CDVAL, 'ALL' CDCONTENT, -1 LSTODR FROM DUAL)
+      ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>OD0019.GRCAREBY</QueryKey>
+        <QueryValue>
+            <![CDATA[
+      SELECT GRPID VALUE,GRPNAME DISPLAY, GRPID VALUEcd,
+      GRPNAME EN_DISPLAY,GRPNAME DESCRIPTION FROM (SELECT
+      GRPID, GRPNAME,1 LSTODR FROM TLGROUPS WHERE GRPTYPE ='2'
+      UNION SELECT'ALL' TLID, 'ALL' TLFULLNAME, -1 LSTODR FROM
+      DUAL) ORDER BY DISPLAY
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <!--MR3007-->
+    <TableInfo>
+        <QueryKey>MR3007</QueryKey>
+        <QueryValue>
+            <![CDATA[
+          MR3007
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>MR3007.PV_AFACCTNO</QueryKey>
+        <QueryValue>
+            <![CDATA[
+      SELECT * FROM (SELECT A.*,RANK() OVER(ORDER BY ROWNUM ASC) TOP FROM (
+          SELECT VALUECD, DISPLAY, FILTERCD INFO, VALUE,  EN_DISPLAY, DESCRIPTION 
+          FROM VW_CUSTODYCD_SUBACCOUNT 
+          WHERE :BRID IS NOT NULL AND :TLID IS NOT NULL
+          ORDER BY DISPLAY
+      )A WHERE INFO like :FILTER) 
+      WHERE TOP > :LASTID AND TOP <= :MAXID
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <!--SearchCode-->
+    <TableInfo>
+        <QueryKey>CF.CUSTODYCD_CF</QueryKey>
+        <QueryValue>
+            <![CDATA[
+    SELECT '' CUSTODYCD, 'ALL' INFO, 0 TOP FROM DUAL UNION ALL
+    SELECT * FROM (SELECT A.*,RANK() OVER(ORDER BY ROWNUM ASC) TOP FROM (
+    SELECT DISTINCT CF.CUSTODYCD,
+      (case when CF.CUSTODYCD is null then '' else CF.CUSTODYCD end)||'.'||CF.FULLNAME INFO --,AF.ACCTNO,
+      --CF.SHORTNAME,CF.FULLNAME,CF.DATEOFBIRTH,CF.IDCODE,CF.IDDATE ,CF.IDCODE || ' - (' || TO_CHAR(CF.IDDATE,'DD/MM/RRRR') || ')' IDCODE_DATE,CF.IDPLACE,CF.ADDRESS, mrloanlimit,t0loanlimit, AF.TLID OLDTLID, AF.CAREBY, CF.CUSTID T_CUSTID
+      --,CASE WHEN NVL(AF.TRADEPHONE,'')='' THEN AF.PHONE1 ELSE AF.TRADEPHONE END PHONE, CF.CONTRACTCHK, NVL(CF.USERNAME, CF.CUSTODYCD) USERNAME,
+      --A1.cdcontent AFSTATUS, cf.T0LOANRATE
+    FROM CFMAST CF, TLGROUPS GRP, AFMAST AF , allcode a1
+    WHERE AF.CUSTID=CF.CUSTID
+    AND AF.CAREBY = GRP.GRPID
+    and a1.cdtype='RE' and cdname='AFSTATUS' AND A1.cdval=CF.afstatus
+    AND (INSTR('|1|',:BRID)>0 --SUBSTR(CF.CUSTID,1,4) = DECODE('<$BRID>', '<$HO_BRID>', SUBSTR(CF.CUSTID,1,4), '<$BRID>')
+         OR 
+          AF.CAREBY IN (SELECT TLGRP.GRPID FROM TLGRPUSERS TLGRP WHERE TLID = :TLID)
+        )
+    ORDER BY INFO
+    )A WHERE INFO like :FILTER) 
+    WHERE TOP > :LASTID AND TOP <= :MAXID
+        ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>CF.CIMAST_ALL</QueryKey>
+        <QueryValue>
+            <![CDATA[
+    SELECT '' CUSTODYCD, 'ALL' INFO, 0 TOP FROM DUAL UNION ALL
+    SELECT * FROM (SELECT A.*,RANK() OVER(ORDER BY ROWNUM ASC) TOP FROM (
+        SELECT CI.ACCTNO, CF.CUSTODYCD||'.'|| CF.FULLNAME||'.'||AFT.TYPENAME ||'.'||A0.CDCONTENT INFO/*, CI.CUSTID,CI.ACTYPE, --SUBSTR(CI.ACCTNO,1,4) || '.' || SUBSTR(CI.ACCTNO,5,6) ACCTNO,
+        SB.SHORTCD, SUBSTR(CI.AFACCTNO,1,4) || '.' || SUBSTR(CI.AFACCTNO,5,6) AFACCTNO, CF.FULLNAME OWNERNAME,
+        CF.FULLNAME, CF.ADDRESS, CF.IDCODE LICENSE, CF.IDDATE, CF.IDPLACE,AF.BANKACCTNO,AF.BANKNAME,
+        CI.OPNDATE, CI.CLSDATE,CI.LASTDATE, CI.DORMDATE,A0.CDCONTENT STATUS, CI.BALANCE,CI.CRAMT,CI.DRAMT,CI.MBLOCK ,
+        CI.CRINTACR,CI.CRINTDT,CI.ODINTACR,CI.ODINTDT,CI.AVRBAL,CI.MDEBIT,CI.MCREDIT,CI.AAMT,CI.RAMT,BAMT,
+        CI.EMKAMT,CI.MMARGINBAL, CI.MARGINBAL,CI.ODLIMIT ,CI.ICCFCD, A1.CDCONTENT ICCFTIED, AF.CAREBY CAREBY,
+        AFT.LNTYPE, getbaldeftrfamt(CI.AFACCTNO) AVLCASH,greatest(getbaldeftrfamtex(CI.AFACCTNO),getbaldefovd(CI.AFACCTNO)) BALDEFTRFAMTEX,
+        getbaldefovd(CI.AFACCTNO) BALDEFOVD,fn_get_account_pp(CI.AFACCTNO,'N') ppo, GREATEST(fn_get_account_pp(CI.AFACCTNO,'N') - AF.MRCRLIMIT,0) P0TDAMT,
+        GET_DFDEBTAMT_RELEASE(CI.AFACCTNO,'U') AVLRELEASE, CI.CIDEPOFEEACR, CI.DEPOFEEAMT, CI.DEPOLASTDT, CI.HOLDBALANCE, CI.COREBANK,
+        (CASE WHEN CI.COREBANK='Y' THEN 1 ELSE 0 END) ISCOREBANK*/
+        FROM CIMAST CI, ALLCODE A0 ,ALLCODE A1,CFMAST CF,SBCURRENCY SB, AFMAST AF, AFTYPE AFT
+        WHERE
+        CF.CUSTID = CI.CUSTID AND CI.CCYCD =SB.CCYCD AND
+        A0.CDTYPE = 'CI' AND A0.CDNAME = 'STATUS' AND A0.CDVAL=CI.STATUS
+        AND A1.CDTYPE = 'SY' AND A1.CDNAME = 'YESNO' AND A1.CDVAL=CI.ICCFTIED
+        AND CI.AFACCTNO = AF.ACCTNO AND AF.ACTYPE = AFT.ACTYPE
+        ORDER BY INFO
+    )A WHERE CUSTODYCD like :FILTER) 
+    WHERE TOP > :LASTID AND TOP <= :MAXID
+        ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>CF.CFMAST</QueryKey>
+        <QueryValue>
+            <![CDATA[
+    SELECT * FROM (SELECT A.*,RANK() OVER(ORDER BY ROWNUM ASC) TOP FROM (
+        SELECT '' CUSTID,'.' INFO FROM DUAL
+        UNION ALL
+        SELECT 
+        (CF.CUSTID) CUSTID,
+        (CF.CUSTODYCD||'.'||CF.FULLNAME) INFO
+        FROM
+        CFMAST CF,TLGROUPS GRP 
+        WHERE
+        CF.CAREBY = GRP.GRPID
+        AND :BRID IS NOT NULL
+        AND exists (select gu.grpid from tlgrpusers gu where
+        cf.careby = gu.grpid and gu.tlid =:TLID ) 
+           ORDER BY INFO
+    )A WHERE INFO like :FILTER) 
+    WHERE TOP > :LASTID AND TOP <= :MAXID
+        ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>RE.RECFLNK_RF</QueryKey>
+        <QueryValue>
+            <![CDATA[
+    SELECT * FROM (SELECT A.*,RANK() OVER(ORDER BY ROWNUM ASC) TOP FROM (
+        SELECT '' CUSTID,'.' INFO FROM DUAL
+        UNION ALL
+        SELECT RF.CUSTID, RF.CUSTID||'.'||CF.FULLNAME INFO
+        FROM RECFLNK RF, CFMAST CF, ALLCODE A0
+        WHERE A0.CDTYPE='RE' AND A0.CDNAME='STATUS' AND A0.CDVAL=RF.STATUS 
+        AND RF.CUSTID=CF.CUSTID
+        AND :BRID IS NOT NULL
+        AND :TLID IS NOT NULL
+        ORDER BY INFO
+    )A WHERE INFO like :FILTER) 
+    WHERE TOP > :LASTID AND TOP <= :MAXID
+        ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>RE.REGRPLNK_RF</QueryKey>
+        <QueryValue>
+            <![CDATA[
+    SELECT * FROM (SELECT A.*,RANK() OVER(ORDER BY ROWNUM ASC) TOP FROM (
+        SELECT '' AUTOID,'.' INFO FROM DUAL
+        UNION ALL
+        SELECT RF.AUTOID, CF.FULLNAME INFO--, RF.FULLNAME GRPNAME,
+        --RF.GRPLEVEL, A0.CDCONTENT DESC_STATUS, RF.CUSTID, RF.EFFDATE, RF.EXPDATE,
+        --RF.FULLNAME || ': ' || CF.FULLNAME RETVALUE, RF.ACTYPE,
+        --SP_FORMAT_REGRP_MAPCODE(RF.AUTOID) MAPCODE, SP_FORMAT_REGRP_GRPLEVEL(RF.AUTOID) MAPLEVEL
+        FROM REGRP RF, CFMAST CF, ALLCODE A0
+        WHERE A0.CDTYPE='RE' AND A0.CDNAME='STATUS' 
+        AND A0.CDVAL=RF.STATUS AND RF.CUSTID=CF.CUSTID
+        AND RF.CUSTID=CF.CUSTID AND RF.STATUS='A'
+        AND :BRID IS NOT NULL
+        AND :TLID IS NOT NULL
+        ORDER BY INFO
+    )A WHERE INFO like :FILTER) 
+    WHERE TOP > :LASTID AND TOP <= :MAXID
+        ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>RE.RECFDEF_DSFTEMP</QueryKey>
+        <QueryValue>
+            <![CDATA[
+    SELECT * FROM (SELECT A.*,RANK() OVER(ORDER BY ROWNUM ASC) TOP FROM (
+        SELECT '' REACCT,'.' INFO FROM DUAL
+        UNION ALL
+        SELECT (CF.CUSTID||'.'||RF.REACTYPE) REACCT,-- RF.AUTOID,
+        CFMAST.FULLNAME INFO--, TYP.ACTYPE, TYP.TYPENAME, A2.CDCONTENT
+        --AFSTATUS,
+        --typ.rerole,A0.CDCONTENT DESC_REROLE, A1.CDCONTENT
+        --DESC_RETYPE, RF.EFFDATE, RF.EXPDATE,RF.ODRNUM,
+        --(CFMAST.FULLNAME || '/'|| TYP.TYPENAME) DESC_TYPE,
+        --CF.CUSTID
+        FROM RECFDEF RF, RETYPE TYP, ALLCODE A0, ALLCODE A1,
+        ALLCODE A2, RECFLNK CF, CFMAST
+        WHERE A0.CDTYPE='RE' AND A0.CDNAME='REROLE' AND
+        A0.CDVAL=TYP.REROLE
+        AND A2.CDTYPE = 'RE' AND A2.CDNAME = 'AFSTATUS' AND
+        A2.CDVAL = TYP.AFSTATUS
+        AND A1.CDTYPE='RE' AND A1.CDNAME='RETYPE' AND
+        A1.CDVAL=TYP.RETYPE
+        AND RF.REACTYPE=TYP.ACTYPE
+        AND RF.REFRECFLNKID = CF.AUTOID
+        AND CF.CUSTID = CFMAST.CUSTID
+        and cf.status = 'A' and rf.status = 'A'
+        AND TYP.REROLE in ('RD')
+        AND RF.EFFDATE <= TO_DATE((select varvalue from sysvar
+        where varname='CURRDATE'),'DD/MM/YYYY')
+        and TO_DATE((select varvalue from sysvar where
+        varname='CURRDATE'),'DD/MM/YYYY')< nvl(RF.CLOSEDATE -1 ,RF.EXPDATE)
+        AND :BRID IS NOT NULL
+        AND :TLID IS NOT NULL
+        ORDER BY INFO
+    )A WHERE INFO like :FILTER) 
+    WHERE TOP > :LASTID AND TOP <= :MAXID
+        ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>SA.TLPROFILES</QueryKey>
+        <QueryValue>
+            <![CDATA[
+    SELECT * FROM (SELECT A.*,RANK() OVER(ORDER BY ROWNUM ASC) TOP FROM (
+        SELECT M.TLID, M.TLNAME||'.'|| M.TLFULLNAME,M.IDCODE, N.BRNAME, M.TLTITLE, M.TLPRN, A1.CDCONTENT TLGROUP, A2.cdcontent ACTIVE, M.DESCRIPTION
+        FROM TLPROFILES M, ALLCODE A1, BRGRP N, ALLCODE A2 WHERE A1.CDTYPE = 'SA' AND A1.CDNAME = 'TLGROUP'
+        AND A2.CDTYPE = 'SA' AND A2.CDNAME = 'ACTIVE' AND M.ACTIVE = A2.CDVAL
+        AND TRIM(A1.CDVAL)=TRIM(TLGROUP) AND M.BRID = N.BRID 
+        AND INSTR('|'||M.BRID||'|0001|',:BRID)>0 
+        AND :TLID IS NOT NULL
+        ORDER BY INFO
+    )A WHERE INFO like :FILTER) 
+    WHERE TOP > :LASTID AND TOP <= :MAXID
+        ]]>
+        </QueryValue>
+    </TableInfo>
+    <!--AFMAST	CF-->
+    <TableInfo>
+        <QueryKey>CF.CUSTODYCD_TX</QueryKey>
+        <QueryValue>
+            <![CDATA[
+    SELECT '' CUSTODYCD, 'ALL' INFO, 0 TOP FROM DUAL UNION ALL
+    SELECT * FROM (SELECT A.*,RANK() OVER(ORDER BY ROWNUM ASC) TOP FROM (
+        SELECT DISTINCT CF.CUSTODYCD, CF.CUSTODYCD ||'.'||CF.FULLNAME INFO
+        FROM
+        CFMAST CF, AFMAST AF,TLGROUPS GRP
+        WHERE
+        AF.CUSTID=CF.CUSTID
+        AND AF.CAREBY = GRP.GRPID
+        AND ( INSTR('|1|',:BRID)>0 --SUBSTR(CF.CUSTID,1,4) = DECODE('<$BRID>', '<$HO_BRID>', SUBSTR(CF.CUSTID,1,4), '<$BRID>')
+         OR AF.CAREBY IN (SELECT TLGRP.GRPID FROM TLGRPUSERS TLGRP WHERE TLID = :TLID)
+            )
+        ORDER BY INFO
+    )A WHERE INFO like :FILTER) 
+    WHERE TOP > :LASTID AND TOP <= :MAXID
+    ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>CF.AFMAST</QueryKey>
+        <QueryValue>
+            <![CDATA[
+    SELECT * FROM (SELECT A.*,RANK() OVER(ORDER BY ROWNUM ASC) TOP FROM (
+        SELECT '' ACCTNO,'.' INFO FROM DUAL
+        UNION ALL
+        SELECT A.ACCTNO,A.ACCTNO||'.'||T.TYPENAME INFO 
+        FROM AFMAST A, CFMAST C, AFTYPE T
+        WHERE A.CUSTID=C.CUSTID
+        AND A.ACTYPE=T.ACTYPE
+        AND :BRID IS NOT NULL
+        AND C.CUSTODYCD= :TLID
+        ORDER BY INFO
+    )A WHERE INFO like :FILTER) 
+    WHERE TOP > :LASTID AND TOP <= :MAXID
+        ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>CA.CAMAST</QueryKey>
+        <QueryValue>
+            <![CDATA[
+    SELECT * FROM (SELECT A.*,RANK() OVER(ORDER BY ROWNUM ASC) TOP FROM (
+        SELECT VALUE,SYMBOL||'-'||CATYPE||'-'||CAMASTID INFO FROM V_CAMAST WHERE :TLID IS NOT NULL
+        ORDER BY INFO
+    )A WHERE INFO like :FILTER) 
+    WHERE TOP > :LASTID AND TOP <= :MAXID
+        ]]>
+        </QueryValue>
+    </TableInfo>
+    <!--Request Report Params-->
+    <TableInfo>
+        <QueryKey>GET_BROKER_RPT_LIST</QueryKey>
+        <QueryValue>
+            <![CDATA[
+      SELECT * FROM RPTMASTER
+      WHERE LENGTH(:TLID)=4 AND INSTR(:REPORTS,'|'||RPTID||'|')>0
+      ]]>
+        </QueryValue>
+    </TableInfo>
+    <TableInfo>
+        <QueryKey>GET_BROKER_RPT_PARAMS</QueryKey>
+        <QueryValue>
+            <![CDATA[
+      SELECT DEFVAL,EN_CAPTION, ODRNUM,FLDTYPE, FLDMASK, FLDFORMAT, FLDLEN,LLIST, LCHK,VISIBLE, DISABLE, MANDATORY, AMTEXP,VALIDTAG,LOOKUP,DATATYPE,INVNAME, FLDSOURCE, FLDDESC, CHAINNAME, PRINTINFO, LOOKUPNAME, SEARCHCODE, SRMODCODE, INVFORMAT, TAGFIELD,TAGLIST, TAGVALUE,ISPARAM, CTLTYPE, MODCODE, FLDNAME, OBJNAME, DEFNAME, CAPTION
+      FROM RPTFIELDS
+      WHERE :REPORTS=OBJNAME
+      ORDER by ODRNUM
+      ]]>
+        </QueryValue>
+    </TableInfo>
+</root>

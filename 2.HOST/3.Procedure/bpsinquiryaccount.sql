@@ -1,0 +1,129 @@
+CREATE OR REPLACE PROCEDURE bpsinquiryaccount(
+        PV_REFCURSOR IN OUT PKG_REPORT.REF_CURSOR,
+        f_ACCTNO IN VARCHAR2)
+  IS
+  V_ACCTNO VARCHAR2(30);
+  v_INDATE date;
+  v_type char(1);
+  v_margintype char(1);
+  v_actype varchar2(4);
+  v_groupleader varchar2(10);
+BEGIN
+
+    V_ACCTNO:=F_ACCTNO;
+    SELECT  to_date(VARVALUE,'DD/MM/YYYY') INTO v_INDATE FROM SYSVAR WHERE GRNAME ='SYSTEM' AND VARNAME ='CURRDATE';
+    SELECT MR.MRTYPE,af.actype,mst.groupleader into v_margintype,v_actype,v_groupleader from afmast mst,aftype af, mrtype mr where mst.actype=af.actype and af.mrtype=mr.actype and mst.acctno=V_ACCTNO;
+    IF V_MARGINTYPE='N' THEN
+        --TAI KHOAN BINH THUONG KHONG MARGIN
+        OPEN PV_REFCURSOR FOR
+            SELECT 1 FROM DUAL WHERE 0=1 ;
+    ELSIF V_MARGINTYPE<>'N' AND (LENGTH(V_GROUPLEADER)=0 OR V_GROUPLEADER IS NULL) THEN
+        --TAI KHOAN MARGIN KHONG THAM GIA GROUP
+        OPEN PV_REFCURSOR FOR
+        SELECT 'MEMBER' GRTYPE,ROUND((CASE WHEN MST.BALANCE+ NVL(SE.RECEIVINGAMT,0)- MST.ODAMT - NVL (AL.ADVAMT, 0)-NVL(AL.SECUREAMT,0) - MST.RAMT >=0
+                     THEN 100000
+                     ELSE (/*NVL(AF.MRCRLIMIT,0) +  */NVL(SE.SEASS,0)) / ABS(MST.BALANCE+least(NVL(AF.MRCRLIMIT,0),NVL(AL.SECUREAMT,0) )+ NVL(SE.RECEIVINGAMT,0)- MST.ODAMT - NVL (AL.ADVAMT, 0)-NVL(AL.SECUREAMT,0) - MST.RAMT)
+                END),2) * 100 RTT,
+                round(NVL(AF.ADVANCELINE,0)) ADVANCELINE,
+                round(greatest( 0,-(/*NVL(AF.MRCRLIMIT,0) + */ NVL(SE.SEASS,0))-(MST.BALANCE+ least(NVL(AF.MRCRLIMIT,0) ,NVL(AL.SECUREAMT,0))+NVL(SE.RECEIVINGAMT,0)- MST.ODAMT - NVL (AL.ADVAMT, 0)-NVL(AL.SECUREAMT,0) - MST.RAMT) *100/MRIRATE)) ADDVND,
+                round(/*NVL(AF.MRCRLIMIT,0) + */ NVL(SE.SEASS,0))  NAVACCOUNT,
+                round(MST.ODAMT) ODAMT,
+                round(MST.OVAMT) OVAMT,
+                round(MST.DUEAMT) DUEAMT,
+                0 PREDUEAMT
+          FROM CIMAST MST INNER JOIN AFMAST AF ON AF.ACCTNO = MST.AFACCTNO AND MST.ACCTNO = V_ACCTNO
+               INNER JOIN SBCURRENCY CCY ON CCY.CCYCD = MST.CCYCD
+               INNER JOIN (SELECT * FROM ALLCODE CD1  WHERE CD1.CDTYPE = 'CI' AND CD1.CDNAME = 'STATUS') CD1 ON MST.STATUS = CD1.CDVAL
+               LEFT JOIN
+               (SELECT * FROM V_GETBUYORDERINFO WHERE AFACCTNO = V_ACCTNO) AL
+                ON MST.ACCTNO = AL.AFACCTNO
+                LEFT JOIN
+               (SELECT * FROM V_GETSECMARGININFO WHERE AFACCTNO = V_ACCTNO) SE
+               ON SE.AFACCTNO=MST.ACCTNO ;
+    ELSE
+        --TAI KHOAN MARGIN JOIN THEO GROUP
+        IF v_groupleader<>V_ACCTNO THEN
+           OPEN PV_REFCURSOR FOR
+            SELECT 'GROUP' GRTYPE,ROUND((CASE WHEN OUTSTANDING >=0 then 100000 ELSE NAVACCOUNT / ABS(OUTSTANDING) END),2) * 100 RTT,
+                round(GRADVANCELINE) ADVANCELINE,
+                round(greatest( 0,-NAVACCOUNT-OUTSTANDING *100/MSTMRIRATE)) ADDVND,
+                round(NAVACCOUNT) NAVACCOUNT,
+                round(MSTODAMT) ODAMT,
+                round(MSTOVAMT) OVAMT,
+                round(MSTDUEAMT) DUEAMT,
+                round(PREDUEAMT) PREDUEAMT
+            FROM
+            (SELECT V_ACCTNO AFACCTNO,SUM(NVL(AF.ADVANCELINE,0)) GRADVANCELINE,
+                               SUM(/*NVL(AF.MRCRLIMIT,0) + */ NVL(SE.SEASS,0))  NAVACCOUNT,
+                               SUM(MST.BALANCE+least(NVL(AF.MRCRLIMIT,0),NVL(AL.SECUREAMT,0) )+ NVL(SE.RECEIVINGAMT,0)- MST.ODAMT - NVL (AL.ADVAMT, 0)-NVL(AL.SECUREAMT,0) - MST.RAMT) OUTSTANDING,
+                               SUM(CASE WHEN AF.ACCTNO <> V_GROUPLEADER THEN 0 ELSE AF.MRIRATE END) MSTMRIRATE,
+                               SUM(MST.ODAMT) MSTODAMT,
+                               SUM(MST.OVAMT) MSTOVAMT,
+                               SUM(MST.DUEAMT) MSTDUEAMT ,
+                               0 PREDUEAMT
+                           FROM CIMAST MST INNER JOIN AFMAST AF ON AF.ACCTNO = MST.AFACCTNO AND AF.GROUPLEADER=V_GROUPLEADER
+                               LEFT JOIN
+                               (SELECT B.* FROM V_GETBUYORDERINFO  B, AFMAST AF WHERE B.AFACCTNO =AF.ACCTNO AND AF.GROUPLEADER=V_GROUPLEADER) AL
+                                ON MST.ACCTNO = AL.AFACCTNO
+                               LEFT JOIN
+                               (SELECT B.* FROM V_GETSECMARGININFO B, AFMAST AF WHERE B.AFACCTNO =AF.ACCTNO AND AF.GROUPLEADER=V_GROUPLEADER) SE
+                               ON SE.AFACCTNO=MST.ACCTNO
+            ) MST, AFMAST AF, CIMAST CI
+            WHERE MST.AFACCTNO =AF.ACCTNO
+            AND MST.AFACCTNO=CI.AFACCTNO ;
+        ELSE
+            OPEN PV_REFCURSOR FOR
+            SELECT V_GROUPLEADER AFACCTNO, 'GROUP' GRTYPE,ROUND((CASE WHEN OUTSTANDING >=0 then 100000 ELSE NAVACCOUNT / ABS(OUTSTANDING) END),2) * 100 RTT,
+                round(GRADVANCELINE) ADVANCELINE,
+                round(greatest( 0,-NAVACCOUNT-OUTSTANDING *100/MSTMRIRATE)) ADDVND,
+                round(NAVACCOUNT) NAVACCOUNT,
+                round(MSTODAMT) ODAMT,
+                round(MSTOVAMT) OVAMT,
+                round(MSTDUEAMT) DUEAMT,
+                round(PREDUEAMT) PREDUEAMT
+            FROM
+            (SELECT V_ACCTNO AFACCTNO,SUM(NVL(AF.ADVANCELINE,0)) GRADVANCELINE,
+                               SUM(/*NVL(AF.MRCRLIMIT,0) + */ NVL(SE.SEASS,0))  NAVACCOUNT,
+                               SUM(MST.BALANCE+least(NVL(AF.MRCRLIMIT,0),NVL(AL.SECUREAMT,0))+ NVL(SE.RECEIVINGAMT,0)- MST.ODAMT - NVL (AL.ADVAMT, 0)-NVL(AL.SECUREAMT,0) - MST.RAMT) OUTSTANDING,
+                               SUM(CASE WHEN AF.ACCTNO <> V_GROUPLEADER THEN 0 ELSE AF.MRIRATE END) MSTMRIRATE,
+                               SUM(MST.ODAMT) MSTODAMT,
+                               SUM(MST.OVAMT) MSTOVAMT,
+                               SUM(MST.DUEAMT) MSTDUEAMT ,
+                               0 PREDUEAMT
+                           FROM CIMAST MST INNER JOIN AFMAST AF ON AF.ACCTNO = MST.AFACCTNO AND AF.GROUPLEADER=V_GROUPLEADER
+                               LEFT JOIN
+                               (SELECT B.* FROM V_GETBUYORDERINFO  B, AFMAST AF WHERE B.AFACCTNO =AF.ACCTNO AND AF.GROUPLEADER=V_GROUPLEADER) AL
+                                ON MST.ACCTNO = AL.AFACCTNO
+                               LEFT JOIN
+                               (SELECT B.* FROM V_GETSECMARGININFO B, AFMAST AF WHERE B.AFACCTNO =AF.ACCTNO AND AF.GROUPLEADER=V_GROUPLEADER) SE
+                               ON SE.AFACCTNO=MST.ACCTNO
+            ) MST, AFMAST AF, CIMAST CI
+            WHERE MST.AFACCTNO =AF.ACCTNO
+            AND MST.AFACCTNO=CI.AFACCTNO
+            UNION ALL
+            SELECT af.acctno afacctno,'MEMBER' GRTYPE,0 RTT,
+                round(NVL(AF.ADVANCELINE,0)) ADVANCELINE,
+                0 ADDVND,
+                round(/*NVL(AF.MRCRLIMIT,0) +*/  NVL(SE.SEASS,0))  NAVACCOUNT,
+                round(MST.ODAMT) ODAMT,
+                round(MST.OVAMT) OVAMT,
+                round(MST.DUEAMT) DUEAMT ,
+                0 PREDUEAMT
+          FROM CIMAST MST INNER JOIN AFMAST AF ON AF.ACCTNO = MST.AFACCTNO AND AF.GROUPLEADER=V_GROUPLEADER
+               INNER JOIN SBCURRENCY CCY ON CCY.CCYCD = MST.CCYCD
+               INNER JOIN (SELECT * FROM ALLCODE CD1  WHERE CD1.CDTYPE = 'CI' AND CD1.CDNAME = 'STATUS') CD1 ON MST.STATUS = CD1.CDVAL
+               LEFT JOIN
+               (SELECT B.* FROM V_GETBUYORDERINFO  B, AFMAST AF WHERE B.AFACCTNO =AF.ACCTNO AND AF.GROUPLEADER=V_GROUPLEADER) AL
+                ON MST.ACCTNO = AL.AFACCTNO
+                LEFT JOIN
+               (SELECT B.* FROM V_GETSECMARGININFO B, AFMAST AF WHERE B.AFACCTNO =AF.ACCTNO AND AF.GROUPLEADER=V_GROUPLEADER) SE
+                ON SE.AFACCTNO=MST.ACCTNO ;
+        END IF;
+
+    END IF;
+EXCEPTION
+    WHEN others THEN
+        return;
+END;
+/
+

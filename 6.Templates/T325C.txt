@@ -1,0 +1,1 @@
+PS tang TK [custodycode] ngay [txdate] nhan CP thuong [symbol] ([catype]): [quantity] CP ngay chot [reportdate] ty le [rate]. Ngay GD chinh thuc: [tradedate]

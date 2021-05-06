@@ -1,0 +1,8 @@
+﻿--
+--
+/
+DELETE SYSVAR WHERE VARNAME = 'BRADDRESS';
+INSERT INTO SYSVAR (GRNAME,VARNAME,VARVALUE,VARDESC,EN_VARDESC,EDITALLOW)
+VALUES ('SYSTEM','BRADDRESS','Ðịa chỉ: Tầng G,Tầng 2 và 7, Tòa nhà Sky City, 88 Láng Hạ, Ðống Ða, Hà Nội ','Branch address',null,'N');
+COMMIT;
+/

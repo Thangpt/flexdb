@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="VB" Debug="true" Service="BDSService.BDSRptService" CodeBehind="BDSRptService.svc.vb" %>

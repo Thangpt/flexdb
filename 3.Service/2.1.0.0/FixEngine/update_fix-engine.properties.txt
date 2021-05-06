@@ -1,0 +1,6 @@
+1. Mở file /home/blb/apache-servicemix-5.1.2/fix-engine.properties
+2. Thêm config 
+fix.engine.schedule.auto.datetime=0 0/1 * 1/1 * ?
+fix.engine.schedule.retry.datetime=0 0/1 * 1/1 * ?
+
+Chi tiết tham khảo file "fix-engine.properties"
